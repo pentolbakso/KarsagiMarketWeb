@@ -1,0 +1,47 @@
+import http from "../utils/http";
+
+//production
+// export const API_URL = 'https://jetwrider.azurewebsites.net';
+
+//staging
+export const API_URL = "http://192.168.1.101:8080";
+
+// ------- Auth ------------------
+export const me = () => {
+  return http.get(`${API_URL}/me`);
+};
+export const login = (email, password) => {
+  return http.post(`${API_URL}/authentication`, {
+    strategy: "local",
+    email,
+    password,
+  });
+};
+// as seller
+export const register = (storeTitle, fullname, email, password) => {
+  return http.post(`${API_URL}/register`, {
+    storeTitle,
+    fullname,
+    email,
+    password,
+  });
+};
+
+// ------- Shop------------------
+export const updateStore = (storeId, values) => {
+  return http.patch(`${API_URL}/stores/${storeId}`, values);
+};
+export const fetchStoreList = (userId) => {
+  return http.get(`${API_URL}/users/${userId}/stores`);
+};
+
+// ------- Products------------------
+export const fetchProductList = (storeId) => {
+  return http.get(`${API_URL}/stores/${storeId}/products`);
+};
+export const createProduct = (storeId, values) => {
+  return http.post(`${API_URL}/stores/${storeId}/products`, values);
+};
+export const updateProduct = (productId, values) => {
+  return http.patch(`${API_URL}/products/${productId}`, values);
+};

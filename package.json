@@ -1,0 +1,36 @@
+{
+  "name": "KarsagiMarketWeb",
+  "description": "Karsagi Market web frontend",
+  "version": "1.0.0",
+  "author": "BayuFa",
+  "license": "",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "now-build": "npm run semantic:build && next build",
+    "semantic:build": "cd .semantic && gulp build-css build-assets",
+    "semantic:watch": "cd .semantic && npm run semantic:build && gulp watch"
+  },
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "axios": "^0.19.2",
+    "formik": "^2.1.4",
+    "google-map-react": "^1.1.7",
+    "moment": "^2.24.0",
+    "next": "9.3.5",
+    "next-compose-plugins": "^2.2.0",
+    "nprogress": "^0.2.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "remx": "^3.0.0-rc.15",
+    "semantic-ui-react": "^0.88.2",
+    "styled-components": "^5.1.0",
+    "yup": "^0.28.4"
+  },
+  "devDependencies": {
+    "file-loader": "^4.1.0",
+    "fomantic-ui": "^2.8.4",
+    "url-loader": "^3.0.0"
+  }
+}

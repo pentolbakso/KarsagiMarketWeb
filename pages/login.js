@@ -1,0 +1,99 @@
+import React, { useState } from "react";
+import styled from "styled-components";
+import {
+  Form,
+  Header,
+  Segment,
+  Button,
+  Checkbox,
+  Message,
+} from "semantic-ui-react";
+import PageContainer from "../components/PageContainer";
+import Head from "next/head";
+import Router from "next/router";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { login } from "../stores/authActions";
+import Navbar from "../components/Navbar";
+
+export default function About() {
+  const [formError, setFormError] = useState(null);
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Alamat email tidak valid")
+      .required("Email harap diisi"),
+    password: Yup.string()
+      .min(4, "Panjang karakter minimal 4")
+      .required("Password harap diisi"),
+  });
+
+  async function submitForm(values, { setSubmitting }) {
+    try {
+      setSubmitting(true);
+      const { email, password } = values;
+      await login(email, password);
+      setSubmitting(false);
+
+      Router.push("/penjual/tokosaya");
+    } catch (err) {
+      setSubmitting(false);
+      setFormError(err.message);
+    }
+  }
+
+  return (
+    <PageContainer>
+      <Navbar />
+      <Segment>
+        <Header as="h3">Login sebagai penjual</Header>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={submitForm}
+        >
+          {(props) => (
+            <Form size="large" error={formError != null}>
+              <Form.Field>
+                <Form.Input
+                  label="Email"
+                  name="email"
+                  placeholder="Alamat email untuk Login"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.email}
+                  error={props.errors.email}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  label="Password"
+                  name="password"
+                  type="password"
+                  placeholder="Password (minimal 6 karakter)"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.password}
+                  error={props.errors.password}
+                />
+              </Form.Field>
+              <Message error header="Login Gagal" content={formError} />
+              <Button
+                primary
+                type="submit"
+                size="large"
+                onClick={props.handleSubmit}
+                loading={props.isSubmitting}
+              >
+                Masuk
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Segment>
+    </PageContainer>
+  );
+}
