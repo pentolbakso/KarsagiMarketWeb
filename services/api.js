@@ -45,3 +45,11 @@ export const createProduct = (storeId, values) => {
 export const updateProduct = (productId, values) => {
   return http.patch(`${API_URL}/products/${productId}`, values);
 };
+
+// ------- Etc ------------------
+export const uploadImage = (file) => {
+  let formData = new FormData();
+  formData.append("file", file);
+  console.log("formdata", formData);
+  return http.post(`${API_URL}/uploads`, formData);
+};

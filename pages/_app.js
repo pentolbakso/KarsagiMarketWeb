@@ -4,6 +4,7 @@ import NProgress from "nprogress";
 
 import "../.semantic/dist/semantic.min.css";
 import "../static/css/nprogress.css";
+import "moment/locale/id"; // set locale to indonesia
 
 // show progress on route changes
 NProgress.configure({ showSpinner: false });

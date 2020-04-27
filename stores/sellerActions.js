@@ -40,7 +40,14 @@ export async function updateProduct(id, values) {
 export async function getProducts() {
   const shop = sellerStore.getShop();
   const response = await api.fetchProductList(shop._id);
-  console.log(response.data);
+  console.log("products", response.data);
   // right now we only support 1 store per seller
   sellerStore.setProducts(response.data.data);
+}
+
+export async function uploadImage(file) {
+  console.log("uploading image");
+  const response = await api.uploadImage(file);
+  console.log(response.data);
+  return response.data;
 }

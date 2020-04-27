@@ -11,6 +11,9 @@ import {
   Label,
   Form,
   Message,
+  Grid,
+  Placeholder,
+  Image,
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
@@ -21,19 +24,27 @@ import * as Yup from "yup";
 
 // import sellerStore from "../../stores/sellerStore";
 import * as sellerActions from "../../stores/sellerActions";
+import { image200 } from "../../utils/images";
+import { productCategories } from "../../config/arrays";
+
+let imageFiles = []; //to upload
 
 export default function ModalProduct({ product, ...props }) {
   //const { shop, products } = connect(props);
   const formRef = useRef();
+  const inputFileRef = useRef(null);
+  const [isSubmitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
   const [readyStock, setReadyStock] = useState(true);
   const [isPromo, setIsPromo] = useState(false);
+  const [previewImages, setPreviewImages] = useState([]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Nama barang harap diisi"),
     price: Yup.number()
       .typeError("Harga harus berupa angka")
       .required("Harga barang harap diisi"),
+    category: Yup.string().required("Kategori harap dipilih"),
     weight: Yup.number().typeError("Berat harus berupa angka"),
   });
 
@@ -43,11 +54,28 @@ export default function ModalProduct({ product, ...props }) {
     }
   }
 
-  async function submitForm(values, { setSubmitting }) {
+  async function submitForm(values) {
     try {
+      setSubmitting(true);
+
+      // get original images that are not removed
+      let existing = previewImages.filter(
+        (img) => img.file == null || img.file == undefined
+      );
+      values.photos = existing;
+      await Promise.all(
+        imageFiles.map(async (file) => {
+          const resp = await sellerActions.uploadImage(file);
+          values.photos.push({
+            id: resp._id,
+            filename: resp.filename,
+            size: resp.size,
+          });
+        })
+      );
+
       values.isReadyStock = readyStock;
       values.isPromoPrice = isPromo;
-      setSubmitting(true);
       if (product._id) await sellerActions.updateProduct(product._id, values);
       else await sellerActions.createProduct(values);
       setSubmitting(false);
@@ -59,12 +87,72 @@ export default function ModalProduct({ product, ...props }) {
     }
   }
 
+  function handleFileSelected() {
+    let file = inputFileRef.current.files[0];
+    imageFiles.push(file);
+
+    let url = URL.createObjectURL(file);
+    setPreviewImages([
+      ...previewImages,
+      {
+        url,
+        file,
+      },
+    ]);
+  }
+
+  function handleRemovePhoto(img) {
+    let images = previewImages.filter((p) => p.url != img.url);
+    setPreviewImages(images);
+    if (img.file) {
+      imageFiles = imageFiles.filter((f) => f != img.file);
+    }
+  }
+
   useEffect(() => {
-    setReadyStock(
-      product.isReadyStock == undefined ? true : product.isReadyStock
-    );
-    setIsPromo(!!product.isPromoPrice);
-  }, [product]);
+    if (!props.open) {
+      // onClose
+      imageFiles = [];
+      // free memory of local images
+      previewImages.forEach((img) => {
+        if (img.file) {
+          console.log("revoking image url: " + img.url);
+          URL.revokeObjectURL(img.url);
+        }
+      });
+    } else {
+      //onOpen
+      setFormError(null);
+      if (product && product.photos) {
+        let images = product.photos.map((p) => {
+          return {
+            id: p.id,
+            filename: p.filename,
+            size: p.size,
+            url: image200(p.filename),
+            file: null,
+          };
+        });
+        setPreviewImages(images);
+      } else {
+        setPreviewImages([]);
+      }
+
+      setReadyStock(
+        product.isReadyStock == undefined ? true : product.isReadyStock
+      );
+      setIsPromo(!!product.isPromoPrice);
+    }
+  }, [props.open]);
+
+  // useEffect(() => {
+  //   setReadyStock(
+  //     product.isReadyStock == undefined ? true : product.isReadyStock
+  //   );
+  //   setIsPromo(!!product.isPromoPrice);
+  //   //setFormError(null);
+  //   //setPreviewImages([]);
+  // }, [product]);
 
   return (
     <Modal {...props}>
@@ -76,6 +164,7 @@ export default function ModalProduct({ product, ...props }) {
           initialValues={{
             name: product.name,
             description: product.description,
+            category: product.category,
             price: product.price,
             weight: product.weight,
             notes: product.notes,
@@ -114,6 +203,19 @@ export default function ModalProduct({ product, ...props }) {
                   onBlur={props.handleBlur}
                   value={props.values.description}
                   error={props.errors.description}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Select
+                  label="Pilih Kategori "
+                  name="category"
+                  options={productCategories}
+                  onChange={(e, data) => {
+                    props.setFieldValue("category", data.value);
+                  }}
+                  onBlur={props.handleBlur}
+                  value={props.values.category}
+                  error={props.errors.category}
                 />
               </Form.Field>
               <Form.Field>
@@ -160,6 +262,37 @@ export default function ModalProduct({ product, ...props }) {
             </Form>
           )}
         </Formik>
+        <p>
+          <strong>Foto barang</strong>
+          <p>
+            Hanya untuk file gambar/photo. Bentuk foto ideal adalah KOTAK.
+            Ukuran file maks: 5MB
+          </p>
+        </p>
+        <Image.Group size="small">
+          {previewImages.map((img, idx) => (
+            <Image key={idx}>
+              <Image key={idx} src={img.url} bordered />
+              <div style={{ textAlign: "center" }}>
+                <a
+                  href="#"
+                  onClick={() => handleRemovePhoto(img)}
+                  style={{ fontSize: 13, color: "#cc0000" }}
+                >
+                  Hapus
+                </a>
+              </div>
+            </Image>
+          ))}
+          <Image size="small">
+            <Button
+              onClick={() => inputFileRef.current.click()}
+              style={{ fontSize: 20 }}
+            >
+              +
+            </Button>
+          </Image>
+        </Image.Group>
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={props.onClose}>Batal</Button>
@@ -168,11 +301,19 @@ export default function ModalProduct({ product, ...props }) {
           positive
           icon="checkmark"
           labelPosition="right"
-          content="Tambah"
+          content="Simpan"
           onClick={handleSubmit}
-          loading={formRef.current && formRef.current.isSubmitting}
+          loading={isSubmitting}
         />
       </Modal.Actions>
+      <input
+        hidden
+        id="fileUpload"
+        ref={inputFileRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileSelected}
+      />
     </Modal>
   );
 }

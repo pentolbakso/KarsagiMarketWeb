@@ -96,6 +96,8 @@ export default function EditToko(props) {
             phonenumber: shop.phonenumber,
             wanumber: shop.wanumber,
             address: shop.address,
+            instagram: shop.instagram,
+            website: shop.website,
           }}
           validationSchema={validationSchema}
           onSubmit={submitForm}
@@ -150,7 +152,7 @@ export default function EditToko(props) {
                 <Form.Input
                   label="Alamat Toko (untuk pengambilan barang oleh Kurir)"
                   name="address"
-                  placeholder="misal: Komplek Griya Caraka Block A-2, Arcamanik"
+                  placeholder="misal: Komplek Griya Caraka Blok A-2, Arcamanik"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.address}
@@ -199,6 +201,28 @@ export default function EditToko(props) {
                 </GoogleMapReact>
               </div>
               <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p>
+              <Form.Field>
+                <Form.Input
+                  label="Instagram (jika ada)"
+                  name="instagram"
+                  placeholder="https://"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.instagram}
+                  error={props.errors.instagram}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  label="Website (toko online/ bukalapak/ toped, jika ada)"
+                  name="website"
+                  placeholder="https://"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.website}
+                  error={props.errors.website}
+                />
+              </Form.Field>
               <Message error header="Gagal" content={formError} />
               <Button
                 primary

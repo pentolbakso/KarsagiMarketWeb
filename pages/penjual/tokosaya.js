@@ -21,6 +21,8 @@ import moment from "moment";
 import sellerStore from "../../stores/sellerStore";
 import * as sellerActions from "../../stores/sellerActions";
 import ProductModal from "./modal.product";
+import { image200 } from "../../utils/images";
+import { currencyFormat } from "../../utils/format";
 
 export default function TokoSaya(props) {
   const { shop, products } = connect(props);
@@ -121,18 +123,35 @@ export default function TokoSaya(props) {
             <Item.Group divided>
               {products.map((p) => (
                 <Item key={p._id}>
+                  <Item.Image
+                    size="tiny"
+                    src={
+                      p.photos && p.photos.length > 0
+                        ? image200(p.photos[0].filename)
+                        : ""
+                    }
+                  />
                   <Item.Content>
                     <Item.Header>{p.name}</Item.Header>
                     <Item.Meta>
                       {p.price ? (
-                        <Label>Rp.{p.price}</Label>
+                        <Label basic>{currencyFormat(p.price)}</Label>
                       ) : (
                         "Belum ada harga"
                       )}{" "}
                       / Terakhir diupdate: {moment(p.updatedAt).fromNow()}
                     </Item.Meta>
-                    <Item.Description>{p.description}</Item.Description>
+                    {/* <Item.Description>{p.description}</Item.Description> */}
                     <Item.Extra>
+                      <Button
+                        size="tiny"
+                        compact
+                        onClick={() => showProductModal(p)}
+                      >
+                        Edit
+                        <Icon name="right pencil" />
+                      </Button>
+
                       {p.isPromoPrice ? (
                         <Label basic color="green" size="small">
                           Harga Promo
@@ -143,15 +162,6 @@ export default function TokoSaya(props) {
                           Stok Habis
                         </Label>
                       ) : null}
-                      <Button
-                        floated="right"
-                        size="tiny"
-                        compact
-                        onClick={() => showProductModal(p)}
-                      >
-                        Edit
-                        <Icon name="right pencil" />
-                      </Button>
                     </Item.Extra>
                   </Item.Content>
                 </Item>
