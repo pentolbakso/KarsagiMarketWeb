@@ -55,10 +55,10 @@ export const uploadImage = (file) => {
 };
 
 // ------ Public ----------------
-export const fetchProducts = (category) => {
-  return http.get(
-    `${API_URL}/products?${category ? "category=" + category : ""}`
-  );
+export const fetchProducts = (category, skip) => {
+  return http.get(`${API_URL}/products`, {
+    params: { category, $skip: skip },
+  });
 };
 export const fetchProduct = (id) => {
   return http.get(`${API_URL}/products/${id}`);
@@ -66,6 +66,11 @@ export const fetchProduct = (id) => {
 export const fetchStore = (id) => {
   return http.get(`${API_URL}/stores/${id}`);
 };
-export const fetchStoreProducts = (storeId) => {
-  return http.get(`${API_URL}/products?store=${storeId}`);
+export const fetchStoreProducts = (storeId, skip) => {
+  return http.get(`${API_URL}/products`, {
+    params: {
+      store: storeId,
+      $skip: skip,
+    },
+  });
 };

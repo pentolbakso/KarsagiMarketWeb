@@ -5,7 +5,7 @@ export const productCategories = [
   { key: "fashion", value: "fashion", text: "Pakaian" },
   { key: "health", value: "health", text: "Kesehatan" },
   { key: "electronic", value: "electronic", text: "Alat elektronik" },
-  { key: "automotive", value: "automotive", text: "Otomatif" },
+  { key: "automotive", value: "automotive", text: "Otomotif" },
   { key: "service", value: "service", text: "Jasa / Non-Barang" },
   { key: "other", value: "other", text: "Lain-Lain" },
 ];

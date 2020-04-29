@@ -13,6 +13,7 @@ import {
   Card,
   Image,
   Label,
+  Visibility,
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
@@ -29,15 +30,43 @@ import { useMediaQuery } from "react-responsive";
 
 export default function HomePage(props) {
   const [category, setCategory] = useState("all");
-  const { products } = connect(props);
+  const { products, hasMore } = connect(props);
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   function openProductDetail(product) {
     Router.push(`/barang/${product._id}`);
   }
 
+  function handleLoadMore() {
+    _loadMore();
+  }
+
+  async function _browse() {
+    try {
+      if (loading) return;
+      setLoading(true);
+      await userActions.browseProducts(category);
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function _loadMore() {
+    if (loading || loadingMore || !hasMore) return; //loading in progress or no more data
+    try {
+      setLoadingMore(true);
+      await userActions.moreProducts(category);
+    } catch (err) {
+    } finally {
+      setLoadingMore(false);
+    }
+  }
+
   useEffect(() => {
-    userActions.browseProducts(category);
+    _browse();
   }, [category]);
 
   // useEffect(() => {
@@ -81,8 +110,8 @@ export default function HomePage(props) {
         </Segment>
         <Segment>
           <Card.Group itemsPerRow={isMobile ? 2 : 4}>
-            {products.map((p) => (
-              <Card link onClick={() => openProductDetail(p)}>
+            {products.map((p, idx) => (
+              <Card key={idx} link onClick={() => openProductDetail(p)}>
                 <Image
                   wrapped
                   ui={false}
@@ -114,6 +143,15 @@ export default function HomePage(props) {
               </Card>
             ))}
           </Card.Group>
+          {hasMore && (
+            <Visibility
+              offset={[10, 10]}
+              onOnScreen={handleLoadMore}
+              continuous={true}
+            >
+              <Icon name="caret down" />
+            </Visibility>
+          )}
         </Segment>
       </Segment.Group>
     </PageContainer>
@@ -123,4 +161,5 @@ export default function HomePage(props) {
 const connect = (props) =>
   useConnect(() => ({
     products: userStore.getProducts(),
+    hasMore: userStore.hasMoreProducts(),
   }));

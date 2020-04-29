@@ -13,6 +13,7 @@ import {
   Message,
   Label,
   Card,
+  Visibility,
 } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
 import Head from "next/head";
@@ -40,12 +41,18 @@ export default function DetailToko() {
   const { id } = router.query;
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   function openProductDetail(product) {
     router.push(`/barang/${product._id}`);
+  }
+
+  function handleLoadMore() {
+    _moreProducts();
   }
 
   async function _getDetail() {
@@ -61,18 +68,36 @@ export default function DetailToko() {
 
   async function _getProducts() {
     try {
+      if (loading) return;
       setLoadingProduct(true);
-      const data = await getStoreProducts(id);
+      const { limit, data } = await getStoreProducts(id);
       setProducts(data);
+      if (data.length < limit) setHasMore(false);
     } catch (err) {
     } finally {
       setLoadingProduct(false);
     }
   }
 
+  async function _moreProducts() {
+    try {
+      if (loading || loadingMore || !hasMore) return; //loading in progress or no more data
+
+      setLoadingMore(true);
+      const { limit, data } = await getStoreProducts(id, products.length);
+      setProducts(products.concat(data));
+      if (data.length < limit) setHasMore(false);
+    } catch (err) {
+    } finally {
+      setLoadingMore(false);
+    }
+  }
+
   useEffect(() => {
-    _getDetail();
-    _getProducts();
+    if (id) {
+      _getDetail();
+      _getProducts();
+    }
   }, [id]);
 
   return (
@@ -110,10 +135,6 @@ export default function DetailToko() {
                       <a href={whatsappUrl(store.wanumber)}>{store.wanumber}</a>
                     }
                   />
-                  {/* <List.Item
-              icon="linkify"
-              content={<a href="http://www.semantic-ui.com">semantic-ui.com</a>}
-            /> */}
                 </List>
               </Grid.Column>
               <Grid.Column width={8}>
@@ -174,6 +195,15 @@ export default function DetailToko() {
               </Card>
             ))}
           </Card.Group>
+          {hasMore && (
+            <Visibility
+              offset={[10, 10]}
+              onOnScreen={handleLoadMore}
+              continuous={true}
+            >
+              <Icon name="caret down" />
+            </Visibility>
+          )}
         </Segment>
       )}
     </PageContainer>
