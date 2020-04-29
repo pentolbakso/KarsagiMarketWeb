@@ -29,9 +29,15 @@ http.interceptors.response.use(
     if (error.response) {
       // The request was made and the server responded with a status code
       if (error.response.status === 401) {
-        return Promise.reject({
-          message: "Token expired. Please re-login",
-        });
+        console.log(error.response);
+        if (error.response.data.name == "NotAuthenticated")
+          return Promise.reject({
+            message: "Login gagal. Silahkan cek user/password anda.",
+          });
+        else
+          return Promise.reject({
+            message: "Token expired. Please re-login",
+          });
       } else {
         const { data } = error.response;
         console.log("ERROR response:", data);

@@ -1,4 +1,5 @@
 export const productCategories = [
+  { key: "sembako", value: "sembako", text: "Sembilan Bahan Pokok" },
   { key: "food", value: "food", text: "Makanan & Minuman" },
   { key: "book", value: "book", text: "Buku" },
   { key: "fashion", value: "fashion", text: "Pakaian" },
@@ -8,3 +9,16 @@ export const productCategories = [
   { key: "service", value: "service", text: "Jasa / Non-Barang" },
   { key: "other", value: "other", text: "Lain-Lain" },
 ];
+
+export const productCategoriesWithAllX = [
+  ...productCategories,
+  { key: "all", value: "all", text: "Semua Kategori" },
+];
+
+export const productCategoriesWithAll = [
+  {
+    key: "all",
+    value: "all",
+    text: "Semua Kategori",
+  },
+].concat(productCategories);

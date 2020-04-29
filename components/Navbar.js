@@ -33,7 +33,7 @@ const Navbar = (props) => {
 
   return (
     <Menu>
-      <Menu.Item>
+      <Menu.Item onClick={() => handleOpenPage("/")}>
         <Header as="h3">Karsagi Market</Header>
       </Menu.Item>
       <Menu.Menu position="right">

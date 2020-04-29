@@ -87,156 +87,159 @@ export default function EditToko(props) {
         <title>Karsagi Market</title>
       </Head>
       <Navbar />
-      <Segment>
-        <Header as="h3">Edit Toko</Header>
-        <Formik
-          initialValues={{
-            title: shop.title,
-            description: shop.description,
-            phonenumber: shop.phonenumber,
-            wanumber: shop.wanumber,
-            address: shop.address,
-            instagram: shop.instagram,
-            website: shop.website,
-          }}
-          validationSchema={validationSchema}
-          onSubmit={submitForm}
-        >
-          {(props) => (
-            <Form error={formError != null}>
-              <Form.Field>
-                <Form.Input
-                  label="Nama Toko"
-                  name="title"
-                  placeholder="misal: Toko Berkah Jaya"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.title}
-                  error={props.errors.title}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.TextArea
-                  label="Deskripsi Toko"
-                  name="description"
-                  placeholder="Penjelasan singkat tentang toko dan barang-barang yg dijual"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.description}
-                  error={props.errors.description}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Nomor Telpon"
-                  name="phonenumber"
-                  placeholder="628xx"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.phonenumber}
-                  error={props.errors.phonenumber}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Nomor WhatsApp"
-                  name="wanumber"
-                  placeholder="628xx"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.wanumber}
-                  error={props.errors.wanumber}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Alamat Toko (untuk pengambilan barang oleh Kurir)"
-                  name="address"
-                  placeholder="misal: Komplek Griya Caraka Blok A-2, Arcamanik"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.address}
-                  error={props.errors.address}
-                />
-              </Form.Field>
-              <Message>
-                <Message.Header>
-                  Pilih lokasi alamat toko anda pada peta:
-                </Message.Header>
-                <p>
-                  Geser peta sehingga PIN KUNING tepat berada di bawah lokasi
-                  toko/rumah anda. Untuk lebih akurat dalam penentuan posisi,
-                  gunakan fungsi Zoom +/-.
-                  <br />
-                  Afwan kalau petanya tidak sempurna karena ada keterbatasan dgn
-                  Google
-                </p>
-              </Message>
-              <div
-                style={{ height: "40vh", width: "100%", marginBottom: "1em" }}
-              >
-                <GoogleMapReact
-                  bootstrapURLKeys={{
-                    key: "AIzaSyD3SgMhlUOsv3ZaZWmVCFWE01Ap67FK8Ig",
-                  }}
-                  defaultCenter={initialCenter}
-                  defaultZoom={15}
-                  yesIWantToUseGoogleMapApiInternals={true}
-                  onGoogleApiLoaded={({ map, maps }) =>
-                    handleApiLoaded(map, maps)
-                  }
-                  onChange={(coord) => {
-                    //console.log(coord.center);
-                    setCenter(coord.center);
-                  }}
-                >
-                  <Icon
-                    //lat={center.lat}
-                    //lng={center.lng}
-                    name="target"
-                    size="big"
-                    color="yellow"
-                    circular
+
+      {shop && (
+        <Segment>
+          <Header as="h3">Edit Toko</Header>
+          <Formik
+            initialValues={{
+              title: shop.title,
+              description: shop.description,
+              phonenumber: shop.phonenumber,
+              wanumber: shop.wanumber,
+              address: shop.address,
+              instagram: shop.instagram,
+              website: shop.website,
+            }}
+            validationSchema={validationSchema}
+            onSubmit={submitForm}
+          >
+            {(props) => (
+              <Form error={formError != null}>
+                <Form.Field>
+                  <Form.Input
+                    label="Nama Toko"
+                    name="title"
+                    placeholder="misal: Toko Berkah Jaya"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.title}
+                    error={props.errors.title}
                   />
-                </GoogleMapReact>
-              </div>
-              <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p>
-              <Form.Field>
-                <Form.Input
-                  label="Instagram (jika ada)"
-                  name="instagram"
-                  placeholder="https://"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.instagram}
-                  error={props.errors.instagram}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Website (toko online/ bukalapak/ toped, jika ada)"
-                  name="website"
-                  placeholder="https://"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.website}
-                  error={props.errors.website}
-                />
-              </Form.Field>
-              <Message error header="Gagal" content={formError} />
-              <Button
-                primary
-                type="submit"
-                size="big"
-                onClick={props.handleSubmit}
-                loading={props.isSubmitting}
-              >
-                Update
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Segment>
+                </Form.Field>
+                <Form.Field>
+                  <Form.TextArea
+                    label="Deskripsi Toko"
+                    name="description"
+                    placeholder="Penjelasan singkat tentang toko dan barang-barang yg dijual"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.description}
+                    error={props.errors.description}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Form.Input
+                    label="Nomor Telpon"
+                    name="phonenumber"
+                    placeholder="628xx"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.phonenumber}
+                    error={props.errors.phonenumber}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Form.Input
+                    label="Nomor WhatsApp"
+                    name="wanumber"
+                    placeholder="628xx"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.wanumber}
+                    error={props.errors.wanumber}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Form.Input
+                    label="Alamat Toko (untuk pengambilan barang oleh Kurir)"
+                    name="address"
+                    placeholder="misal: Komplek Griya Caraka Blok A-2, Arcamanik"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.address}
+                    error={props.errors.address}
+                  />
+                </Form.Field>
+                <Message>
+                  <Message.Header>
+                    Pilih lokasi alamat toko anda pada peta:
+                  </Message.Header>
+                  <p>
+                    Geser peta sehingga PIN KUNING tepat berada di bawah lokasi
+                    toko/rumah anda. Untuk lebih akurat dalam penentuan posisi,
+                    gunakan fungsi Zoom +/-.
+                    <br />
+                    Afwan kalau petanya tidak sempurna karena ada keterbatasan
+                    dgn Google
+                  </p>
+                </Message>
+                <div
+                  style={{ height: "40vh", width: "100%", marginBottom: "1em" }}
+                >
+                  <GoogleMapReact
+                    bootstrapURLKeys={{
+                      key: "AIzaSyD3SgMhlUOsv3ZaZWmVCFWE01Ap67FK8Ig",
+                    }}
+                    defaultCenter={initialCenter}
+                    defaultZoom={15}
+                    yesIWantToUseGoogleMapApiInternals={true}
+                    onGoogleApiLoaded={({ map, maps }) =>
+                      handleApiLoaded(map, maps)
+                    }
+                    onChange={(coord) => {
+                      //console.log(coord.center);
+                      setCenter(coord.center);
+                    }}
+                  >
+                    <Icon
+                      //lat={center.lat}
+                      //lng={center.lng}
+                      name="target"
+                      size="big"
+                      color="yellow"
+                      circular
+                    />
+                  </GoogleMapReact>
+                </div>
+                <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p>
+                <Form.Field>
+                  <Form.Input
+                    label="Nama Instagram (jika ada)"
+                    name="instagram"
+                    placeholder="misal: yufidstore"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.instagram}
+                    error={props.errors.instagram}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Form.Input
+                    label="Website (toko online/ bukalapak/ toped, jika ada)"
+                    name="website"
+                    placeholder="https://"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.website}
+                    error={props.errors.website}
+                  />
+                </Form.Field>
+                <Message error header="Gagal" content={formError} />
+                <Button
+                  primary
+                  type="submit"
+                  size="big"
+                  onClick={props.handleSubmit}
+                  loading={props.isSubmitting}
+                >
+                  Update
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Segment>
+      )}
     </PageContainer>
   );
 }

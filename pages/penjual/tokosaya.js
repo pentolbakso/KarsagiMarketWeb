@@ -84,11 +84,11 @@ export default function TokoSaya(props) {
               {shop.description || "Belum ada deskripsi"}
             </p>
             <p>
-              <Label basic>
+              <Label basic color="blue">
                 <Icon name="phone" />{" "}
                 {shop.phonenumber || "Belum ada nomor telpon"}
               </Label>
-              <Label basic>
+              <Label basic color="green">
                 <Icon name="whatsapp" /> {shop.wanumber || "Belum ada nomor WA"}
               </Label>
             </p>
@@ -139,7 +139,7 @@ export default function TokoSaya(props) {
                       ) : (
                         "Belum ada harga"
                       )}{" "}
-                      / Terakhir diupdate: {moment(p.updatedAt).fromNow()}
+                      update: {moment(p.updatedAt).fromNow()}
                     </Item.Meta>
                     {/* <Item.Description>{p.description}</Item.Description> */}
                     <Item.Extra>

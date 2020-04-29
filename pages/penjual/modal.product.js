@@ -249,9 +249,9 @@ export default function ModalProduct({ product, ...props }) {
               </Form.Field>
               <Form.Field>
                 <Form.Input
-                  label="Catatan"
+                  label="Catatan (max: 200 karakter)"
                   name="notes"
-                  placeholder="Catatan utk calon pembeli (jika ada)"
+                  placeholder="Catatan utk calon pembeli (jika ada). Misal: baru/ bekas/ rusak etc"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.notes}
@@ -287,7 +287,7 @@ export default function ModalProduct({ product, ...props }) {
           <Image size="small">
             <Button
               onClick={() => inputFileRef.current.click()}
-              style={{ fontSize: 20 }}
+              style={{ fontSize: 22 }}
             >
               +
             </Button>

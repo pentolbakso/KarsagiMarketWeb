@@ -115,7 +115,7 @@ export default function About() {
                 onClick={props.handleSubmit}
                 loading={props.isSubmitting}
               >
-                Buat Toko
+                Buka Toko
               </Button>
             </Form>
           )}

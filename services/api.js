@@ -53,3 +53,19 @@ export const uploadImage = (file) => {
   console.log("formdata", formData);
   return http.post(`${API_URL}/uploads`, formData);
 };
+
+// ------ Public ----------------
+export const fetchProducts = (category) => {
+  return http.get(
+    `${API_URL}/products?${category ? "category=" + category : ""}`
+  );
+};
+export const fetchProduct = (id) => {
+  return http.get(`${API_URL}/products/${id}`);
+};
+export const fetchStore = (id) => {
+  return http.get(`${API_URL}/stores/${id}`);
+};
+export const fetchStoreProducts = (storeId) => {
+  return http.get(`${API_URL}/products?store=${storeId}`);
+};
