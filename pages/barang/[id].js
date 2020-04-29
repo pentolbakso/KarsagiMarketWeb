@@ -19,7 +19,7 @@ import Navbar from "../../components/Navbar";
 import { useRouter, Router } from "next/router";
 import { API_URL } from "../../services/api";
 import { getProduct } from "../../stores/userActions";
-import { image600 } from "../../utils/images";
+import { image600, image200 } from "../../utils/images";
 import { currencyFormat, getCategoryName } from "../../utils/format";
 import moment from "moment";
 
@@ -32,12 +32,15 @@ export default function DetailProduct() {
   const { id } = router.query;
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [primaryPhoto, setPrimaryPhoto] = useState("");
 
   async function _getDetail() {
     try {
       setLoading(true);
       const data = await getProduct(id);
       setProduct(data);
+      if (data.photos && data.photos.length > 0)
+        setPrimaryPhoto(data.photos[0]);
     } catch (err) {
     } finally {
       setLoading(false);
@@ -66,16 +69,29 @@ export default function DetailProduct() {
         <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              {product && product.photos && (
-                <Image
-                  wrapped
-                  bordered
-                  src={
-                    product.photos.length > 0
-                      ? image600(product.photos[0].filename)
-                      : "http://placehold.jp/150x150.png"
-                  }
-                />
+              {product && product.photos && product.photos.length > 0 ? (
+                <>
+                  <Image
+                    wrapped
+                    bordered
+                    src={primaryPhoto ? image600(primaryPhoto.filename) : ""}
+                  />
+                  <Image.Group>
+                    {product.photos.length > 1 &&
+                      product.photos.map((photo) => {
+                        return (
+                          <Image
+                            href="#"
+                            src={image200(photo.filename)}
+                            size="tiny"
+                            onClick={() => setPrimaryPhoto(photo)}
+                          />
+                        );
+                      })}
+                  </Image.Group>
+                </>
+              ) : (
+                <NA>Belum ada foto produk</NA>
               )}
             </Grid.Column>
             <Grid.Column width={8}>
@@ -87,14 +103,14 @@ export default function DetailProduct() {
                       {getCategoryName(product.category)}
                     </Header.Subheader>
                   </Header> */}
-                  {!!product.isPromoPrice && (
-                    <Label color="green" compact size="small" tag>
-                      Harga Promo
-                    </Label>
-                  )}
                   {product.isReadyStock == false && (
                     <Label color="red" compact size="small" tag>
                       Stok Kosong
+                    </Label>
+                  )}
+                  {product.isReadyStock && !!product.isPromoPrice && (
+                    <Label color="green" compact size="small" tag>
+                      Harga Promo
                     </Label>
                   )}
                   <Table compact basic="very" celled collapsing unstackable>
