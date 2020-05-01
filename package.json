@@ -10,7 +10,10 @@
     "start": "next start",
     "now-build": "npm run semantic:build && next build",
     "semantic:build": "cd .semantic && gulp build-css build-assets",
-    "semantic:watch": "cd .semantic && npm run semantic:build && gulp watch"
+    "semantic:watch": "cd .semantic && npm run semantic:build && gulp watch",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
@@ -31,6 +34,8 @@
     "yup": "^0.28.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^9.3.6",
+    "cross-env": "^7.0.2",
     "file-loader": "^4.1.0",
     "fomantic-ui": "^2.8.4",
     "url-loader": "^3.0.0"
