@@ -38,18 +38,18 @@ const Navbar = (props) => {
       </Menu.Item>
       <Menu.Menu position="right">
         {user && (
-          <Dropdown item className="left" text={user.fullname}>
+          <Dropdown item icon="caret down" text={user.fullname}>
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => handleOpenPage("/penjual/tokosaya")}
               >
                 <a>Toko Saya</a>
               </Dropdown.Item>
-              <Dropdown.Item
+              {/* <Dropdown.Item
                 onClick={() => handleOpenPage("/penjual/edittoko")}
               >
                 <a>Edit Toko</a>
-              </Dropdown.Item>
+              </Dropdown.Item> */}
               <Dropdown.Item
                 onClick={() => handleOpenPage("/penjual/editprofil")}
               >

@@ -5,12 +5,14 @@ import {
   Header,
   Segment,
   Button,
-  Checkbox,
+  Divider,
   Message,
+  Container,
+  Icon,
 } from "semantic-ui-react";
 import PageContainer from "../components/PageContainer";
-import Head from "next/head";
-import Router from "next/router";
+import Link from "next/link";
+import { Router } from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { login } from "../stores/authActions";
@@ -46,7 +48,7 @@ export default function About() {
     <PageContainer>
       <Navbar />
       <Segment>
-        <Header as="h3">Login sebagai penjual</Header>
+        <Header as="h2">Login sebagai penjual</Header>
         <Formik
           initialValues={{
             email: "",
@@ -93,6 +95,15 @@ export default function About() {
             </Form>
           )}
         </Formik>
+        <Divider horizontal>Belum punya toko online?</Divider>
+        <Container textAlign="center">
+          <Link href="/daftar/penjual">
+            <Button size="large">
+              <Icon name="store" />
+              Buka Toko Online
+            </Button>
+          </Link>
+        </Container>
       </Segment>
     </PageContainer>
   );

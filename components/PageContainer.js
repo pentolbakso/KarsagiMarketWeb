@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const PageContainer = styled(Container).attrs((props) => ({ text: true }))`
   margin-top: 1em;
+  margin-bottom: 1em;
 `;
 
 export default PageContainer;

@@ -14,14 +14,19 @@ import {
   Label,
 } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
-import Head from "next/head";
+import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { useRouter, Router } from "next/router";
 import { API_URL } from "../../services/api";
 import { getProduct } from "../../stores/userActions";
 import { image600, image200 } from "../../utils/images";
-import { currencyFormat, getCategoryName } from "../../utils/format";
+import {
+  currencyFormat,
+  getCategoryName,
+  whatsappUrl,
+} from "../../utils/format";
 import moment from "moment";
+import ModalBuy from "../../components/modals/modal.beli";
 
 const NA = styled.em`
   color: #aaa;
@@ -33,6 +38,7 @@ export default function DetailProduct() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [primaryPhoto, setPrimaryPhoto] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   async function _getDetail() {
     try {
@@ -47,8 +53,22 @@ export default function DetailProduct() {
     }
   }
 
+  function handleBuy() {
+    setModalVisible(true);
+  }
+
+  function handleChat() {
+    let message =
+      "Assalamu'alaikum," +
+      "\nAna mau bertanya ttg produk yg sedang dijual di KarsagiMarket: " +
+      "\n" +
+      product.name;
+    let WAnumber = product.store.wanumber || product.store.phonenumber;
+    window.open(whatsappUrl(WAnumber, message));
+  }
+
   useEffect(() => {
-    _getDetail();
+    if (id) _getDetail();
   }, [id]);
 
   return (
@@ -147,19 +167,27 @@ export default function DetailProduct() {
                       </Table.Row>
                     </Table.Body>
                   </Table>
-                  <Button color="orange" size="small">
+                  <Button color="green" size="big" onClick={handleBuy}>
                     <Icon name="whatsapp" />
                     BELI
-                  </Button>{" "}
-                  {product.store && (
-                    <Button
-                      size="small"
-                      onClick={() => router.push(`/toko/${product.store._id}`)}
-                    >
-                      <Icon name="store" />
-                      Cek Toko
-                    </Button>
-                  )}
+                  </Button>
+                  <p style={{ marginTop: "0.5em" }}>
+                    <Button size="small" onClick={handleChat}>
+                      <Icon name="whatsapp" />
+                      Chat Dulu
+                    </Button>{" "}
+                    {product.store && (
+                      <Button
+                        size="small"
+                        onClick={() =>
+                          router.push(`/toko/${product.store._id}`)
+                        }
+                      >
+                        <Icon name="store" />
+                        Cek Toko
+                      </Button>
+                    )}
+                  </p>
                 </>
               )}
             </Grid.Column>
@@ -190,9 +218,25 @@ export default function DetailProduct() {
             <p>
               <Icon name="user" /> Pemilik Toko: {product.store.user.fullname}
             </p>
+            <p>
+              <Link href={`/toko/${product.store._id}`}>
+                Cek produk lainnya dari toko
+              </Link>
+            </p>
           </>
         )}
       </Segment>
+      {product && (
+        <ModalBuy
+          open={modalVisible}
+          onClose={() => {
+            setModalVisible(false);
+          }}
+          size="small"
+          product={product}
+          closeOnDimmerClick={false}
+        />
+      )}
     </PageContainer>
   );
 }

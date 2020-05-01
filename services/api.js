@@ -37,7 +37,11 @@ export const fetchStoreList = (userId) => {
 
 // ------- Products------------------
 export const fetchProductList = (storeId) => {
-  return http.get(`${API_URL}/stores/${storeId}/products`);
+  return http.get(`${API_URL}/stores/${storeId}/products`, {
+    params: {
+      $limit: 100,
+    },
+  });
 };
 export const createProduct = (storeId, values) => {
   return http.post(`${API_URL}/stores/${storeId}/products`, values);
@@ -71,6 +75,14 @@ export const fetchStoreProducts = (storeId, skip) => {
     params: {
       store: storeId,
       $skip: skip,
+    },
+  });
+};
+
+export const fetchAllStoreProducts = (storeId) => {
+  return http.get(`${API_URL}/products`, {
+    params: {
+      $limit: 50,
     },
   });
 };

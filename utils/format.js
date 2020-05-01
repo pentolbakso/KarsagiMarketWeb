@@ -29,7 +29,7 @@ export function instagramUrl(name) {
 }
 
 export function callUrl(number) {
-  return `tel:${number}`;
+  return `tel:+${number}`;
 }
 
 export function whatsappUrl(number, text) {

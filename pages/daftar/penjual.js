@@ -7,6 +7,7 @@ import {
   Button,
   Checkbox,
   Message,
+  Divider,
 } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
 import Head from "next/head";
@@ -14,6 +15,7 @@ import Router from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { register } from "../../stores/authActions";
+import Navbar from "../../components/Navbar";
 
 export default function About() {
   const [formError, setFormError] = useState(null);
@@ -47,16 +49,17 @@ export default function About() {
 
   return (
     <PageContainer>
-      <Segment>
-        <Header as="h2" block>
-          Buka Toko Online
-        </Header>
+      <Navbar />
+      <Segment attached="top" tertiary>
+        <Header as="h2">Buka Toko Online</Header>
+      </Segment>
+      <Segment attached>
         <Formik
           initialValues={{
-            storeTitle: "Test Kitchen",
-            fullname: "Tukang Test",
-            email: "test@gmail.com",
-            password: "123456",
+            storeTitle: "",
+            fullname: "",
+            email: "",
+            password: "",
           }}
           validationSchema={validationSchema}
           onSubmit={submitForm}
@@ -85,6 +88,7 @@ export default function About() {
                   error={props.errors.fullname}
                 />
               </Form.Field>
+              <Divider horizontal>Untuk Login</Divider>
               <Form.Field>
                 <Form.Input
                   label="Email"

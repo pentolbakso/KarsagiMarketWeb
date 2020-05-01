@@ -36,10 +36,17 @@ export default function EditToko(props) {
     title: Yup.string()
       .min(6, "Panjang karakter minimal 6")
       .required("Nama toko harap diisi (minimal 6 karakter)"),
-    phonenumber: Yup.number()
-      .typeError("Nomor harus berupa angka")
+    phonenumber: Yup.string()
+      //.typeError("Nomor harus berupa angka")
+      .matches(
+        /^(^62){1}\d{8,13}$/gm,
+        "Nomor telpon harus valid! misal: 6281200001111"
+      )
       .required("Nomor telpon harap di isi"),
-    wanumber: Yup.string().typeError("Nomor harus berupa angka"),
+    wanumber: Yup.string().matches(
+      /^(^62){1}\d{8,13}$/gm,
+      "Nomor telpon harus valid! misal: 6281200001111"
+    ),
     address: Yup.string().required("Alamat lengkap toko harap diisi"),
   });
 
@@ -141,7 +148,7 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Nomor WhatsApp"
+                    label="Nomor WhatsApp (boleh sama dgn yg diatas)"
                     name="wanumber"
                     placeholder="628xx"
                     onChange={props.handleChange}

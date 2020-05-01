@@ -35,7 +35,8 @@ export default function HomePage(props) {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  function openProductDetail(product) {
+  function openProductDetail(e, product) {
+    e.preventDefault();
     Router.push(`/barang/${product._id}`);
   }
 
@@ -111,7 +112,7 @@ export default function HomePage(props) {
         <Segment>
           <Card.Group itemsPerRow={isMobile ? 2 : 4}>
             {products.map((p, idx) => (
-              <Card key={idx} link onClick={() => openProductDetail(p)}>
+              <Card key={idx} link onClick={(e) => openProductDetail(e, p)}>
                 <Image
                   wrapped
                   ui={false}

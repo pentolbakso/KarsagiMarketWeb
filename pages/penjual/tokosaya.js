@@ -20,7 +20,7 @@ import { useConnect } from "remx";
 import moment from "moment";
 import sellerStore from "../../stores/sellerStore";
 import * as sellerActions from "../../stores/sellerActions";
-import ProductModal from "./modal.product";
+import ProductModal from "../../components/modals/modal.editproduct";
 import { image200 } from "../../utils/images";
 import { currencyFormat } from "../../utils/format";
 
@@ -120,7 +120,7 @@ export default function TokoSaya(props) {
               Tambah
             </Button>
             <Divider />
-            <Item.Group divided>
+            <Item.Group divided unstackable>
               {products.map((p) => (
                 <Item key={p._id}>
                   <Item.Image
@@ -138,30 +138,25 @@ export default function TokoSaya(props) {
                         <Label basic>{currencyFormat(p.price)}</Label>
                       ) : (
                         "Belum ada harga"
-                      )}{" "}
-                      update: {moment(p.updatedAt).fromNow()}
-                    </Item.Meta>
-                    {/* <Item.Description>{p.description}</Item.Description> */}
-                    <Item.Extra>
-                      <Button
-                        size="tiny"
-                        compact
-                        onClick={() => showProductModal(p)}
-                      >
-                        Edit
-                        <Icon name="right pencil" />
-                      </Button>
-
+                      )}
                       {p.isPromoPrice ? (
-                        <Label basic color="green" size="small">
+                        <Label basic color="green" size="small" compact>
                           Harga Promo
                         </Label>
                       ) : null}
                       {!p.isReadyStock ? (
-                        <Label basic color="red" size="small">
+                        <Label basic color="red" size="small" compact>
                           Stok Habis
                         </Label>
-                      ) : null}
+                      ) : null}{" "}
+                      update: {moment(p.updatedAt).fromNow()}
+                    </Item.Meta>
+                    {/* <Item.Description>{p.description}</Item.Description> */}
+                    <Item.Extra>
+                      <a onClick={() => showProductModal(p)}>
+                        <Icon name="pencil" />
+                        Edit
+                      </a>
                     </Item.Extra>
                   </Item.Content>
                 </Item>
@@ -178,6 +173,7 @@ export default function TokoSaya(props) {
         }}
         size="small"
         product={productEdit}
+        closeOnDimmerClick={false}
       />
     </PageContainer>
   );

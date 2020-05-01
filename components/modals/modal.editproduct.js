@@ -59,9 +59,15 @@ export default function ModalProduct({ product, ...props }) {
       setSubmitting(true);
 
       // get original images that are not removed
-      let existing = previewImages.filter(
-        (img) => img.file == null || img.file == undefined
-      );
+      let existing = previewImages
+        .filter((img) => img.file == null || img.file == undefined)
+        .map((img) => {
+          return {
+            id: img.id,
+            filename: img.filename,
+            size: img.size,
+          };
+        });
       values.photos = existing;
       await Promise.all(
         imageFiles.map(async (file) => {
@@ -203,6 +209,7 @@ export default function ModalProduct({ product, ...props }) {
                   onBlur={props.handleBlur}
                   value={props.values.description}
                   error={props.errors.description}
+                  rows={10}
                 />
               </Form.Field>
               <Form.Field>
@@ -269,25 +276,25 @@ export default function ModalProduct({ product, ...props }) {
             Ukuran file maks: 5MB
           </p>
         </p>
-        <Image.Group size="small">
+        <Image.Group size="tiny">
           {previewImages.map((img, idx) => (
             <Image key={idx}>
-              <Image key={idx} src={img.url} bordered />
+              <Image src={img.url} bordered />
               <div style={{ textAlign: "center" }}>
                 <a
                   href="#"
                   onClick={() => handleRemovePhoto(img)}
                   style={{ fontSize: 13, color: "#cc0000" }}
                 >
-                  Hapus
+                  <Icon name="close" /> Hapus
                 </a>
               </div>
             </Image>
           ))}
-          <Image size="small">
+          <Image>
             <Button
               onClick={() => inputFileRef.current.click()}
-              style={{ fontSize: 22 }}
+              style={{ fontSize: 24 }}
             >
               +
             </Button>

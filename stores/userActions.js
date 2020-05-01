@@ -46,3 +46,8 @@ export async function getStoreProducts(id, skip) {
   const response = await api.fetchStoreProducts(id, skip);
   return response.data;
 }
+
+export async function getAllStoreProducts(id) {
+  const response = await api.fetchAllStoreProducts(id);
+  return response.data.data;
+}
