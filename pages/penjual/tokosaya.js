@@ -16,12 +16,15 @@ import Head from "next/head";
 import Link from "next/link";
 import Router from "next/router";
 import { useConnect } from "remx";
-import moment from "moment";
+import dayjs from "dayjs";
 import sellerStore from "../../stores/sellerStore";
 import * as sellerActions from "../../stores/sellerActions";
 import ProductModal from "../../components/modals/modal.editproduct";
 import { image200 } from "../../utils/images";
 import { currencyFormat } from "../../utils/format";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function TokoSaya(props) {
   const { shop, products } = connect(props);
@@ -78,7 +81,7 @@ export default function TokoSaya(props) {
           <div>
             <h2>{shop.title}</h2>
             <p>
-              Sejak {moment(shop.createdAt).format("MMM YYYY")} -{" "}
+              Sejak {dayjs(shop.createdAt).format("MMM YYYY")} -{" "}
               {shop.description || "Belum ada deskripsi"}
             </p>
             <p>
@@ -167,7 +170,7 @@ export default function TokoSaya(props) {
                           Stok Habis
                         </Label>
                       ) : null}{" "}
-                      update: {moment(p.updatedAt).fromNow()}
+                      update: {dayjs(p.updatedAt).fromNow()}
                     </Item.Meta>
                     {/* <Item.Description>{p.description}</Item.Description> */}
                     <Item.Extra>

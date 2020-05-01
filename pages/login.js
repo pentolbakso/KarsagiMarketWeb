@@ -12,7 +12,7 @@ import {
 } from "semantic-ui-react";
 import PageContainer from "../components/PageContainer";
 import Link from "next/link";
-import { Router } from "next/router";
+import Router from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { login } from "../stores/authActions";
