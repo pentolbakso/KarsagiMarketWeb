@@ -6,9 +6,9 @@ import Head from "next/head";
 export default function About() {
   return (
     <PageContainer>
-      <Segment placeholder>
+      <Segment>
         <Header as="h2">Tentang Karsagi Market</Header>
-        <p>Kajian Rutin Sabtu Pagi</p>
+        <p>In-Progress</p>
       </Segment>
     </PageContainer>
   );

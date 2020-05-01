@@ -19,8 +19,6 @@ import Head from "next/head";
 import Link from "next/link";
 import Router from "next/router";
 import { useConnect } from "remx";
-import PageContainer from "../components/PageContainer";
-import Navbar from "../components/Navbar";
 import { productCategoriesWithAll } from "../config/arrays";
 import userStore from "../stores/userStore";
 import * as userActions from "../stores/userActions";
@@ -75,12 +73,11 @@ export default function HomePage(props) {
   // }, []);
 
   return (
-    <PageContainer>
+    <>
       <Head>
         <title>Karsagi Market</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
       <Message info style={{ paddingTop: 0, paddingBottom: 0 }}>
         <Grid>
           <Grid.Column width={10}>
@@ -110,38 +107,48 @@ export default function HomePage(props) {
           />
         </Segment>
         <Segment>
+          {products.length == 0 && (
+            <Segment placeholder basic>
+              <Header icon color="grey">
+                <Icon name="search" />
+                Produk tidak ditemukan
+              </Header>
+            </Segment>
+          )}
           <Card.Group itemsPerRow={isMobile ? 2 : 4}>
             {products.map((p, idx) => (
-              <Card key={idx} link onClick={(e) => openProductDetail(e, p)}>
-                <Image
-                  wrapped
-                  ui={false}
-                  src={
-                    p.photos && p.photos.length > 0
-                      ? image200(p.photos[0].filename)
-                      : "http://placehold.jp/150x150.png"
-                  }
-                  label={
-                    !p.isReadyStock
-                      ? {
-                          color: "red",
-                          content: "Kosong",
-                          ribbon: "right",
-                        }
-                      : p.isPromoPrice
-                      ? {
-                          color: "green",
-                          content: "Promo",
-                          ribbon: "right",
-                        }
-                      : null
-                  }
-                />
-                <Card.Content>
-                  <Card.Header style={{ fontSize: 14 }}>{p.name}</Card.Header>
-                  <Card.Meta>{currencyFormat(p.price, false)}</Card.Meta>
-                </Card.Content>
-              </Card>
+              <Link key={idx} href={`/barang/${p._id}`}>
+                <Card>
+                  <Image
+                    wrapped
+                    ui={false}
+                    src={
+                      p.photos && p.photos.length > 0
+                        ? image200(p.photos[0].filename)
+                        : "http://placehold.jp/150x150.png"
+                    }
+                    label={
+                      !p.isReadyStock
+                        ? {
+                            color: "red",
+                            content: "Kosong",
+                            ribbon: "right",
+                          }
+                        : p.isPromoPrice
+                        ? {
+                            color: "green",
+                            content: "Promo",
+                            ribbon: "right",
+                          }
+                        : null
+                    }
+                  />
+                  <Card.Content>
+                    <Card.Header style={{ fontSize: 14 }}>{p.name}</Card.Header>
+                    <Card.Meta>{currencyFormat(p.price, false)}</Card.Meta>
+                  </Card.Content>
+                </Card>
+              </Link>
             ))}
           </Card.Group>
           {hasMore && (
@@ -155,7 +162,7 @@ export default function HomePage(props) {
           )}
         </Segment>
       </Segment.Group>
-    </PageContainer>
+    </>
   );
 }
 

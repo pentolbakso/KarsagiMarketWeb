@@ -33,8 +33,20 @@ export async function logout() {
   authStore.clearSession();
 }
 
-export async function register(storeTitle, fullname, email, password) {
-  const response = await api.register(storeTitle, fullname, email, password);
+export async function register(
+  storeTitle,
+  fullname,
+  phonenumber,
+  email,
+  password
+) {
+  const response = await api.register(
+    storeTitle,
+    fullname,
+    phonenumber,
+    email,
+    password
+  );
   localStorage.setItem(STORAGE_KEY, JSON.stringify(response.data));
   store.setUser(response.data.user);
   store.setUserId(response.data.user._id);

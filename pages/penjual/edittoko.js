@@ -11,8 +11,6 @@ import {
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
-import PageContainer from "../../components/PageContainer";
-import Navbar from "../../components/Navbar";
 import { useConnect } from "remx";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -89,12 +87,10 @@ export default function EditToko(props) {
   }, []);
 
   return (
-    <PageContainer>
+    <>
       <Head>
         <title>Karsagi Market</title>
       </Head>
-      <Navbar />
-
       {shop && (
         <Segment>
           <Header as="h3">Edit Toko</Header>
@@ -247,7 +243,7 @@ export default function EditToko(props) {
           </Formik>
         </Segment>
       )}
-    </PageContainer>
+    </>
   );
 }
 

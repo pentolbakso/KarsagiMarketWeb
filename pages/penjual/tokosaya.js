@@ -9,13 +9,12 @@ import {
   Menu,
   Item,
   Label,
+  Message,
   Divider,
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
 import Router from "next/router";
-import PageContainer from "../../components/PageContainer";
-import Navbar from "../../components/Navbar";
 import { useConnect } from "remx";
 import moment from "moment";
 import sellerStore from "../../stores/sellerStore";
@@ -67,12 +66,11 @@ export default function TokoSaya(props) {
   }, [shop]);
 
   return (
-    <PageContainer>
+    <>
       <Head>
         <title>Karsagi Market</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
       <Segment attached>
         {loadingShop && <p>Loading...</p>}
         {!loadingShop && !shop && <Button primary>Buat Toko</Button>}
@@ -92,7 +90,19 @@ export default function TokoSaya(props) {
                 <Icon name="whatsapp" /> {shop.wanumber || "Belum ada nomor WA"}
               </Label>
             </p>
-            <Button compact onClick={() => Router.push("/penjual/edittoko")}>
+            {!shop.phonenumber && !shop.wanumber && (
+              <Message color="yellow">
+                <Message.Header>Perhatian</Message.Header>
+                Anda belum menambahkan nomor telpon / WA yg akan digunakan jika
+                Pembeli hendak melakukan transaksi. Silahkan tambah nomor
+                melalui tombol Edit Toko
+              </Message>
+            )}
+            <Button
+              info
+              color="teal"
+              onClick={() => Router.push("/penjual/edittoko")}
+            >
               Edit Toko
               <Icon name="pencil right" />
             </Button>
@@ -121,6 +131,14 @@ export default function TokoSaya(props) {
             </Button>
             <Divider />
             <Item.Group divided unstackable>
+              {products.length == 0 && (
+                <Segment placeholder basic>
+                  <Header icon color="grey">
+                    <Icon name="store" />
+                    Anda belum punya barang yg dijual
+                  </Header>
+                </Segment>
+              )}
               {products.map((p) => (
                 <Item key={p._id}>
                   <Item.Image
@@ -175,7 +193,7 @@ export default function TokoSaya(props) {
         product={productEdit}
         closeOnDimmerClick={false}
       />
-    </PageContainer>
+    </>
   );
 }
 

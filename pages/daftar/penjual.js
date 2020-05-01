@@ -9,13 +9,11 @@ import {
   Message,
   Divider,
 } from "semantic-ui-react";
-import PageContainer from "../../components/PageContainer";
 import Head from "next/head";
 import Router from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { register } from "../../stores/authActions";
-import Navbar from "../../components/Navbar";
 
 export default function About() {
   const [formError, setFormError] = useState(null);
@@ -25,6 +23,13 @@ export default function About() {
       .min(6, "Panjang karakter minimal 6")
       .required("Nama toko harap diisi (minimal 6 karakter)"),
     fullname: Yup.string().required("Nama lengkap harap diisi"),
+    phonenumber: Yup.string()
+      //.typeError("Nomor harus berupa angka")
+      .matches(
+        /^(^62){1}\d{8,13}$/gm,
+        "Nomor telpon harus valid format & panjangnya! misal: 6281200001111"
+      )
+      .required("Nomor telpon harap di isi"),
     email: Yup.string()
       .email("Alamat email tidak valid")
       .required("Email harap diisi"),
@@ -36,11 +41,11 @@ export default function About() {
   async function submitForm(values, { setSubmitting }) {
     try {
       setSubmitting(true);
-      const { storeTitle, fullname, email, password } = values;
-      await register(storeTitle, fullname, email, password);
+      const { storeTitle, fullname, phonenumber, email, password } = values;
+      await register(storeTitle, fullname, phonenumber, email, password);
       setSubmitting(false);
 
-      Router.push("/daftar/success");
+      Router.push("/penjual/tokosaya");
     } catch (err) {
       setSubmitting(false);
       setFormError(err.message);
@@ -48,16 +53,16 @@ export default function About() {
   }
 
   return (
-    <PageContainer>
-      <Navbar />
+    <>
       <Segment attached="top" tertiary>
-        <Header as="h2">Buka Toko Online</Header>
+        <Header as="h3">Buka Toko Online</Header>
       </Segment>
       <Segment attached>
         <Formik
           initialValues={{
             storeTitle: "",
             fullname: "",
+            phonenumber: "",
             email: "",
             password: "",
           }}
@@ -65,7 +70,11 @@ export default function About() {
           onSubmit={submitForm}
         >
           {(props) => (
-            <Form size="huge" error={formError != null}>
+            <Form
+              size="big"
+              warning={formError == null}
+              error={formError != null}
+            >
               <Form.Field>
                 <Form.Input
                   label="Nama Toko"
@@ -86,6 +95,17 @@ export default function About() {
                   onBlur={props.handleBlur}
                   value={props.values.fullname}
                   error={props.errors.fullname}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  label="Nomor handphone / Whatsapp"
+                  name="phonenumber"
+                  placeholder="misal: 628xxx"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.phonenumber}
+                  error={props.errors.phonenumber}
                 />
               </Form.Field>
               <Divider horizontal>Untuk Login</Divider>
@@ -111,7 +131,15 @@ export default function About() {
                   error={props.errors.password}
                 />
               </Form.Field>
-              <Message error header="Gagal" content={formError} />
+              <Message size="tiny" error header="Gagal" content={formError} />
+              <Message
+                size="tiny"
+                warning
+                header="Perhatian"
+                content={
+                  "Saat ini KarsagiMarket hanya tersedia untuk area kota BANDUNG dan sekitarnya."
+                }
+              />
               <Button
                 primary
                 type="submit"
@@ -125,6 +153,6 @@ export default function About() {
           )}
         </Formik>
       </Segment>
-    </PageContainer>
+    </>
   );
 }

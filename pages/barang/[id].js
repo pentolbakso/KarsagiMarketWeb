@@ -13,9 +13,7 @@ import {
   Message,
   Label,
 } from "semantic-ui-react";
-import PageContainer from "../../components/PageContainer";
 import Link from "next/link";
-import Navbar from "../../components/Navbar";
 import { useRouter, Router } from "next/router";
 import { API_URL } from "../../services/api";
 import { getProduct } from "../../stores/userActions";
@@ -25,7 +23,6 @@ import {
   getCategoryName,
   whatsappUrl,
 } from "../../utils/format";
-import moment from "moment";
 import ModalBuy from "../../components/modals/modal.beli";
 
 const NA = styled.em`
@@ -35,6 +32,7 @@ const NA = styled.em`
 export default function DetailProduct() {
   const router = useRouter();
   const { id } = router.query;
+  const [error, setError] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [primaryPhoto, setPrimaryPhoto] = useState("");
@@ -48,6 +46,8 @@ export default function DetailProduct() {
       if (data.photos && data.photos.length > 0)
         setPrimaryPhoto(data.photos[0]);
     } catch (err) {
+      console.log(err);
+      setError(err);
     } finally {
       setLoading(false);
     }
@@ -72,9 +72,15 @@ export default function DetailProduct() {
   }, [id]);
 
   return (
-    <PageContainer>
-      <Navbar />
-      {/* {JSON.stringify(product)} */}
+    <>
+      {error && (
+        <Message error>
+          <Message.Header>
+            {(error.raw && error.raw.name) || "Error"}
+          </Message.Header>
+          {error.message}
+        </Message>
+      )}
       {product && (
         <Segment attached="top" style={{ backgroundColor: "#f5f5f5" }}>
           <Header as="h2">
@@ -237,7 +243,7 @@ export default function DetailProduct() {
           closeOnDimmerClick={false}
         />
       )}
-    </PageContainer>
+    </>
   );
 }
 

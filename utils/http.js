@@ -42,7 +42,7 @@ http.interceptors.response.use(
         const { data } = error.response;
         console.log("ERROR response:", data);
         let message = data.message || error.message;
-        return Promise.reject({ message });
+        return Promise.reject({ message, raw: data });
       }
     } else if (error.request) {
       // The request was made but no response was received

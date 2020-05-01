@@ -17,7 +17,6 @@ import {
 } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
 import Head from "next/head";
-import Navbar from "../../components/Navbar";
 import { useRouter } from "next/router";
 import { API_URL } from "../../services/api";
 import { getStore, getStoreProducts } from "../../stores/userActions";
@@ -28,7 +27,6 @@ import {
   whatsappUrl,
   callUrl,
 } from "../../utils/format";
-import moment from "moment";
 import { image200 } from "../../utils/images";
 import { useMediaQuery } from "react-responsive";
 
@@ -39,6 +37,7 @@ const NA = styled.em`
 export default function DetailToko() {
   const router = useRouter();
   const { id } = router.query;
+  const [error, setError] = useState(null);
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState(null);
   const [hasMore, setHasMore] = useState(true);
@@ -61,6 +60,7 @@ export default function DetailToko() {
       const data = await getStore(id);
       setStore(data);
     } catch (err) {
+      setError(err);
     } finally {
       setLoading(false);
     }
@@ -101,8 +101,15 @@ export default function DetailToko() {
   }, [id]);
 
   return (
-    <PageContainer>
-      <Navbar />
+    <>
+      {error && (
+        <Message error>
+          <Message.Header>
+            {(error.raw && error.raw.name) || "Error"}
+          </Message.Header>
+          {error.message}
+        </Message>
+      )}
       {store && (
         <Segment attached="top">
           <Header as="h2">
@@ -206,7 +213,7 @@ export default function DetailToko() {
           )}
         </Segment>
       )}
-    </PageContainer>
+    </>
   );
 }
 

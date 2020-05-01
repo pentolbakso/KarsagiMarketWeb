@@ -18,10 +18,17 @@ export const login = (email, password) => {
   });
 };
 // as seller
-export const register = (storeTitle, fullname, email, password) => {
+export const register = (
+  storeTitle,
+  fullname,
+  phonenumber,
+  email,
+  password
+) => {
   return http.post(`${API_URL}/register`, {
     storeTitle,
     fullname,
+    phonenumber,
     email,
     password,
   });

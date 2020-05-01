@@ -20,7 +20,6 @@ import {
 } from "semantic-ui-react";
 import Link from "next/link";
 import { useConnect } from "remx";
-import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import uuid from "react-uuid";

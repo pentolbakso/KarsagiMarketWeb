@@ -10,17 +10,14 @@ import {
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
-import PageContainer from "../../components/PageContainer";
-import Navbar from "../../components/Navbar";
 
 export default function Home() {
   return (
-    <PageContainer>
+    <>
       <Head>
         <title>Karsagi Market</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
       <Segment placeholder style={{ padding: "3em" }}>
         <Header as="h2" style={{ textAlign: "center" }}>
           Mulai Berjualan!
@@ -42,6 +39,6 @@ export default function Home() {
           <Button size="big">Login</Button>
         </Link>
       </Segment>
-    </PageContainer>
+    </>
   );
 }

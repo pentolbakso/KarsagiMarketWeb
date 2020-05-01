@@ -18,7 +18,6 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import { useConnect } from "remx";
-import moment from "moment";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
