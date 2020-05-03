@@ -68,18 +68,27 @@ export default function HomePage(props) {
     _browse();
   }, [category]);
 
-  // useEffect(() => {
-  //   userActions.browseProducts(category);
-  // }, []);
-
   return (
     <>
       <Head>
         <title>Karsagi Market</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Message info style={{ paddingTop: 0, paddingBottom: 0 }}>
-        <Grid>
+      <Message info style={{ paddingTop: 10, paddingBottom: 10 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            KarsagiMarket membuka peluang bagi ikhwan yg ingin membuka toko
+            online! Tidak dipungut biaya, Gratis!
+          </div>
+          <Button primary floated="right" style={{ width: 150 }}>
+            Buka Toko
+          </Button>
+        </div>
+        {/* <Grid>
           <Grid.Column width={10}>
             <p>
               KarsagiMarket membuka peluang bagi ikhwan yg ingin membuka toko
@@ -91,7 +100,7 @@ export default function HomePage(props) {
               <Button primary>Buka Toko</Button>
             </Link>
           </Grid.Column>
-        </Grid>
+        </Grid> */}
       </Message>
       <Segment.Group>
         <Segment>
@@ -107,7 +116,7 @@ export default function HomePage(props) {
           />
         </Segment>
         <Segment>
-          {products.length == 0 && (
+          {products.length == 0 && !loading && (
             <Segment placeholder basic>
               <Header icon color="grey">
                 <Icon name="search" />
@@ -118,7 +127,7 @@ export default function HomePage(props) {
           <Card.Group itemsPerRow={isMobile ? 2 : 4}>
             {products.map((p, idx) => (
               <Link key={idx} href={`/barang/${p._id}`}>
-                <Card>
+                <Card link>
                   <Image
                     wrapped
                     ui={false}

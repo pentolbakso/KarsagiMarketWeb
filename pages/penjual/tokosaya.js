@@ -71,8 +71,7 @@ export default function TokoSaya(props) {
   return (
     <>
       <Head>
-        <title>Karsagi Market</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Toko Saya | Karsagi Market</title>
       </Head>
       <Segment attached>
         {loadingShop && <p>Loading...</p>}
@@ -111,6 +110,14 @@ export default function TokoSaya(props) {
             </Button>
           </div>
         )}
+      </Segment>
+      <Segment attached>
+        <Link href="/pesankurir">
+          <Button size="big" color="orange">
+            <Icon name="bicycle" />
+            Pesan Kurir
+          </Button>
+        </Link>
       </Segment>
       {shop && (
         <>

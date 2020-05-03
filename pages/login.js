@@ -10,8 +10,8 @@ import {
   Container,
   Icon,
 } from "semantic-ui-react";
-import PageContainer from "../components/PageContainer";
 import Link from "next/link";
+import Head from "next/head";
 import Router from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -44,63 +44,69 @@ export default function About() {
   }
 
   return (
-    <Segment>
-      <Header as="h2">Login sebagai penjual</Header>
-      <Formik
-        initialValues={{
-          email: "",
-          password: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={submitForm}
-      >
-        {(props) => (
-          <Form size="large" error={formError != null}>
-            <Form.Field>
-              <Form.Input
-                label="Email"
-                name="email"
-                placeholder="Alamat email untuk Login"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.email}
-                error={props.errors.email}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Form.Input
-                label="Password"
-                name="password"
-                type="password"
-                placeholder="Password (minimal 6 karakter)"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.password}
-                error={props.errors.password}
-              />
-            </Form.Field>
-            <Message error header="Login Gagal" content={formError} />
-            <Button
-              primary
-              type="submit"
-              size="large"
-              onClick={props.handleSubmit}
-              loading={props.isSubmitting}
-            >
-              Masuk
+    <>
+      <Head>
+        <title>{"Login Penjual | Karsagi Market"}</title>
+      </Head>
+
+      <Segment>
+        <Header as="h2">Login sebagai penjual</Header>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={submitForm}
+        >
+          {(props) => (
+            <Form size="large" error={formError != null}>
+              <Form.Field>
+                <Form.Input
+                  label="Email"
+                  name="email"
+                  placeholder="Alamat email untuk Login"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.email}
+                  error={props.errors.email}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  label="Password"
+                  name="password"
+                  type="password"
+                  placeholder="Password (minimal 6 karakter)"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.password}
+                  error={props.errors.password}
+                />
+              </Form.Field>
+              <Message error header="Login Gagal" content={formError} />
+              <Button
+                primary
+                type="submit"
+                size="large"
+                onClick={props.handleSubmit}
+                loading={props.isSubmitting}
+              >
+                Masuk
+              </Button>
+            </Form>
+          )}
+        </Formik>
+        <Divider horizontal>Belum punya toko online?</Divider>
+        <Container textAlign="center">
+          <Link href="/daftar/penjual">
+            <Button size="large">
+              <Icon name="store" />
+              Buka Toko Online
             </Button>
-          </Form>
-        )}
-      </Formik>
-      <Divider horizontal>Belum punya toko online?</Divider>
-      <Container textAlign="center">
-        <Link href="/daftar/penjual">
-          <Button size="large">
-            <Icon name="store" />
-            Buka Toko Online
-          </Button>
-        </Link>
-      </Container>
-    </Segment>
+          </Link>
+        </Container>
+      </Segment>
+    </>
   );
 }

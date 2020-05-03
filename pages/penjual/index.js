@@ -15,8 +15,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Karsagi Market</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Buka Toko Online di Karsagi Market</title>
       </Head>
       <Segment placeholder style={{ padding: "3em" }}>
         <Header as="h2" style={{ textAlign: "center" }}>

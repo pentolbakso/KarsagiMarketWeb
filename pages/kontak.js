@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { Container, Header, Segment, Button, Icon } from "semantic-ui-react";
-import PageContainer from "../components/PageContainer";
 import Head from "next/head";
 import Link from "next/link";
 
 export default function Help() {
   return (
-    <PageContainer>
+    <>
+      <Head>
+        <title>{"Kontak Kami | Karsagi Market"}</title>
+      </Head>
       <Segment>
         <Header as="h2">Kontak Kami</Header>
         <p>Silahkan menghubungi tim kami jika:</p>
@@ -24,6 +26,6 @@ export default function Help() {
           Kirim Email
         </Button>
       </Segment>
-    </PageContainer>
+    </>
   );
 }

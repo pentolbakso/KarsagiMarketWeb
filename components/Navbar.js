@@ -32,43 +32,56 @@ const Navbar = (props) => {
   }, []);
 
   return (
-    <Menu>
-      <Menu.Item onClick={() => handleOpenPage("/")}>
-        <Header as="h3">Karsagi Market</Header>
-      </Menu.Item>
-      <Menu.Menu position="right">
-        {user && (
-          <Dropdown item icon="caret down" text={user.fullname}>
-            <Dropdown.Menu>
-              <Dropdown.Item
-                onClick={() => handleOpenPage("/penjual/tokosaya")}
-              >
-                <a>Toko Saya</a>
-              </Dropdown.Item>
-              {/* <Dropdown.Item
+    <>
+      <Link href="/">
+        <a>
+          <Header as="h3" color="green">
+            <Icon name="store" />
+            KarsagiMarket
+          </Header>
+        </a>
+      </Link>
+      <Menu>
+        <Menu.Item onClick={() => handleOpenPage("/pesankurir")}>
+          <Button color="teal" compact>
+            <Icon name="bicycle" />
+            Pesan Kurir!
+          </Button>
+        </Menu.Item>
+        <Menu.Menu position="right">
+          {user && (
+            <Dropdown item icon="caret down" text={user.fullname}>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() => handleOpenPage("/penjual/tokosaya")}
+                >
+                  <a>Toko Saya</a>
+                </Dropdown.Item>
+                {/* <Dropdown.Item
                 onClick={() => handleOpenPage("/penjual/edittoko")}
               >
                 <a>Edit Toko</a>
               </Dropdown.Item> */}
-              <Dropdown.Item
-                onClick={() => handleOpenPage("/penjual/editprofil")}
-              >
-                <a>Edit Profil</a>
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item onClick={handleLogout}>
-                <a>Logout</a>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        )}
-        {!user && (
-          <Link href="/login">
-            <Menu.Item name="login" />
-          </Link>
-        )}
-      </Menu.Menu>
-    </Menu>
+                <Dropdown.Item
+                  onClick={() => handleOpenPage("/penjual/editprofil")}
+                >
+                  <a>Edit Profil</a>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={handleLogout}>
+                  <a>Logout</a>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+          {!user && (
+            <Link href="/login">
+              <Menu.Item name="login" />
+            </Link>
+          )}
+        </Menu.Menu>
+      </Menu>
+    </>
   );
 };
 

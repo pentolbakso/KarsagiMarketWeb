@@ -6,7 +6,6 @@ import {
   Button,
   Accordion,
 } from "semantic-ui-react";
-import PageContainer from "../components/PageContainer";
 import Head from "next/head";
 
 const panels = [
@@ -52,32 +51,16 @@ const panels = [
 
 export default function Help() {
   return (
-    <PageContainer>
+    <>
+      <Head>
+        <title>{"Bantuan | Karsagi Market"}</title>
+      </Head>
+
       <Segment>
         <Header as="h2">Bantuan</Header>
-        <Header as="h4">Cara Kerja</Header>
-        <p>
-          Cara kerja transaksi di Karsagi Market (KM) cukup sederhana, dan masih
-          manual. Artinya, masih diperlukan interaksi langsung antara Penjual
-          dan Pembeli dalam akad. Interaksi bisa lewat WhatsApp, Telpon, dsb. KM
-          hanya menfasilitasi website untuk menampung produk/jasa yg antum
-          tawarkan.
-        </p>
-        <p>Secara garis besarnya, tahapan jual beli adalah sebagai berikut</p>
-        <ul>
-          <li>Pembeli mencari produk di Market</li>
-          <li>
-            Jika ada yg cocok, Pembeli bisa menghubungi Penjual (via WA, call)
-          </li>
-          <li>
-            Jika deal, silahkan lakukan pembayaran sesuai kesepakatan dgn
-            Penjual
-          </li>
-          <li>Barang diterima, uang diterima. Alhamdulillah.</li>
-        </ul>
         <Header as="h4">Pertanyaan yg sering ditanyakan</Header>
         <Accordion defaultActiveIndex={0} panels={panels} />
       </Segment>
-    </PageContainer>
+    </>
   );
 }

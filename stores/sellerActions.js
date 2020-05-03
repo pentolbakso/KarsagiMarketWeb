@@ -13,7 +13,6 @@ export async function updateStore(values) {
 export async function getStore() {
   const userId = authStore.getUserId();
   const response = await api.fetchStoreList(userId);
-  //console.log(response.data);
   // right now we only support 1 store per seller
   if (response.data.data.length > 0) {
     const store = response.data.data[0];
@@ -22,6 +21,8 @@ export async function getStore() {
     sellerStore.setShop(null);
     sellerStore.setProducts([]);
   }
+
+  return response.data;
 }
 
 export async function createProduct(values) {

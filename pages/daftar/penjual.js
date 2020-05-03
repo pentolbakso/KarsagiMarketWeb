@@ -54,6 +54,10 @@ export default function About() {
 
   return (
     <>
+      <Head>
+        <title>{"Form Pendaftaran Penjual Karsagi Market"}</title>
+      </Head>
+
       <Segment attached="top" tertiary>
         <Header as="h3">Buka Toko Online</Header>
       </Segment>

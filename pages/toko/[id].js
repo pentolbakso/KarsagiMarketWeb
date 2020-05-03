@@ -102,6 +102,9 @@ export default function DetailToko() {
 
   return (
     <>
+      <Head>
+        <title>{(store && store.title) || "Karsagi Market"}</title>
+      </Head>
       {error && (
         <Message error>
           <Message.Header>
@@ -118,7 +121,7 @@ export default function DetailToko() {
           </Header>
           <Message info>
             <Icon name="map" />
-            {store.address}
+            {store.address || <NA>Penjual belum memasukkan alamat</NA>}
           </Message>
           <Grid>
             <Grid.Row>
@@ -132,14 +135,16 @@ export default function DetailToko() {
                     icon="phone"
                     content={
                       <a href={callUrl(store.phonenumber)}>
-                        {store.phonenumber}
+                        {store.phonenumber || <NA>Belum ada nomor telpon</NA>}
                       </a>
                     }
                   />
                   <List.Item
                     icon="whatsapp"
                     content={
-                      <a href={whatsappUrl(store.wanumber)}>{store.wanumber}</a>
+                      <a href={whatsappUrl(store.wanumber)}>
+                        {store.wanumber || <NA>Belum ada nomor WA</NA>}
+                      </a>
                     }
                   />
                 </List>

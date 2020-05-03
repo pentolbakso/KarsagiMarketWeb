@@ -89,7 +89,7 @@ export default function EditToko(props) {
   return (
     <>
       <Head>
-        <title>Karsagi Market</title>
+        <title>Edit Toko Saya | Karsagi Market</title>
       </Head>
       {shop && (
         <Segment>

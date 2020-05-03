@@ -13,6 +13,7 @@ import {
   Message,
   Label,
 } from "semantic-ui-react";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter, Router } from "next/router";
 import { API_URL } from "../../services/api";
@@ -73,6 +74,9 @@ export default function DetailProduct() {
 
   return (
     <>
+      <Head>
+        <title>{(product && product.name) || "Karsagi Market"}</title>
+      </Head>
       {error && (
         <Message error>
           <Message.Header>
