@@ -17,7 +17,7 @@ import {
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useConnect } from "remx";
 import { productCategoriesWithAll } from "../config/arrays";
 import userStore from "../stores/userStore";
@@ -25,6 +25,7 @@ import * as userActions from "../stores/userActions";
 import { image200 } from "../utils/images";
 import { currencyFormat } from "../utils/format";
 import { useMediaQuery } from "react-responsive";
+import SearchBox from "../components/SearchBox";
 
 export default function HomePage(props) {
   const [category, setCategory] = useState("all");
@@ -32,11 +33,12 @@ export default function HomePage(props) {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
+  const router = useRouter();
 
-  function openProductDetail(e, product) {
-    e.preventDefault();
-    Router.push(`/barang/${product._id}`);
-  }
+  // function openProductDetail(e, product) {
+  //   e.preventDefault();
+  //   router.push(`/barang/${product._id}`);
+  // }
 
   function handleLoadMore() {
     _loadMore();
@@ -45,8 +47,9 @@ export default function HomePage(props) {
   async function _browse() {
     try {
       if (loading) return;
+      //console.log("loading product " + category + "?" + router.query.keyword);
       setLoading(true);
-      await userActions.browseProducts(category);
+      await userActions.browseProducts(category, router.query.keyword || "");
     } catch (err) {
     } finally {
       setLoading(false);
@@ -57,7 +60,7 @@ export default function HomePage(props) {
     if (loading || loadingMore || !hasMore) return; //loading in progress or no more data
     try {
       setLoadingMore(true);
-      await userActions.moreProducts(category);
+      await userActions.moreProducts(category, router.query.keyword || "");
     } catch (err) {
     } finally {
       setLoadingMore(false);
@@ -65,15 +68,16 @@ export default function HomePage(props) {
   }
 
   useEffect(() => {
+    //console.log("keyword", router.query.keyword);
     _browse();
-  }, [category]);
+  }, [category, router.query.keyword]);
 
   return (
     <>
       <Head>
         <title>Karsagi Market</title>
       </Head>
-      <Message info style={{ paddingTop: 10, paddingBottom: 10 }}>
+      <Message warning style={{ paddingTop: 10, paddingBottom: 10 }}>
         <div
           style={{
             display: "flex",
@@ -84,24 +88,12 @@ export default function HomePage(props) {
             KarsagiMarket membuka peluang bagi ikhwan yg ingin membuka toko
             online! Tidak dipungut biaya, Gratis!
           </div>
-          <Button primary floated="right" style={{ width: 150 }}>
+          <Button color="orange" floated="right" style={{ width: 150 }}>
             Buka Toko
           </Button>
         </div>
-        {/* <Grid>
-          <Grid.Column width={10}>
-            <p>
-              KarsagiMarket membuka peluang bagi ikhwan yg ingin membuka toko
-              online! Tidak dipungut biaya, Gratis!
-            </p>
-          </Grid.Column>
-          <Grid.Column width={6} verticalAlign="middle">
-            <Link href="/penjual">
-              <Button primary>Buka Toko</Button>
-            </Link>
-          </Grid.Column>
-        </Grid> */}
       </Message>
+      <SearchBox value={router.query.keyword || ""} />
       <Segment.Group>
         <Segment>
           <Form.Select

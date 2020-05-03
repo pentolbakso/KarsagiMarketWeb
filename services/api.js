@@ -66,9 +66,13 @@ export const uploadImage = (file) => {
 };
 
 // ------ Public ----------------
-export const fetchProducts = (category, skip) => {
+export const fetchProducts = (category, keyword, skip) => {
   return http.get(`${API_URL}/products`, {
-    params: { category, $skip: skip },
+    params: {
+      category,
+      $skip: skip,
+      "name[$search]": keyword.length > 0 ? keyword : null,
+    },
   });
 };
 export const fetchProduct = (id) => {

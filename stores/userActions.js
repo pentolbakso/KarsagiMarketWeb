@@ -1,8 +1,11 @@
 import * as api from "../services/api";
 import userStore from "./userStore";
 
-export async function browseProducts(category) {
-  const response = await api.fetchProducts(category == "all" ? null : category);
+export async function browseProducts(category, keyword) {
+  const response = await api.fetchProducts(
+    category == "all" ? null : category,
+    keyword
+  );
   userStore.setMoreProducts(true);
 
   const resp = response.data;
@@ -15,10 +18,11 @@ export async function browseProducts(category) {
   return response.data.data;
 }
 
-export async function moreProducts(category) {
+export async function moreProducts(category, keyword) {
   const skip = userStore.getProducts().length;
   const response = await api.fetchProducts(
     category == "all" ? null : category,
+    keyword,
     skip > 0 ? skip : null
   );
   const resp = response.data;

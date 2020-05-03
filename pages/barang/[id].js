@@ -25,6 +25,7 @@ import {
   whatsappUrl,
 } from "../../utils/format";
 import ModalBuy from "../../components/modals/modal.beli";
+import SearchBox from "../../components/SearchBox";
 
 const NA = styled.em`
   color: #aaa;
@@ -85,6 +86,7 @@ export default function DetailProduct() {
           {error.message}
         </Message>
       )}
+      <SearchBox />
       {product && (
         <Segment attached="top" style={{ backgroundColor: "#f5f5f5" }}>
           <Header as="h2">

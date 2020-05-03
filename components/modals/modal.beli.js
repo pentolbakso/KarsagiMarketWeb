@@ -83,7 +83,6 @@ const ItemToBuy = ({ item, options, onChange, onRemove }) => {
 export default function ModalBuy({ product, ...props }) {
   //const { shop, products } = connect(props);
   const formRef = useRef();
-  const inputRef = useRef(null);
   const [isSubmitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
   const [productList, setProductList] = useState([]);

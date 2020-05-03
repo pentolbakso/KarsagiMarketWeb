@@ -29,6 +29,7 @@ import {
 } from "../../utils/format";
 import { image200 } from "../../utils/images";
 import { useMediaQuery } from "react-responsive";
+import SearchBox from "../../components/SearchBox";
 
 const NA = styled.em`
   color: #aaa;
@@ -113,6 +114,7 @@ export default function DetailToko() {
           {error.message}
         </Message>
       )}
+      <SearchBox />
       {store && (
         <Segment attached="top">
           <Header as="h2">
