@@ -8,7 +8,7 @@ const Footer = (props) => {
   return (
     <div style={{ marginTop: "1em", marginBottom: "2em" }}>
       <List floated="right" horizontal>
-        <List.Item disabled>© Karsagi 2020.</List.Item>
+        {/* <List.Item disabled>© Karsagi 2020.</List.Item> */}
         <List.Item>
           <Link href="/kontak">
             <a>Kontak</a>

@@ -88,9 +88,11 @@ export default function HomePage(props) {
             KarsagiMarket membuka peluang bagi ikhwan yg ingin membuka toko
             online! Tidak dipungut biaya, Gratis!
           </div>
-          <Button color="orange" floated="right" style={{ width: 150 }}>
-            Buka Toko
-          </Button>
+          <Link href="/daftar/penjual">
+            <Button color="orange" floated="right" style={{ width: 150 }}>
+              Buka Toko
+            </Button>
+          </Link>
         </div>
       </Message>
       <SearchBox value={router.query.keyword || ""} />
