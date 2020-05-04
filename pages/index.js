@@ -30,7 +30,7 @@ import SearchBox from "../components/SearchBox";
 export default function HomePage(props) {
   const [category, setCategory] = useState("all");
   const { products, hasMore } = connect(props);
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  //const isMobile = useMediaQuery({ maxWidth: 767 });
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const router = useRouter();
@@ -118,7 +118,7 @@ export default function HomePage(props) {
               </Header>
             </Segment>
           )}
-          <Card.Group itemsPerRow={isMobile ? 2 : 4}>
+          <Card.Group itemsPerRow={2}>
             {products.map((p, idx) => (
               <Link key={idx} href={`/barang/${p._id}`}>
                 <Card link>

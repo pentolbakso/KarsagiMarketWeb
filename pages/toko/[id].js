@@ -45,7 +45,7 @@ export default function DetailToko() {
   const [loading, setLoading] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  //const isMobile = useMediaQuery({ maxWidth: 767 });
 
   function openProductDetail(product) {
     router.push(`/barang/${product._id}`);
@@ -175,7 +175,7 @@ export default function DetailToko() {
       {products && (
         <Segment attached>
           <Header as="h3">Semua Produk</Header>
-          <Card.Group itemsPerRow={isMobile ? 2 : 4}>
+          <Card.Group itemsPerRow={2}>
             {products.map((p) => (
               <Card link onClick={() => openProductDetail(p)}>
                 <Image
