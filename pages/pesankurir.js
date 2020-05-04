@@ -112,7 +112,7 @@ export default function PesanKurir({ props }) {
           initialValues={{
             description: "",
             pickupAddress: (shop && shop.address) || "",
-            senderName: user.fullname || "",
+            senderName: (user && user.fullname) || "",
             recvAddress: "",
             recvName: "",
             recvPhonenumber: "",

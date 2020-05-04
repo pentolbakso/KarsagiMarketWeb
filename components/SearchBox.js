@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Input, Icon, Segment, Message, Button } from "semantic-ui-react";
+import { Input, Icon, Segment, Message, Button, Form } from "semantic-ui-react";
 import Router from "next/router";
 
 const SearchBox = ({ value }) => {
@@ -24,12 +24,14 @@ const SearchBox = ({ value }) => {
 
   return (
     <Message info>
-      <Input fluid placeholder="misal: Ayam kampung" action>
-        <input ref={inputRef} defaultValue={value || ""} />
-        <Button type="submit" color="blue" onClick={handleSearch}>
-          Cari
-        </Button>
-      </Input>
+      <Form>
+        <Input fluid placeholder="misal: Ayam kampung" action>
+          <input ref={inputRef} defaultValue={value || ""} />
+          <Button type="submit" color="blue" onClick={handleSearch}>
+            Cari
+          </Button>
+        </Input>
+      </Form>
       {error && <p style={{ color: "#cc0000", fontSize: 14 }}>{error}</p>}
     </Message>
   );
