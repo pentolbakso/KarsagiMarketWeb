@@ -1,10 +1,14 @@
 import http from "../utils/http";
 
-//production
-// export const API_URL = 'https://jetwrider.azurewebsites.net';
+export const API_URL =
+  process.env.NODE_ENV == "production"
+    ? "https://api.karsagi.com"
+    : "http://192.168.1.101:8080";
 
-//staging
-export const API_URL = "http://192.168.1.101:8080";
+export const STATIC_URL =
+  process.env.NODE_ENV == "production"
+    ? "https://static.karsagi.com"
+    : "http://192.168.1.101:8080";
 
 // ------- Auth ------------------
 export const me = () => {
