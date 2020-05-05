@@ -88,18 +88,13 @@ export default function TokoSaya(props) {
                 <Icon name="phone" />{" "}
                 {shop.phonenumber || "Belum ada nomor telpon"}
               </Label>
-              <Label basic color="green">
-                <Icon name="whatsapp" /> {shop.wanumber || "Belum ada nomor WA"}
-              </Label>
+              {shop.phonenumberAkhwat && (
+                <Label basic color="pink">
+                  <Icon name="whatsapp" />{" "}
+                  {shop.phonenumberAkhwat || "Belum ada nomor WA"}
+                </Label>
+              )}
             </p>
-            {!shop.phonenumber && !shop.wanumber && (
-              <Message color="yellow">
-                <Message.Header>Perhatian</Message.Header>
-                Anda belum menambahkan nomor telpon / WA yg akan digunakan jika
-                Pembeli hendak melakukan transaksi. Silahkan tambah nomor
-                melalui tombol Edit Toko
-              </Message>
-            )}
             <Button
               info
               color="teal"

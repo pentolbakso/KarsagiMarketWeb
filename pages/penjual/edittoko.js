@@ -41,7 +41,7 @@ export default function EditToko(props) {
         "Nomor telpon harus valid! misal: 6281200001111"
       )
       .required("Nomor telpon harap di isi"),
-    wanumber: Yup.string().matches(
+    phonenumberAkhwat: Yup.string().matches(
       /^(^62){1}\d{8,13}$/gm,
       "Nomor telpon harus valid! misal: 6281200001111"
     ),
@@ -99,7 +99,7 @@ export default function EditToko(props) {
               title: shop.title,
               description: shop.description,
               phonenumber: shop.phonenumber,
-              wanumber: shop.wanumber,
+              phonenumberAkhwat: shop.phonenumberAkhwat,
               address: shop.address,
               instagram: shop.instagram,
               website: shop.website,
@@ -133,7 +133,7 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Nomor Telpon"
+                    label="Nomor Telpon/WA"
                     name="phonenumber"
                     placeholder="628xx"
                     onChange={props.handleChange}
@@ -144,13 +144,13 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Nomor WhatsApp (boleh sama dgn yg diatas)"
-                    name="wanumber"
+                    label="Nomor Telpon/WA khusus akhwat (jika ada)"
+                    name="phonenumberAkhwat"
                     placeholder="628xx"
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    value={props.values.wanumber}
-                    error={props.errors.wanumber}
+                    value={props.values.phonenumberAkhwat}
+                    error={props.errors.phonenumberAkhwat}
                   />
                 </Form.Field>
                 <Form.Field>

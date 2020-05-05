@@ -26,6 +26,7 @@ import {
 } from "../../utils/format";
 import ModalBuy from "../../components/modals/modal.beli";
 import SearchBox from "../../components/SearchBox";
+import ModalChooseNumber from "../../components/modals/modal.choosenumber";
 
 const NA = styled.em`
   color: #aaa;
@@ -39,6 +40,7 @@ export default function DetailProduct() {
   const [loading, setLoading] = useState(false);
   const [primaryPhoto, setPrimaryPhoto] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [chooseModalVisible, setChooseModalVisible] = useState(false);
 
   async function _getDetail() {
     try {
@@ -60,13 +62,20 @@ export default function DetailProduct() {
   }
 
   function handleChat() {
+    if (product.store.phonenumberAkhwat) {
+      setChooseModalVisible(true);
+      return;
+    }
+    sendChat(product.store.phonenumber);
+  }
+
+  function sendChat(number) {
     let message =
       "Assalamu'alaikum," +
       "\nAna mau bertanya ttg produk yg sedang dijual di KarsagiMarket: " +
       "\n" +
       product.name;
-    let WAnumber = product.store.wanumber || product.store.phonenumber;
-    window.open(whatsappUrl(WAnumber, message));
+    window.open(whatsappUrl(number, message));
   }
 
   useEffect(() => {
@@ -239,15 +248,27 @@ export default function DetailProduct() {
         )}
       </Segment>
       {product && (
-        <ModalBuy
-          open={modalVisible}
-          onClose={() => {
-            setModalVisible(false);
-          }}
-          size="small"
-          product={product}
-          closeOnDimmerClick={false}
-        />
+        <>
+          <ModalBuy
+            open={modalVisible}
+            onClose={() => {
+              setModalVisible(false);
+            }}
+            size="small"
+            product={product}
+            closeOnDimmerClick={false}
+          />
+          <ModalChooseNumber
+            open={chooseModalVisible}
+            onClose={() => setChooseModalVisible(false)}
+            onSelected={(phonenumber) => {
+              setChooseModalVisible(false);
+              sendChat(phonenumber);
+            }}
+            store={product.store}
+            size="tiny"
+          />
+        </>
       )}
     </>
   );

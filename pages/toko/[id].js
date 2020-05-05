@@ -134,21 +134,26 @@ export default function DetailToko() {
                     content={`Pemilik: ${store.user.fullname}`}
                   />
                   <List.Item
-                    icon="phone"
+                    icon="whatsapp"
                     content={
                       <a href={callUrl(store.phonenumber)}>
                         {store.phonenumber || <NA>Belum ada nomor telpon</NA>}
                       </a>
                     }
                   />
-                  <List.Item
-                    icon="whatsapp"
-                    content={
-                      <a href={whatsappUrl(store.wanumber)}>
-                        {store.wanumber || <NA>Belum ada nomor WA</NA>}
-                      </a>
-                    }
-                  />
+                  {store.phonenumberAkhwat && (
+                    <List.Item
+                      icon="whatsapp"
+                      content={
+                        <>
+                          <a href={whatsappUrl(store.phonenumberAkhwat)}>
+                            {store.phonenumberAkhwat}
+                          </a>{" "}
+                          (khusus akhwat)
+                        </>
+                      }
+                    />
+                  )}
                 </List>
               </Grid.Column>
               <Grid.Column width={8}>
