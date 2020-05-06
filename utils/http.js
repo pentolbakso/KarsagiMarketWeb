@@ -1,5 +1,7 @@
 import axios from "axios";
 import authStore from "../stores/authStore";
+import Router from "next/router";
+import { logout } from "../stores/authActions";
 
 const http = axios.create({
   timeout: 60000,
@@ -27,19 +29,28 @@ http.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
+      const { data } = error.response;
       // The request was made and the server responded with a status code
       if (error.response.status === 401) {
-        console.log(error.response);
-        if (error.response.data.name == "NotAuthenticated")
+        console.log("401", error.response);
+        if (
+          data.name == "NotAuthenticated" &&
+          data.data &&
+          data.data.name == "TokenExpiredError"
+        ) {
+          logout();
+          Router.push(
+            "/login?message=Sesi%20sudah%20kadaluwarsa%21%20Silahkan%20login%20ulang."
+          );
+          return Promise.reject({
+            message: "Sesi expired. Silahkan logout kemudian login ulang.",
+          });
+        } else {
           return Promise.reject({
             message: "Login gagal. Silahkan cek user/password anda.",
           });
-        else
-          return Promise.reject({
-            message: "Token expired. Please re-login",
-          });
+        }
       } else {
-        const { data } = error.response;
         console.log("ERROR response:", data);
         let message = data.message || error.message;
         return Promise.reject({ message, raw: data });

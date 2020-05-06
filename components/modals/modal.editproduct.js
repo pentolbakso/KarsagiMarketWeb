@@ -35,7 +35,6 @@ export default function ModalProduct({ product, ...props }) {
   const [isSubmitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
   const [readyStock, setReadyStock] = useState(true);
-  const [isPromo, setIsPromo] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
 
   const validationSchema = Yup.object().shape({
@@ -80,7 +79,6 @@ export default function ModalProduct({ product, ...props }) {
       );
 
       values.isReadyStock = readyStock;
-      values.isPromoPrice = isPromo;
       if (product._id) await sellerActions.updateProduct(product._id, values);
       else await sellerActions.createProduct(values);
       setSubmitting(false);
@@ -146,18 +144,8 @@ export default function ModalProduct({ product, ...props }) {
       setReadyStock(
         product.isReadyStock == undefined ? true : product.isReadyStock
       );
-      setIsPromo(!!product.isPromoPrice);
     }
   }, [props.open]);
-
-  // useEffect(() => {
-  //   setReadyStock(
-  //     product.isReadyStock == undefined ? true : product.isReadyStock
-  //   );
-  //   setIsPromo(!!product.isPromoPrice);
-  //   //setFormError(null);
-  //   //setPreviewImages([]);
-  // }, [product]);
 
   return (
     <Modal {...props}>
@@ -171,6 +159,7 @@ export default function ModalProduct({ product, ...props }) {
             description: product.description,
             category: product.category,
             price: product.price,
+            promoPrice: product.promoPrice,
             weight: product.weight,
             notes: product.notes,
           }}
@@ -236,10 +225,14 @@ export default function ModalProduct({ product, ...props }) {
                 />
               </Form.Field>
               <Form.Field>
-                <Form.Checkbox
-                  label="Harga diatas adalah harga PROMO (atau sedang discount)"
-                  checked={isPromo}
-                  onChange={() => setIsPromo(!isPromo)}
+                <Form.Input
+                  label="Harga Promo (Rp) *kosongkan jika tidak ada promo"
+                  name="promoPrice"
+                  placeholder=""
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.promoPrice}
+                  error={props.errors.promoPrice}
                 />
               </Form.Field>
               <Form.Field>

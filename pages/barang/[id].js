@@ -26,6 +26,8 @@ import {
 } from "../../utils/format";
 import ModalBuy from "../../components/modals/modal.beli";
 import SearchBox from "../../components/SearchBox";
+import ModalChooseNumber from "../../components/modals/modal.choosenumber";
+import { event } from "../../lib/gtag";
 
 const NA = styled.em`
   color: #aaa;
@@ -39,6 +41,7 @@ export default function DetailProduct() {
   const [loading, setLoading] = useState(false);
   const [primaryPhoto, setPrimaryPhoto] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [chooseModalVisible, setChooseModalVisible] = useState(false);
 
   async function _getDetail() {
     try {
@@ -56,17 +59,26 @@ export default function DetailProduct() {
   }
 
   function handleBuy() {
+    event("begin_checkout", "ecommerce");
     setModalVisible(true);
   }
 
   function handleChat() {
+    if (product.store.phonenumberAkhwat) {
+      setChooseModalVisible(true);
+      return;
+    }
+    sendChat(product.store.phonenumber);
+  }
+
+  function sendChat(number) {
     let message =
       "Assalamu'alaikum," +
       "\nAna mau bertanya ttg produk yg sedang dijual di KarsagiMarket: " +
       "\n" +
       product.name;
-    let WAnumber = product.store.wanumber || product.store.phonenumber;
-    window.open(whatsappUrl(WAnumber, message));
+    window.open(whatsappUrl(number, message));
+    event("chat", "ecommerce");
   }
 
   useEffect(() => {
@@ -140,7 +152,7 @@ export default function DetailProduct() {
                       Stok Kosong
                     </Label>
                   )}
-                  {product.isReadyStock && !!product.isPromoPrice && (
+                  {product.isReadyStock && !!product.promoPrice && (
                     <Label color="green" compact size="small" tag>
                       Harga Promo
                     </Label>
@@ -151,7 +163,18 @@ export default function DetailProduct() {
                         <Table.Cell>Harga</Table.Cell>
                         <Table.Cell>
                           <Header as="h2" color="orange">
-                            {currencyFormat(product.price)}
+                            {currencyFormat(
+                              product.promoPrice || product.price
+                            )}
+                            {!!product.promoPrice && (
+                              <Header.Subheader>
+                                <span
+                                  style={{ textDecoration: "line-through" }}
+                                >
+                                  {currencyFormat(product.price, false)}
+                                </span>
+                              </Header.Subheader>
+                            )}
                           </Header>
                         </Table.Cell>
                       </Table.Row>
@@ -239,15 +262,27 @@ export default function DetailProduct() {
         )}
       </Segment>
       {product && (
-        <ModalBuy
-          open={modalVisible}
-          onClose={() => {
-            setModalVisible(false);
-          }}
-          size="small"
-          product={product}
-          closeOnDimmerClick={false}
-        />
+        <>
+          <ModalBuy
+            open={modalVisible}
+            onClose={() => {
+              setModalVisible(false);
+            }}
+            size="small"
+            product={product}
+            closeOnDimmerClick={false}
+          />
+          <ModalChooseNumber
+            open={chooseModalVisible}
+            onClose={() => setChooseModalVisible(false)}
+            onSelected={(phonenumber) => {
+              setChooseModalVisible(false);
+              sendChat(phonenumber);
+            }}
+            store={product.store}
+            size="tiny"
+          />
+        </>
       )}
     </>
   );

@@ -26,6 +26,7 @@ import { image200 } from "../utils/images";
 import { currencyFormat } from "../utils/format";
 import { useMediaQuery } from "react-responsive";
 import SearchBox from "../components/SearchBox";
+import CardProduct from "../components/CardProduct";
 
 export default function HomePage(props) {
   const [category, setCategory] = useState("all");
@@ -121,36 +122,7 @@ export default function HomePage(props) {
           <Card.Group itemsPerRow={2}>
             {products.map((p, idx) => (
               <Link key={idx} href={`/barang/${p._id}`}>
-                <Card link>
-                  <Image
-                    wrapped
-                    ui={false}
-                    src={
-                      p.photos && p.photos.length > 0
-                        ? image200(p.photos[0].filename)
-                        : "http://placehold.jp/150x150.png"
-                    }
-                    label={
-                      !p.isReadyStock
-                        ? {
-                            color: "red",
-                            content: "Kosong",
-                            ribbon: "right",
-                          }
-                        : p.isPromoPrice
-                        ? {
-                            color: "green",
-                            content: "Promo",
-                            ribbon: "right",
-                          }
-                        : null
-                    }
-                  />
-                  <Card.Content>
-                    <Card.Header style={{ fontSize: 14 }}>{p.name}</Card.Header>
-                    <Card.Meta>{currencyFormat(p.price, false)}</Card.Meta>
-                  </Card.Content>
-                </Card>
+                <CardProduct product={p} />
               </Link>
             ))}
           </Card.Group>

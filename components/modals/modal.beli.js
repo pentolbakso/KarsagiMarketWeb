@@ -19,13 +19,14 @@ import {
   Dropdown,
 } from "semantic-ui-react";
 import Link from "next/link";
-import { useConnect } from "remx";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import uuid from "react-uuid";
 
 import * as userActions from "../../stores/userActions";
 import { currencyFormat, whatsappUrl } from "../../utils/format";
+import ModalChooseNumber from "./modal.choosenumber";
+import { event } from "../../lib/gtag";
 //import Router from "next/router";
 
 const ItemToBuy = ({ item, options, onChange, onRemove }) => {
@@ -81,7 +82,6 @@ const ItemToBuy = ({ item, options, onChange, onRemove }) => {
 };
 
 export default function ModalBuy({ product, ...props }) {
-  //const { shop, products } = connect(props);
   const formRef = useRef();
   const [isSubmitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
@@ -89,20 +89,30 @@ export default function ModalBuy({ product, ...props }) {
   const [productOptions, setProductOptions] = useState([]);
   const [buyingList, setBuyingList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [chooseModalVisible, setChooseModalVisible] = useState(false);
 
   const validationSchema = Yup.object().shape({
     fullname: Yup.string().required("Nama pembeli harap diisi"),
   });
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (buyingList.length == 0) {
       alert("Silahkan pilih minimal satu produk untuk dibeli");
       return;
     }
 
-    if (formRef.current) {
-      formRef.current.handleSubmit();
+    if (!formRef.current) return;
+
+    const errors = await formRef.current.validateForm();
+    if (Object.keys(errors).length === 0 && errors.constructor === Object) {
+      // validation success
+      if (product.store.phonenumberAkhwat) {
+        setChooseModalVisible(true);
+        return;
+      }
     }
+
+    formRef.current.submitForm();
   }
 
   function handleAddItem() {
@@ -123,7 +133,7 @@ export default function ModalBuy({ product, ...props }) {
   }
 
   function handleUpdateItem(item) {
-    console.log("onUpdate", item);
+    //console.log("onUpdate", item);
     const newList = buyingList.map((b) => {
       if (b.key == item.key) {
         // get price
@@ -140,7 +150,7 @@ export default function ModalBuy({ product, ...props }) {
   }
 
   useEffect(() => {
-    console.log(buyingList), [buyingList];
+    //console.log(buyingList), [buyingList];
     let total = 0;
     buyingList.forEach((b) => (total = total + Number(b.qty) * b.price));
     setTotalAmount(total);
@@ -172,8 +182,8 @@ export default function ModalBuy({ product, ...props }) {
         values.address;
       setSubmitting(false);
 
-      let WAnumber = product.store.wanumber || product.store.phonenumber;
-      window.open(whatsappUrl(WAnumber, message));
+      window.open(whatsappUrl(values.toNumber, message));
+      event("purchase", "ecommerce");
 
       props.onClose(); //close modal
     } catch (err) {
@@ -261,6 +271,7 @@ export default function ModalBuy({ product, ...props }) {
             fullname: "",
             address: "",
             notes: "",
+            toNumber: product.store.phonenumber,
           }}
           validationSchema={validationSchema}
           onSubmit={submitForm}
@@ -323,6 +334,17 @@ export default function ModalBuy({ product, ...props }) {
           loading={isSubmitting}
         />
       </Modal.Actions>
+      <ModalChooseNumber
+        open={chooseModalVisible}
+        onClose={() => setChooseModalVisible(false)}
+        onSelected={(phonenumber) => {
+          formRef.current.setFieldValue("toNumber", phonenumber);
+          formRef.current.submitForm();
+          setChooseModalVisible(false);
+        }}
+        store={product.store}
+        size="tiny"
+      />
     </Modal>
   );
 }

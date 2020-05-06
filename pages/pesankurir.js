@@ -19,6 +19,7 @@ import { whatsappUrl } from "../utils/format";
 import { useConnect } from "remx";
 import authStore from "../stores/authStore";
 import * as sellerActions from "../stores/sellerActions";
+import { event } from "../lib/gtag";
 
 export default function PesanKurir({ props }) {
   const { user } = connect(props);
@@ -67,6 +68,7 @@ export default function PesanKurir({ props }) {
 
       const KURIR_MANAGER_PHONENUMBER = "628561155222";
       window.open(whatsappUrl(KURIR_MANAGER_PHONENUMBER, message));
+      event("order_courier", "ecommerce");
 
       Router.push("/");
     } catch (err) {

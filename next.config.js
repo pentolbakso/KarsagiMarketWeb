@@ -8,7 +8,7 @@ const nextConfig = {
   target: "serverless",
   webpack(config) {
     config.module.rules.push({
-      test: /\.(png|svg|eot|otf|ttf|woff|woff2)$/,
+      test: /\.(png|svg|eot|otf|ttf|woff|woff2|ico|webmanifest)$/,
       use: {
         loader: "url-loader",
         options: {

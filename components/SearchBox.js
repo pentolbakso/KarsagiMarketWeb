@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Input, Icon, Segment, Message, Button, Form } from "semantic-ui-react";
 import Router from "next/router";
+import { event } from "../lib/gtag";
 
 const SearchBox = ({ value }) => {
   const inputRef = useRef(null);
@@ -15,6 +16,7 @@ const SearchBox = ({ value }) => {
       return;
     }
     setError(null);
+    event("search", "engagement", "search_term", keyword);
 
     Router.push({
       pathname: "/",
