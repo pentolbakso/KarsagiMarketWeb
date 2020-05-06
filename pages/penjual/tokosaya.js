@@ -158,11 +158,13 @@ export default function TokoSaya(props) {
                     <Item.Header>{p.name}</Item.Header>
                     <Item.Meta>
                       {p.price ? (
-                        <Label basic>{currencyFormat(p.price)}</Label>
+                        <Label basic>
+                          {currencyFormat(p.promoPrice || p.price)}
+                        </Label>
                       ) : (
                         "Belum ada harga"
                       )}
-                      {p.isPromoPrice ? (
+                      {!!p.promoPrice ? (
                         <Label basic color="green" size="small" compact>
                           Harga Promo
                         </Label>

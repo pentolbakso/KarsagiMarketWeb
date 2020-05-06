@@ -17,6 +17,7 @@ import {
 } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { API_URL } from "../../services/api";
 import { getStore, getStoreProducts } from "../../stores/userActions";
@@ -30,6 +31,7 @@ import {
 import { image200 } from "../../utils/images";
 import { useMediaQuery } from "react-responsive";
 import SearchBox from "../../components/SearchBox";
+import CardProduct from "../../components/CardProduct";
 
 const NA = styled.em`
   color: #aaa;
@@ -181,37 +183,10 @@ export default function DetailToko() {
         <Segment attached>
           <Header as="h3">Semua Produk</Header>
           <Card.Group itemsPerRow={2}>
-            {products.map((p) => (
-              <Card link onClick={() => openProductDetail(p)}>
-                <Image
-                  wrapped
-                  ui={false}
-                  src={
-                    p.photos && p.photos.length > 0
-                      ? image200(p.photos[0].filename)
-                      : "http://placehold.jp/150x150.png"
-                  }
-                  label={
-                    !p.isReadyStock
-                      ? {
-                          color: "red",
-                          content: "Kosong",
-                          ribbon: "right",
-                        }
-                      : p.isPromoPrice
-                      ? {
-                          color: "green",
-                          content: "Promo",
-                          ribbon: "right",
-                        }
-                      : null
-                  }
-                />
-                <Card.Content>
-                  <Card.Header style={{ fontSize: 14 }}>{p.name}</Card.Header>
-                  <Card.Meta>{currencyFormat(p.price, false)}</Card.Meta>
-                </Card.Content>
-              </Card>
+            {products.map((p, idx) => (
+              <Link key={idx} href={`/barang/${p._id}`}>
+                <CardProduct product={p} />
+              </Link>
             ))}
           </Card.Group>
           {hasMore && (

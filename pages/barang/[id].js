@@ -149,7 +149,7 @@ export default function DetailProduct() {
                       Stok Kosong
                     </Label>
                   )}
-                  {product.isReadyStock && !!product.isPromoPrice && (
+                  {product.isReadyStock && !!product.promoPrice && (
                     <Label color="green" compact size="small" tag>
                       Harga Promo
                     </Label>
@@ -160,7 +160,18 @@ export default function DetailProduct() {
                         <Table.Cell>Harga</Table.Cell>
                         <Table.Cell>
                           <Header as="h2" color="orange">
-                            {currencyFormat(product.price)}
+                            {currencyFormat(
+                              product.promoPrice || product.price
+                            )}
+                            {!!product.promoPrice && (
+                              <Header.Subheader>
+                                <span
+                                  style={{ textDecoration: "line-through" }}
+                                >
+                                  {currencyFormat(product.price, false)}
+                                </span>
+                              </Header.Subheader>
+                            )}
                           </Header>
                         </Table.Cell>
                       </Table.Row>
