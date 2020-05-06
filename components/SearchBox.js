@@ -25,7 +25,7 @@ const SearchBox = ({ value }) => {
   }
 
   return (
-    <Message info>
+    <>
       <Form>
         <Input fluid placeholder="misal: Ayam kampung" action>
           <input ref={inputRef} defaultValue={value || ""} />
@@ -35,7 +35,7 @@ const SearchBox = ({ value }) => {
         </Input>
       </Form>
       {error && <p style={{ color: "#cc0000", fontSize: 14 }}>{error}</p>}
-    </Message>
+    </>
   );
 };
 
