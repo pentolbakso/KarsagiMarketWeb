@@ -12,13 +12,14 @@ import {
 } from "semantic-ui-react";
 import Link from "next/link";
 import Head from "next/head";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { login } from "../stores/authActions";
 
 export default function About() {
   const [formError, setFormError] = useState(null);
+  const router = useRouter();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -51,6 +52,9 @@ export default function About() {
 
       <Segment>
         <Header as="h2">Login sebagai penjual</Header>
+        {router.query && router.query.message && (
+          <Message error>{router.query.message}</Message>
+        )}
         <Formik
           initialValues={{
             email: "",
