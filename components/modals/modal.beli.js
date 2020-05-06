@@ -26,6 +26,7 @@ import uuid from "react-uuid";
 import * as userActions from "../../stores/userActions";
 import { currencyFormat, whatsappUrl } from "../../utils/format";
 import ModalChooseNumber from "./modal.choosenumber";
+import { event } from "../../lib/gtag";
 //import Router from "next/router";
 
 const ItemToBuy = ({ item, options, onChange, onRemove }) => {
@@ -182,6 +183,7 @@ export default function ModalBuy({ product, ...props }) {
       setSubmitting(false);
 
       window.open(whatsappUrl(values.toNumber, message));
+      event("purchase", "ecommerce");
 
       props.onClose(); //close modal
     } catch (err) {

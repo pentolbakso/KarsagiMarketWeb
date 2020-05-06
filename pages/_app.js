@@ -5,24 +5,21 @@ import App from "next/app";
 
 import "../.semantic/dist/semantic.min.css";
 import "../static/css/nprogress.css";
-//import "dayjs/locale/id"; // set locale to indonesia
 import SiteLayout from "../components/SiteLayout";
+import * as gtag from "../lib/gtag";
 
 // show progress on route changes
 NProgress.configure({ showSpinner: false });
 Router.onRouteChangeStart = () => {
   NProgress.start();
 };
-Router.onRouteChangeComplete = () => {
+Router.onRouteChangeComplete = (url) => {
   NProgress.done();
+  gtag.pageview(url);
 };
 Router.onRouteChangeError = () => {
   NProgress.done();
 };
-
-// export default function App({ Component, pageProps }) {
-//   return <Component {...pageProps} />;
-// }
 
 class MyApp extends App {
   render() {

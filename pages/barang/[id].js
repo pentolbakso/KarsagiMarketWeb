@@ -27,6 +27,7 @@ import {
 import ModalBuy from "../../components/modals/modal.beli";
 import SearchBox from "../../components/SearchBox";
 import ModalChooseNumber from "../../components/modals/modal.choosenumber";
+import { event } from "../../lib/gtag";
 
 const NA = styled.em`
   color: #aaa;
@@ -58,6 +59,7 @@ export default function DetailProduct() {
   }
 
   function handleBuy() {
+    event("begin_checkout", "ecommerce");
     setModalVisible(true);
   }
 
@@ -76,6 +78,7 @@ export default function DetailProduct() {
       "\n" +
       product.name;
     window.open(whatsappUrl(number, message));
+    event("chat", "ecommerce");
   }
 
   useEffect(() => {
