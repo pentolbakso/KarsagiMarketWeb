@@ -97,6 +97,7 @@ export const fetchStoreProducts = (storeId, skip) => {
 export const fetchAllStoreProducts = (storeId) => {
   return http.get(`${API_URL}/products`, {
     params: {
+      store: storeId,
       $limit: 50,
     },
   });
