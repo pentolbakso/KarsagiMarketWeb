@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
 import {
   Container,
   Header,
@@ -33,9 +32,7 @@ import { useMediaQuery } from "react-responsive";
 import SearchBox from "../../components/SearchBox";
 import CardProduct from "../../components/CardProduct";
 
-const NA = styled.em`
-  color: #aaa;
-`;
+const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
 export default function DetailToko() {
   const router = useRouter();

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { List } from "semantic-ui-react";
 import Link from "next/link";
 import Router from "next/router";

@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { Container, Header, Segment, Button } from "semantic-ui-react";
 import Head from "next/head";
 

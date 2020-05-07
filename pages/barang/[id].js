@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
 import {
   Container,
   Header,
@@ -29,9 +28,7 @@ import SearchBox from "../../components/SearchBox";
 import ModalChooseNumber from "../../components/modals/modal.choosenumber";
 import { event } from "../../lib/gtag";
 
-const NA = styled.em`
-  color: #aaa;
-`;
+const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
 export default function DetailProduct() {
   const router = useRouter();
