@@ -194,7 +194,7 @@ export default function ModalBuy({ product, ...props }) {
 
   async function _getAllProducts() {
     try {
-      const data = await userActions.getAllStoreProducts();
+      const data = await userActions.getAllStoreProducts(product.store._id);
       setProductList(data);
       productsToOptions(data);
     } catch (err) {
