@@ -97,7 +97,15 @@ export default function PesanKurir({ props }) {
       <Head>
         <title>{"Form Pesan Kurir | Karsagi Market"}</title>
       </Head>
-      <Segment attached>
+      <Message info>
+        <Message.Header>Pesan Kurir di KarsagiMarket</Message.Header>
+        <Message.Content>
+          Fitur ini masih dalam pengembangan. Mohon sabar menunggu. Barakallahu
+          fiikum.
+        </Message.Content>
+      </Message>
+
+      {/* <Segment attached>
         <Message info>
           <Message.Header>Pesan Kurir di KarsagiMarket</Message.Header>
           <Message.List>
@@ -214,7 +222,7 @@ export default function PesanKurir({ props }) {
             </Form>
           )}
         </Formik>
-      </Segment>
+      </Segment> */}
     </>
   );
 }
