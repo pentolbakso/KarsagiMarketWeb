@@ -42,7 +42,7 @@ const Navbar = (props) => {
       </Link>
       <Menu>
         <Menu.Item onClick={() => handleOpenPage("/pesankurir")}>
-          <Button color="teal" compact>
+          <Button compact>
             <Icon name="bicycle" />
             Pesan Kurir!
           </Button>
