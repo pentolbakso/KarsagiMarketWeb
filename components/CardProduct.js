@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-//import styled from "styled-components";
 import { Card, Image } from "semantic-ui-react";
 import { currencyFormat } from "../utils/format";
 import { image200, image600 } from "../utils/images";

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import {
   Container,
   Header,
@@ -106,14 +105,14 @@ export default function TokoSaya(props) {
           </div>
         )}
       </Segment>
-      <Segment attached>
+      {/* <Segment attached>
         <Link href="/pesankurir">
           <Button size="big" color="orange">
             <Icon name="bicycle" />
             Pesan Kurir
           </Button>
         </Link>
-      </Segment>
+      </Segment> */}
       {shop && (
         <>
           {/* <Header as="h4" attached block>
