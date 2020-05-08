@@ -57,6 +57,12 @@ export default function TokoSaya(props) {
     setProductEdit(product);
   }
 
+  async function showConfirmDeleteModal(product) {
+    if (confirm("Yakin akan menghapus barang '" + product.name + "' ?")) {
+      await sellerActions.deleteProduct(product._id);
+    }
+  }
+
   useEffect(() => {
     getStore();
   }, []);
@@ -180,6 +186,10 @@ export default function TokoSaya(props) {
                       <a onClick={() => showProductModal(p)}>
                         <Icon name="pencil" />
                         Edit
+                      </a>{" "}
+                      <a onClick={() => showConfirmDeleteModal(p)}>
+                        <Icon color="red" name="close" />
+                        Hapus
                       </a>
                     </Item.Extra>
                   </Item.Content>

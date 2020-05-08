@@ -52,3 +52,9 @@ export async function uploadImage(file) {
   console.log(response.data);
   return response.data;
 }
+
+export async function deleteProduct(id) {
+  const response = await api.deleteProduct(id);
+  console.log(response.data);
+  await getProducts();
+}
