@@ -178,6 +178,14 @@ export default function DetailToko() {
       )}
       {products && (
         <Segment attached>
+          {store.status == "close" && (
+            <Message color="yellow">
+              <Message.Header>Tidak Menerima Order</Message.Header>
+              <Message.Content>
+                Penjual sedang meliburkan tokonya untuk sementara waktu.
+              </Message.Content>
+            </Message>
+          )}
           <Header as="h3">Semua Produk</Header>
           <Card.Group itemsPerRow={2}>
             {products.map((p, idx) => (

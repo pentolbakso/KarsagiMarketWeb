@@ -27,6 +27,7 @@ import ModalBuy from "../../components/modals/modal.beli";
 import SearchBox from "../../components/SearchBox";
 import ModalChooseNumber from "../../components/modals/modal.choosenumber";
 import { event } from "../../lib/gtag";
+import ModalShare from "../../components/modals/modal.share";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
@@ -39,6 +40,14 @@ export default function DetailProduct() {
   const [primaryPhoto, setPrimaryPhoto] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [chooseModalVisible, setChooseModalVisible] = useState(false);
+  const [shareModalVisible, setShareModalVisible] = useState(false);
+
+  function closeChooseModal() {
+    setChooseModalVisible(false);
+  }
+  function closeShareModal() {
+    setShareModalVisible(false);
+  }
 
   async function _getDetail() {
     try {
@@ -97,7 +106,7 @@ export default function DetailProduct() {
       )}
       <SearchBox />
       {product && (
-        <Segment attached="top" style={{ backgroundColor: "#f5f5f5" }}>
+        <Segment attached="top" style={{ backgroundColor: "#f7fff8" }}>
           <Header as="h2">
             {product.name}
             <Header.Subheader>
@@ -154,7 +163,7 @@ export default function DetailProduct() {
                       Harga Promo
                     </Label>
                   )}
-                  <Table compact basic="very" celled collapsing unstackable>
+                  <Table compact basic="very" celled unstackable>
                     <Table.Body>
                       <Table.Row>
                         <Table.Cell>Harga</Table.Cell>
@@ -199,27 +208,61 @@ export default function DetailProduct() {
                       </Table.Row>
                     </Table.Body>
                   </Table>
-                  <Button color="green" size="big" onClick={handleBuy}>
-                    <Icon name="whatsapp" />
-                    BELI
-                  </Button>
-                  <p style={{ marginTop: "0.5em" }}>
-                    <Button size="small" onClick={handleChat}>
-                      <Icon name="whatsapp" />
-                      Chat Dulu
-                    </Button>{" "}
-                    {product.store && (
+                  {product.store.status == "close" ? (
+                    <Message color="yellow">
+                      <Message.Header>Tidak Menerima Order</Message.Header>
+                      <Message.Content>
+                        Penjual sedang meliburkan tokonya untuk sementara waktu.
+                      </Message.Content>
+                    </Message>
+                  ) : (
+                    <>
                       <Button
-                        size="small"
-                        onClick={() =>
-                          router.push(`/toko/${product.store._id}`)
-                        }
+                        fluid
+                        color="green"
+                        size="big"
+                        onClick={handleBuy}
                       >
-                        <Icon name="store" />
-                        Cek Toko
+                        <Icon name="whatsapp" />
+                        BELI
                       </Button>
-                    )}
-                  </p>
+                      <div style={{ marginTop: "0.5em" }}>
+                        {product.store && (
+                          <>
+                            <Button.Group widths="2" size="small">
+                              <Button basic color="red" onClick={handleChat}>
+                                <Icon name="whatsapp" />
+                                Chat Dulu
+                              </Button>
+                              <Button
+                                basic
+                                color="teal"
+                                size="small"
+                                onClick={() =>
+                                  router.push(`/toko/${product.store._id}`)
+                                }
+                              >
+                                <Icon name="store" />
+                                Cek Toko
+                              </Button>
+                            </Button.Group>
+                          </>
+                        )}
+                      </div>
+                      <div style={{ marginTop: "0.5em" }}>
+                        <Button
+                          basic
+                          size="small"
+                          onClick={() => {
+                            setShareModalVisible(true);
+                          }}
+                        >
+                          <Icon name="share alternate" />
+                          Share
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </Grid.Column>
@@ -240,19 +283,20 @@ export default function DetailProduct() {
           </Grid.Row>
         </Grid>
       </Segment>
-      <Segment attached="bottom">
+      <Segment attached="bottom" style={{ backgroundColor: "#fbfbfb" }}>
         {product && product.store && (
           <>
-            <Header as="h4">
+            <Header as="h3" dividing>
               {product.store.title}
               <Header.Subheader>{product.store.description}</Header.Subheader>
             </Header>
             <p>
               <Icon name="user" /> Pemilik Toko: {product.store.user.fullname}
-            </p>
-            <p>
+              {" - "}
               <Link href={`/toko/${product.store._id}`}>
-                Cek produk lainnya dari toko
+                <a>
+                  <Icon name="store" /> Cek jualan lainnya
+                </a>
               </Link>
             </p>
           </>
@@ -271,7 +315,9 @@ export default function DetailProduct() {
           />
           <ModalChooseNumber
             open={chooseModalVisible}
-            onClose={() => setChooseModalVisible(false)}
+            onClose={() => {
+              setChooseModalVisible(false);
+            }}
             onSelected={(phonenumber) => {
               setChooseModalVisible(false);
               sendChat(phonenumber);
@@ -281,6 +327,13 @@ export default function DetailProduct() {
           />
         </>
       )}
+      <ModalShare
+        open={shareModalVisible}
+        onClose={() => {
+          setShareModalVisible(false);
+        }}
+        size="tiny"
+      />
     </>
   );
 }

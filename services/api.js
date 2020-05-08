@@ -60,6 +60,9 @@ export const createProduct = (storeId, values) => {
 export const updateProduct = (productId, values) => {
   return http.patch(`${API_URL}/products/${productId}`, values);
 };
+export const deleteProduct = (productId) => {
+  return http.delete(`${API_URL}/products/${productId}`);
+};
 
 // ------- Etc ------------------
 export const uploadImage = (file) => {

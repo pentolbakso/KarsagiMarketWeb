@@ -25,6 +25,20 @@ export async function getStore() {
   return response.data;
 }
 
+export async function closeStore() {
+  const storeId = sellerStore.getShop()._id;
+  const response = await api.updateStore(storeId, { status: "close" });
+  console.log(response.data);
+  sellerStore.setShop(response.data);
+}
+
+export async function reopenStore() {
+  const storeId = sellerStore.getShop()._id;
+  const response = await api.updateStore(storeId, { status: "open" });
+  console.log(response.data);
+  sellerStore.setShop(response.data);
+}
+
 export async function createProduct(values) {
   const shop = sellerStore.getShop();
   const response = await api.createProduct(shop._id, values);
@@ -51,4 +65,10 @@ export async function uploadImage(file) {
   const response = await api.uploadImage(file);
   console.log(response.data);
   return response.data;
+}
+
+export async function deleteProduct(id) {
+  const response = await api.deleteProduct(id);
+  console.log(response.data);
+  await getProducts();
 }
