@@ -1,12 +1,7 @@
 import React from "react";
 import { Modal, Icon, Button, Message } from "semantic-ui-react";
 
-export default function ModalChooseNumber({
-  store,
-  onSelected,
-  onClose,
-  ...props
-}) {
+export default function ModalChooseNumber({ store, onSelected, ...props }) {
   function handleSelect(number) {
     if (onSelected) {
       onSelected(number);
@@ -14,8 +9,8 @@ export default function ModalChooseNumber({
   }
 
   return (
-    <Modal {...props}>
-      <Modal.Header>Pilih Nomor</Modal.Header>
+    <Modal {...props} closeIcon>
+      <Modal.Header>Chat Dulu</Modal.Header>
       <Modal.Content>
         <Button
           fluid
@@ -23,7 +18,7 @@ export default function ModalChooseNumber({
           onClick={() => handleSelect(store.phonenumber)}
         >
           <Icon name="whatsapp" />
-          Khusus ikhwan
+          Nomor khusus ikhwan
         </Button>
         <br />
         <Button
@@ -32,12 +27,12 @@ export default function ModalChooseNumber({
           onClick={() => handleSelect(store.phonenumberAkhwat)}
         >
           <Icon name="whatsapp" />
-          Khusus akhwat
+          Nomor khusus akhwat
         </Button>
       </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={onClose}>Batal</Button>
-      </Modal.Actions>
+      {/* <Modal.Actions>
+        <Button onClick={props.onClose}>Batal</Button>
+      </Modal.Actions> */}
     </Modal>
   );
 }
