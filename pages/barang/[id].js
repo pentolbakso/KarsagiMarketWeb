@@ -208,45 +208,61 @@ export default function DetailProduct() {
                       </Table.Row>
                     </Table.Body>
                   </Table>
-                  <Button fluid color="green" size="big" onClick={handleBuy}>
-                    <Icon name="whatsapp" />
-                    BELI
-                  </Button>
-                  <div style={{ marginTop: "0.5em" }}>
-                    {product.store && (
-                      <>
-                        <Button.Group widths="2" size="small">
-                          <Button basic color="red" onClick={handleChat}>
-                            <Icon name="whatsapp" />
-                            Chat Dulu
-                          </Button>
-                          <Button
-                            basic
-                            color="teal"
-                            size="small"
-                            onClick={() =>
-                              router.push(`/toko/${product.store._id}`)
-                            }
-                          >
-                            <Icon name="store" />
-                            Cek Toko
-                          </Button>
-                        </Button.Group>
-                      </>
-                    )}
-                  </div>
-                  <div style={{ marginTop: "0.5em" }}>
-                    <Button
-                      basic
-                      size="small"
-                      onClick={() => {
-                        setShareModalVisible(true);
-                      }}
-                    >
-                      <Icon name="share alternate" />
-                      Share
-                    </Button>
-                  </div>
+                  {product.store.status == "close" ? (
+                    <Message color="yellow">
+                      <Message.Header>Tidak Menerima Order</Message.Header>
+                      <Message.Content>
+                        Penjual sedang meliburkan tokonya untuk sementara waktu.
+                      </Message.Content>
+                    </Message>
+                  ) : (
+                    <>
+                      <Button
+                        fluid
+                        color="green"
+                        size="big"
+                        onClick={handleBuy}
+                      >
+                        <Icon name="whatsapp" />
+                        BELI
+                      </Button>
+                      <div style={{ marginTop: "0.5em" }}>
+                        {product.store && (
+                          <>
+                            <Button.Group widths="2" size="small">
+                              <Button basic color="red" onClick={handleChat}>
+                                <Icon name="whatsapp" />
+                                Chat Dulu
+                              </Button>
+                              <Button
+                                basic
+                                color="teal"
+                                size="small"
+                                onClick={() =>
+                                  router.push(`/toko/${product.store._id}`)
+                                }
+                              >
+                                <Icon name="store" />
+                                Cek Toko
+                              </Button>
+                            </Button.Group>
+                          </>
+                        )}
+                      </div>
+                      <div style={{ marginTop: "0.5em" }}>
+                        <Button
+                          basic
+                          size="small"
+                          onClick={() => {
+                            setShareModalVisible(true);
+                          }}
+                        >
+                          <Icon name="share alternate" />
+                          Share
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </Grid.Column>

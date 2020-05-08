@@ -63,6 +63,20 @@ export default function TokoSaya(props) {
     }
   }
 
+  async function handleCloseShop() {
+    if (
+      confirm(
+        "Yakin akan meliburkan toko sementara ? Barang-barang anda tetap ditampilkan, namun pembeli tidak bisa melakukan order melalui chat/WA"
+      )
+    ) {
+      await sellerActions.closeStore();
+    }
+  }
+
+  async function handleReopenShop() {
+    await sellerActions.reopenStore();
+  }
+
   useEffect(() => {
     getStore();
   }, []);
@@ -83,6 +97,16 @@ export default function TokoSaya(props) {
         {!loadingShop && !shop && <Button primary>Buat Toko</Button>}
         {shop && (
           <div>
+            {shop.status == "close" && (
+              <Message color="yellow">
+                <Message.Header>Toko Sedang Libur</Message.Header>
+                <Message.Content>
+                  Anda sedang meliburkan toko ini. Untuk membuka kembali toko
+                  dan agar bisa menerima orderan, silahkan klik tombol "Buka
+                  Toko".
+                </Message.Content>
+              </Message>
+            )}
             <h2>{shop.title}</h2>
             <p>
               Sejak {dayjs(shop.createdAt).format("MMM YYYY")} -{" "}
@@ -101,13 +125,28 @@ export default function TokoSaya(props) {
               )}
             </p>
             <Button
-              info
-              color="teal"
+              //color="teal"
+              basic
               onClick={() => Router.push("/penjual/edittoko")}
             >
-              Edit Toko
+              <span style={{ textDecoration: "underline", color: "#2185D1" }}>
+                Edit Toko
+              </span>
               <Icon name="pencil right" />
             </Button>
+            {shop.status != "close" ? (
+              <Button basic onClick={handleCloseShop}>
+                <span style={{ textDecoration: "underline", color: "#2185D1" }}>
+                  Liburkan Toko
+                </span>
+                <Icon name="close right" />
+              </Button>
+            ) : (
+              <Button color="green" onClick={handleReopenShop}>
+                <span style={{ textDecoration: "underline" }}>Buka Toko</span>
+                <Icon name="play right" />
+              </Button>
+            )}
           </div>
         )}
       </Segment>
