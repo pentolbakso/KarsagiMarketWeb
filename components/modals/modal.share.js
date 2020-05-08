@@ -13,6 +13,7 @@ export default function ModalShare({ message, ...props }) {
       currentUrl()
     )}`;
     if (window) window.open(shareUrl);
+    props.onClose();
   }
 
   function handleFacebook() {
@@ -20,6 +21,7 @@ export default function ModalShare({ message, ...props }) {
       currentUrl()
     )}`;
     if (window) window.open(shareUrl);
+    props.onClose();
   }
 
   function handleCopyLink() {
