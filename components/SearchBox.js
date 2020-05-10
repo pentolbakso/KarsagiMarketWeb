@@ -27,7 +27,7 @@ const SearchBox = ({ value }) => {
   return (
     <>
       <Form>
-        <Input fluid placeholder="misal: Ayam kampung" action>
+        <Input size="large" fluid placeholder="misal: Ayam kampung" action>
           <input ref={inputRef} defaultValue={value || ""} />
           <Button type="submit" color="blue" onClick={handleSearch}>
             Cari

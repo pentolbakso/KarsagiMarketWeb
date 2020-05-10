@@ -13,6 +13,7 @@ import {
   Label,
   Card,
   Visibility,
+  Placeholder,
 } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
 import Head from "next/head";
@@ -34,12 +35,106 @@ import CardProduct from "../../components/CardProduct";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
+const DummyLine = () => (
+  <Placeholder fluid>
+    <Placeholder.Line />
+  </Placeholder>
+);
+
+const StoreInfo = ({ store }) => (
+  <Segment attached="top">
+    {store ? (
+      <>
+        <Header as="h2">
+          {store.title}
+          <Header.Subheader>{store.description}</Header.Subheader>
+        </Header>
+        <Message info>
+          <Icon name="map" />
+          {store.address || <NA>Penjual belum memasukkan alamat</NA>}
+        </Message>
+      </>
+    ) : (
+      <Placeholder>
+        <Placeholder.Header />
+        <Placeholder.Line />
+        <Placeholder.Line />
+      </Placeholder>
+    )}
+    <Grid>
+      <Grid.Row>
+        <Grid.Column width={8}>
+          <List>
+            <List.Item
+              icon="user"
+              content={
+                store ? `Pemilik: ${store.user.fullname}` : <DummyLine />
+              }
+            />
+            <List.Item
+              icon="whatsapp"
+              content={
+                store ? (
+                  <>
+                    <a href={whatsappUrl(store.phonenumber)}>
+                      {store.phonenumber}
+                    </a>{" "}
+                    (khusus akhwat)
+                  </>
+                ) : (
+                  <DummyLine />
+                )
+              }
+            />
+            {store && store.phonenumberAkhwat && (
+              <List.Item
+                icon="whatsapp"
+                content={
+                  <>
+                    <a href={whatsappUrl(store.phonenumberAkhwat)}>
+                      {store.phonenumberAkhwat}
+                    </a>{" "}
+                    (khusus akhwat)
+                  </>
+                }
+              />
+            )}
+          </List>
+        </Grid.Column>
+        <Grid.Column width={8}>
+          <List>
+            {store && store.instagram && (
+              <List.Item
+                icon="instagram"
+                content={
+                  <a href={instagramUrl(store.instagram)}>{store.instagram}</a>
+                }
+              />
+            )}
+            {store && store.website && (
+              <List.Item
+                icon="globe"
+                content={store.website}
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              />
+            )}
+          </List>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  </Segment>
+);
+
 export default function DetailToko() {
   const router = useRouter();
   const { id } = router.query;
   const [error, setError] = useState(null);
   const [store, setStore] = useState(null);
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(false);
@@ -114,87 +209,20 @@ export default function DetailToko() {
         </Message>
       )}
       <SearchBox />
-      {store && (
-        <Segment attached="top">
-          <Header as="h2">
-            {store.title}
-            <Header.Subheader>{store.description}</Header.Subheader>
-          </Header>
-          <Message info>
-            <Icon name="map" />
-            {store.address || <NA>Penjual belum memasukkan alamat</NA>}
+      <StoreInfo store={store} />
+      {store && store.status == "close" && (
+        <Segment attached>
+          <Message color="yellow">
+            <Message.Header>Tidak Menerima Order</Message.Header>
+            <Message.Content>
+              Penjual sedang meliburkan tokonya untuk sementara waktu.
+            </Message.Content>
           </Message>
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={8}>
-                <List>
-                  <List.Item
-                    icon="user"
-                    content={`Pemilik: ${store.user.fullname}`}
-                  />
-                  <List.Item
-                    icon="whatsapp"
-                    content={
-                      <a href={callUrl(store.phonenumber)}>
-                        {store.phonenumber || <NA>Belum ada nomor telpon</NA>}
-                      </a>
-                    }
-                  />
-                  {store.phonenumberAkhwat && (
-                    <List.Item
-                      icon="whatsapp"
-                      content={
-                        <>
-                          <a href={whatsappUrl(store.phonenumberAkhwat)}>
-                            {store.phonenumberAkhwat}
-                          </a>{" "}
-                          (khusus akhwat)
-                        </>
-                      }
-                    />
-                  )}
-                </List>
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <List>
-                  {store.instagram && (
-                    <List.Item
-                      icon="instagram"
-                      content={
-                        <a href={instagramUrl(store.instagram)}>
-                          {store.instagram}
-                        </a>
-                      }
-                    />
-                  )}
-                  {store.website && (
-                    <List.Item
-                      icon="globe"
-                      content={store.website}
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    />
-                  )}
-                </List>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
         </Segment>
       )}
-      {products && (
-        <Segment attached>
-          {store && store.status == "close" && (
-            <Message color="yellow">
-              <Message.Header>Tidak Menerima Order</Message.Header>
-              <Message.Content>
-                Penjual sedang meliburkan tokonya untuk sementara waktu.
-              </Message.Content>
-            </Message>
-          )}
-          <Header as="h3">Semua Produk</Header>
+      <Segment attached>
+        <Header as="h3">Semua Produk</Header>
+        {!loadingProduct ? (
           <Card.Group itemsPerRow={2}>
             {products.map((p, idx) => (
               <Link key={idx} href={`/barang/${p._id}`}>
@@ -202,17 +230,22 @@ export default function DetailToko() {
               </Link>
             ))}
           </Card.Group>
-          {hasMore && (
-            <Visibility
-              offset={[10, 10]}
-              onOnScreen={handleLoadMore}
-              continuous={true}
-            >
-              <Icon name="caret down" />
-            </Visibility>
-          )}
-        </Segment>
-      )}
+        ) : (
+          <Card.Group itemsPerRow={2}>
+            <CardProduct placeholder />
+            <CardProduct placeholder />
+          </Card.Group>
+        )}
+        {hasMore && (
+          <Visibility
+            offset={[10, 10]}
+            onOnScreen={handleLoadMore}
+            continuous={true}
+          >
+            <Icon name="caret down" />
+          </Visibility>
+        )}
+      </Segment>
     </>
   );
 }

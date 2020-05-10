@@ -13,6 +13,7 @@ import {
   Image,
   Label,
   Visibility,
+  CardGroup,
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
@@ -104,28 +105,33 @@ export default function HomePage(props) {
             options={productCategoriesWithAll}
             value={category}
             onChange={(e, data) => {
-              //props.setFieldValue("category", data.value);
               setCategory(data.value);
             }}
           />
         </Segment>
         <Segment>
-          {products.length == 0 && !loading && (
+          {loading ? (
+            <CardGroup itemsPerRow={2}>
+              <CardProduct placeholder />
+              <CardProduct placeholder />
+            </CardGroup>
+          ) : products.length == 0 ? (
             <Segment placeholder basic>
               <Header icon color="grey">
                 <Icon name="search" />
                 Produk tidak ditemukan
               </Header>
             </Segment>
+          ) : (
+            <Card.Group itemsPerRow={2}>
+              {products.map((p, idx) => (
+                <Link key={idx} href={`/barang/${p._id}`}>
+                  <CardProduct product={p} />
+                </Link>
+              ))}
+            </Card.Group>
           )}
-          <Card.Group itemsPerRow={2}>
-            {products.map((p, idx) => (
-              <Link key={idx} href={`/barang/${p._id}`}>
-                <CardProduct product={p} />
-              </Link>
-            ))}
-          </Card.Group>
-          {hasMore && (
+          {hasMore && !loading && (
             <Visibility
               offset={[10, 10]}
               onOnScreen={handleLoadMore}

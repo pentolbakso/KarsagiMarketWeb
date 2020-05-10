@@ -37,3 +37,12 @@ export function whatsappUrl(number, text) {
     text ? encodeURIComponent(text) : ""
   }`;
 }
+
+export function seoTitle(title) {
+  if (title.length < 46) return `Jual ${title} | Karsagi Market`;
+  else return `Jual ${title}`;
+}
+
+export function seoDescription(desc) {
+  return desc.substr(0, 150);
+}

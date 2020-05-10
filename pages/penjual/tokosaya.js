@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container,
+  Placeholder,
   Header,
   Segment,
   Button,
@@ -24,6 +24,61 @@ import { currencyFormat } from "../../utils/format";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
+
+const MyProduct = ({ product: p, onEdit, onDelete, placeholder }) => {
+  if (placeholder)
+    return (
+      <Placeholder>
+        <Placeholder.Header image>
+          <Placeholder.Line />
+          <Placeholder.Line />
+        </Placeholder.Header>
+      </Placeholder>
+    );
+
+  return (
+    <Item>
+      <Item.Image
+        size="tiny"
+        src={
+          p.photos && p.photos.length > 0 ? image200(p.photos[0].filename) : ""
+        }
+      />
+      <Item.Content>
+        <Item.Header>{p.name}</Item.Header>
+        <Item.Meta>
+          {p.price ? (
+            <Label basic>{currencyFormat(p.promoPrice || p.price)}</Label>
+          ) : (
+            "Belum ada harga"
+          )}
+          {!!p.promoPrice ? (
+            <Label basic color="green" size="small" compact>
+              Harga Promo
+            </Label>
+          ) : null}
+          {!p.isReadyStock ? (
+            <Label basic color="red" size="small" compact>
+              Stok Habis
+            </Label>
+          ) : null}{" "}
+          update: {dayjs(p.updatedAt).fromNow()}
+        </Item.Meta>
+        {/* <Item.Description>{p.description}</Item.Description> */}
+        <Item.Extra>
+          <a onClick={onEdit}>
+            <Icon name="pencil" />
+            Edit
+          </a>{" "}
+          <a onClick={onDelete}>
+            <Icon color="red" name="close" />
+            Hapus
+          </a>
+        </Item.Extra>
+      </Item.Content>
+    </Item>
+  );
+};
 
 export default function TokoSaya(props) {
   const { shop, products } = connect(props);
@@ -93,7 +148,16 @@ export default function TokoSaya(props) {
         <title>Toko Saya | Karsagi Market</title>
       </Head>
       <Segment attached>
-        {loadingShop && <p>Loading...</p>}
+        {loadingShop && (
+          <Placeholder>
+            <Placeholder.Paragraph>
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Paragraph>
+          </Placeholder>
+        )}
         {!loadingShop && !shop && <Button primary>Buat Toko</Button>}
         {shop && (
           <div>
@@ -188,52 +252,21 @@ export default function TokoSaya(props) {
                   </Header>
                 </Segment>
               )}
-              {products.map((p) => (
-                <Item key={p._id}>
-                  <Item.Image
-                    size="tiny"
-                    src={
-                      p.photos && p.photos.length > 0
-                        ? image200(p.photos[0].filename)
-                        : ""
-                    }
+              {loadingProducts ? (
+                <>
+                  <MyProduct placeholder />
+                  <MyProduct placeholder />
+                </>
+              ) : (
+                products.map((p) => (
+                  <MyProduct
+                    product={p}
+                    key={p._id}
+                    onEdit={() => showProductModal(p)}
+                    onDelete={() => showConfirmDeleteModal(p)}
                   />
-                  <Item.Content>
-                    <Item.Header>{p.name}</Item.Header>
-                    <Item.Meta>
-                      {p.price ? (
-                        <Label basic>
-                          {currencyFormat(p.promoPrice || p.price)}
-                        </Label>
-                      ) : (
-                        "Belum ada harga"
-                      )}
-                      {!!p.promoPrice ? (
-                        <Label basic color="green" size="small" compact>
-                          Harga Promo
-                        </Label>
-                      ) : null}
-                      {!p.isReadyStock ? (
-                        <Label basic color="red" size="small" compact>
-                          Stok Habis
-                        </Label>
-                      ) : null}{" "}
-                      update: {dayjs(p.updatedAt).fromNow()}
-                    </Item.Meta>
-                    {/* <Item.Description>{p.description}</Item.Description> */}
-                    <Item.Extra>
-                      <a onClick={() => showProductModal(p)}>
-                        <Icon name="pencil" />
-                        Edit
-                      </a>{" "}
-                      <a onClick={() => showConfirmDeleteModal(p)}>
-                        <Icon color="red" name="close" />
-                        Hapus
-                      </a>
-                    </Item.Extra>
-                  </Item.Content>
-                </Item>
-              ))}
+                ))
+              )}
             </Item.Group>
           </Segment>
         </>
