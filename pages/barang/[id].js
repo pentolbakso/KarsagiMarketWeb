@@ -42,13 +42,6 @@ export default function DetailProduct() {
   const [chooseModalVisible, setChooseModalVisible] = useState(false);
   const [shareModalVisible, setShareModalVisible] = useState(false);
 
-  function closeChooseModal() {
-    setChooseModalVisible(false);
-  }
-  function closeShareModal() {
-    setShareModalVisible(false);
-  }
-
   async function _getDetail() {
     try {
       setLoading(true);

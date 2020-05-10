@@ -168,7 +168,15 @@ export default function DetailToko() {
                     />
                   )}
                   {store.website && (
-                    <List.Item icon="globe" content={store.website} />
+                    <List.Item
+                      icon="globe"
+                      content={store.website}
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    />
                   )}
                 </List>
               </Grid.Column>
@@ -178,7 +186,7 @@ export default function DetailToko() {
       )}
       {products && (
         <Segment attached>
-          {store.status == "close" && (
+          {store && store.status == "close" && (
             <Message color="yellow">
               <Message.Header>Tidak Menerima Order</Message.Header>
               <Message.Content>
