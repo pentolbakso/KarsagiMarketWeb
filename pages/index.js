@@ -13,7 +13,6 @@ import {
   Image,
   Label,
   Visibility,
-  CardGroup,
 } from "semantic-ui-react";
 import Head from "next/head";
 import Link from "next/link";
@@ -111,10 +110,10 @@ export default function HomePage(props) {
         </Segment>
         <Segment>
           {loading ? (
-            <CardGroup itemsPerRow={2}>
+            <Card.Group itemsPerRow={2}>
               <CardProduct placeholder />
               <CardProduct placeholder />
-            </CardGroup>
+            </Card.Group>
           ) : products.length == 0 ? (
             <Segment placeholder basic>
               <Header icon color="grey">

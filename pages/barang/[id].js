@@ -82,7 +82,6 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
                       product.photos.map((photo) => {
                         return (
                           <Image
-                            href="#"
                             src={image200(photo.filename)}
                             size="tiny"
                             onClick={() => setPrimaryPhoto(photo)}
@@ -351,23 +350,39 @@ export default function DetailProduct() {
       <Head>
         <title>Jual {(product && product.name) || "Karsagi Market"}</title>
       </Head>
+      <SearchBox />
       {error && (
         <Message error>
-          <Message.Header>
-            {(error.raw && error.raw.name) || "Error"}
-          </Message.Header>
-          {error.message}
+          {error.raw && error.raw.name == "NotFound" ? (
+            <>
+              <Message.Header>Produk tidak ditemukan</Message.Header>
+              Oops, kami tidak menemukan produk yg anda cari. Ada beberapa
+              kemungkinan:
+              <br />- Apakah alamat URL produk sudah benar ?
+              <br />- Penjual sudah menghapus produk ini dari toko
+            </>
+          ) : (
+            <>
+              <Message.Header>
+                {(error.raw && error.raw.name) || "Error"}
+              </Message.Header>
+              {error.message}
+            </>
+          )}
         </Message>
       )}
-      <SearchBox />
-      <ProductTitle product={product} />
-      <ProductInfoDescription
-        product={product}
-        onBuy={handleBuy}
-        onChat={handleChat}
-        onShare={handleShare}
-      />
-      <ProductStoreInfo product={product} />
+      {!error && (
+        <>
+          <ProductTitle product={product} />
+          <ProductInfoDescription
+            product={product}
+            onBuy={handleBuy}
+            onChat={handleChat}
+            onShare={handleShare}
+          />
+          <ProductStoreInfo product={product} />
+        </>
+      )}
       {product && (
         <>
           <ModalBuy
