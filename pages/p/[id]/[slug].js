@@ -16,19 +16,21 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter, Router } from "next/router";
-import { API_URL } from "../../services/api";
-import { getProduct } from "../../stores/userActions";
-import { image600, image200 } from "../../utils/images";
+import { getProduct } from "../../../stores/userActions";
+import { image600, image200 } from "../../../utils/images";
 import {
   currencyFormat,
   getCategoryName,
   whatsappUrl,
-} from "../../utils/format";
-import ModalBuy from "../../components/modals/modal.beli";
-import SearchBox from "../../components/SearchBox";
-import ModalChooseNumber from "../../components/modals/modal.choosenumber";
-import { event } from "../../lib/gtag";
-import ModalShare from "../../components/modals/modal.share";
+  seoTitle,
+  seoDescription,
+} from "../../../utils/format";
+import ModalBuy from "../../../components/modals/modal.beli";
+import SearchBox from "../../../components/SearchBox";
+import ModalChooseNumber from "../../../components/modals/modal.choosenumber";
+import { event } from "../../../lib/gtag";
+import ModalShare from "../../../components/modals/modal.share";
+import { fetchProductIds, fetchProduct } from "../../../services/api";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
@@ -79,9 +81,10 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
                   />
                   <Image.Group>
                     {product.photos.length > 1 &&
-                      product.photos.map((photo) => {
+                      product.photos.map((photo, idx) => {
                         return (
                           <Image
+                            key={idx}
                             src={image200(photo.filename)}
                             size="tiny"
                             onClick={() => setPrimaryPhoto(photo)}
@@ -291,11 +294,14 @@ const ProductStoreInfo = ({ product }) => (
   </Segment>
 );
 
-export default function DetailProduct() {
+export default function DetailProduct({
+  product: productProps,
+  error: errorProps,
+}) {
   const router = useRouter();
   const { id } = router.query;
-  const [error, setError] = useState(null);
-  const [product, setProduct] = useState(null);
+  const [error, setError] = useState(errorProps || null);
+  const [product, setProduct] = useState(productProps || null);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [chooseModalVisible, setChooseModalVisible] = useState(false);
@@ -306,6 +312,7 @@ export default function DetailProduct() {
       setLoading(true);
       const data = await getProduct(id);
       setProduct(data);
+      setError(null);
     } catch (err) {
       console.log(err);
       setError(err);
@@ -342,13 +349,44 @@ export default function DetailProduct() {
   }
 
   useEffect(() => {
+    // refresh with new data
     if (id) _getDetail();
   }, [id]);
+
+  // useEffect(() => {
+  //   if (productProps) setProduct(productProps);
+  // }, [productProps]);
+
+  // useEffect(() => {
+  //   if (errorProps) setError(errorProps);
+  // }, [errorProps]);
 
   return (
     <>
       <Head>
-        <title>Jual {(product && product.name) || "Karsagi Market"}</title>
+        {product ? (
+          <>
+            <title key="title">{seoTitle(`Jual ${product.name}`)}</title>
+            <meta
+              name="description"
+              content={seoDescription(
+                `Dijual ${product.name} ${currencyFormat(
+                  product.promoPrice || product.price
+                )} ${product.description}`
+              )}
+            />
+            {/* <link rel="canonical" href="http://example.com/" /> */}
+          </>
+        ) : (
+          <>
+            <title key="title">{seoTitle(`Jual produk halal anda`)}</title>
+            <meta
+              name="description"
+              content="Pasar Halal Karsagi menjual barang syariah"
+            />
+            {/* <link rel="canonical" href="http://example.com/" /> */}
+          </>
+        )}
       </Head>
       <SearchBox />
       {error && (
@@ -360,6 +398,7 @@ export default function DetailProduct() {
               kemungkinan:
               <br />- Apakah alamat URL produk sudah benar ?
               <br />- Penjual sudah menghapus produk ini dari toko
+              <br />- ID: {id}
             </>
           ) : (
             <>
@@ -419,26 +458,29 @@ export default function DetailProduct() {
   );
 }
 
-/*
 // IF YOU WANT TO ENABLE SSG
 export async function getStaticPaths() {
-  // TODO: get all products
-  const res = await fetch("https://.../posts");
-  const products = await res.json();
-
-  const paths = products.map((p) => ({
-    params: { id: p._id },
-  }));
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
+  //generate nothing
+  const resp = await fetchProductIds();
+  const paths = resp.data.data.map((p) => {
+    return {
+      params: { id: p._id, slug: p.slug || "-" },
+    };
+  });
+  return {
+    //paths: [{ params: { id: "5eb79cf83676344d73d6b457" } }],
+    paths,
+    fallback: true,
+  };
 }
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(`${API_URL}/products?_id=${params.id}`);
-  const post = await res.json();
-  // Pass post data to the page via props
-  return { props: { post } };
+  const id = params.id;
+  try {
+    const resp = await fetchProduct(id);
+    // Pass post data to the page via props
+    return { props: { product: resp.data, error: null } };
+  } catch (error) {
+    return { props: { product: null, error: error.response.data } };
+  }
 }
-*/

@@ -73,6 +73,14 @@ export const uploadImage = (file) => {
 };
 
 // ------ Public ----------------
+export const fetchProductIds = () => {
+  return http.get(`${API_URL}/products`, {
+    params: {
+      $select: ["_id", "slug"],
+    },
+  });
+};
+
 export const fetchProducts = (category, keyword, skip) => {
   return http.get(`${API_URL}/products`, {
     params: {

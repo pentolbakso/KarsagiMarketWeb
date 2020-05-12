@@ -35,7 +35,7 @@ const Product = ({ product: p, placeholder, ...props }) => {
         src={
           p.photos && p.photos.length > 0
             ? image200(p.photos[0].filename)
-            : "http://placehold.jp/150x150.png"
+            : "https://placehold.jp/150x150.png"
         }
         label={
           !p.isReadyStock

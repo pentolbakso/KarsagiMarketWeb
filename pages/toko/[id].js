@@ -142,7 +142,7 @@ export default function DetailToko() {
   //const isMobile = useMediaQuery({ maxWidth: 767 });
 
   function openProductDetail(product) {
-    router.push(`/barang/${product._id}`);
+    router.push(`/p/${product._id}/${product.slug || "-"}`);
   }
 
   function handleLoadMore() {
@@ -225,7 +225,7 @@ export default function DetailToko() {
         {!loadingProduct ? (
           <Card.Group itemsPerRow={2}>
             {products.map((p, idx) => (
-              <Link key={idx} href={`/barang/${p._id}`}>
+              <Link key={idx} href={`/p/${p._id}/${p.slug || "-"}`}>
                 <CardProduct product={p} />
               </Link>
             ))}

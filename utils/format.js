@@ -39,8 +39,8 @@ export function whatsappUrl(number, text) {
 }
 
 export function seoTitle(title) {
-  if (title.length < 46) return `Jual ${title} | Karsagi Market`;
-  else return `Jual ${title}`;
+  if (title.length < 46) return `${title} | Karsagi Market`;
+  else return `${title}`;
 }
 
 export function seoDescription(desc) {

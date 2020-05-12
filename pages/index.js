@@ -35,11 +35,6 @@ export default function HomePage(props) {
   const [loadingMore, setLoadingMore] = useState(false);
   const router = useRouter();
 
-  // function openProductDetail(e, product) {
-  //   e.preventDefault();
-  //   router.push(`/barang/${product._id}`);
-  // }
-
   function handleLoadMore() {
     _loadMore();
   }
@@ -75,7 +70,7 @@ export default function HomePage(props) {
   return (
     <>
       <Head>
-        <title>Karsagi Market</title>
+        <title key="title">Karsagi Market</title>
       </Head>
       <Message warning style={{ paddingTop: 10, paddingBottom: 10 }}>
         <div
@@ -124,7 +119,7 @@ export default function HomePage(props) {
           ) : (
             <Card.Group itemsPerRow={2}>
               {products.map((p, idx) => (
-                <Link key={idx} href={`/barang/${p._id}`}>
+                <Link key={idx} href={`/p/${p._id}/${p.slug || "-"}`}>
                   <CardProduct product={p} />
                 </Link>
               ))}
