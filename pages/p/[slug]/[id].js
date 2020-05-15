@@ -300,7 +300,7 @@ export default function DetailProduct({
   const { id } = router.query;
   const [error, setError] = useState(errorProps || null);
   const [product, setProduct] = useState(productProps || null);
-  const [, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [chooseModalVisible, setChooseModalVisible] = useState(false);
   const [shareModalVisible, setShareModalVisible] = useState(false);
@@ -348,8 +348,8 @@ export default function DetailProduct({
 
   useEffect(() => {
     // refresh with new data
-    if (id) _getDetail();
-  }, [id]);
+    if (id && !router.isFallback) _getDetail();
+  }, [id, router.isFallback]);
 
   // useEffect(() => {
   //   if (productProps) setProduct(productProps);

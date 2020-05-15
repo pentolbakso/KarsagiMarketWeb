@@ -125,9 +125,9 @@ export default function DetailToko({ store: storeProps, error: errorProps }) {
   const [error, setError] = useState(errorProps || null);
   const [store, setStore] = useState(storeProps || null);
   const [products, setProducts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loadingProduct, setLoadingProduct] = useState(false);
+  const [loadingProduct, setLoadingProduct] = useState(true); //set true for placeholder
   const [loadingMore, setLoadingMore] = useState(false);
   //const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -149,7 +149,6 @@ export default function DetailToko({ store: storeProps, error: errorProps }) {
 
   async function _getProducts() {
     try {
-      if (loading) return;
       setLoadingProduct(true);
       const { limit, data } = await getStoreProducts(id);
       setProducts(data);
@@ -175,11 +174,11 @@ export default function DetailToko({ store: storeProps, error: errorProps }) {
   }
 
   useEffect(() => {
-    if (id) {
+    if (id && !router.isFallback) {
       _getDetail();
       _getProducts();
     }
-  }, [id]);
+  }, [id, router.isFallback]);
 
   return (
     <>
