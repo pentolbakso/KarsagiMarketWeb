@@ -1,31 +1,24 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Container,
   Header,
   Segment,
   Button,
   Icon,
-  Menu,
-  Grid,
   Message,
   Form,
   Card,
-  Image,
-  Label,
   Visibility,
 } from "semantic-ui-react";
-import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useConnect } from "remx";
 import { productCategoriesWithAll } from "../config/arrays";
 import userStore from "../stores/userStore";
 import * as userActions from "../stores/userActions";
-import { image200 } from "../utils/images";
-import { currencyFormat } from "../utils/format";
-import { useMediaQuery } from "react-responsive";
+import { productUrl } from "../utils/format";
 import SearchBox from "../components/SearchBox";
 import CardProduct from "../components/CardProduct";
+import { NextSeo } from "next-seo";
 
 export default function HomePage(props) {
   const [category, setCategory] = useState("all");
@@ -69,9 +62,7 @@ export default function HomePage(props) {
 
   return (
     <>
-      <Head>
-        <title key="title">Karsagi Market</title>
-      </Head>
+      <NextSeo title="Belanja Produk Halal" />
       <Message warning style={{ paddingTop: 10, paddingBottom: 10 }}>
         <div
           style={{
@@ -119,7 +110,7 @@ export default function HomePage(props) {
           ) : (
             <Card.Group itemsPerRow={2}>
               {products.map((p, idx) => (
-                <Link key={idx} href={`/p/${p._id}/${p.slug || "-"}`}>
+                <Link key={idx} href={productUrl(p)}>
                   <CardProduct product={p} />
                 </Link>
               ))}
@@ -140,7 +131,7 @@ export default function HomePage(props) {
   );
 }
 
-const connect = (props) =>
+const connect = () =>
   useConnect(() => ({
     products: userStore.getProducts(),
     hasMore: userStore.hasMoreProducts(),

@@ -1,12 +1,10 @@
-import { Container, Header, Segment, Button } from "semantic-ui-react";
-import Head from "next/head";
+import { Header, Segment } from "semantic-ui-react";
+import { NextSeo } from "next-seo";
 
 export default function Help() {
   return (
     <>
-      <Head>
-        <title>{"Cara Kerja Karsagi Market"}</title>
-      </Head>
+      <NextSeo title="Cara Kerja" />
 
       <Segment>
         <Header as="h2">Cara Kerja</Header>

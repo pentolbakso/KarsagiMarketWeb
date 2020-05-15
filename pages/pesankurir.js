@@ -1,80 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Header,
-  Segment,
-  Button,
-  Icon,
-  Message,
-  Divider,
-  Label,
-} from "semantic-ui-react";
-import Head from "next/head";
+import { Message } from "semantic-ui-react";
 import Router from "next/router";
-import { Formik } from "formik";
 import * as Yup from "yup";
-import { register } from "../stores/authActions";
 import { whatsappUrl } from "../utils/format";
 import { useConnect } from "remx";
 import authStore from "../stores/authStore";
 import * as sellerActions from "../stores/sellerActions";
 import { event } from "../lib/gtag";
+import { NextSeo } from "next-seo";
 
 export default function PesanKurir({ props }) {
   const { user } = connect(props);
-  const [shop, setShop] = useState(null);
-  const [formError, setFormError] = useState(null);
-
-  const validationSchema = Yup.object().shape({
-    description: Yup.string().required("Deskripsi harap diisi"),
-    pickupAddress: Yup.string().required(
-      "Alamat penjemputan barang harap diisi"
-    ),
-    senderName: Yup.string().required("Nama pengirim harap diisi"),
-    recvAddress: Yup.string().required("Alamat tujuan harap diisi"),
-    recvName: Yup.string().required("Nama penerima harap diisi"),
-    recvPhonenumber: Yup.string()
-      //.typeError("Nomor harus berupa angka")
-      .matches(
-        /^(^62){1}\d{8,13}$/gm,
-        "Nomor telpon harus valid format & panjangnya! misal: 6281200001111"
-      )
-      .required("Nomor telpon harap di isi"),
-  });
-
-  async function submitForm(values, { setSubmitting }) {
-    try {
-      setSubmitting(true);
-      //await register(storeTitle, fullname, phonenumber, email, password);
-
-      let message =
-        "Bismillah," +
-        "\nAna butuh kurir untuk pengiriman sbb:" +
-        "\n\nAlamat pickup: " +
-        values.pickupAddress +
-        "\nNama pemesan: " +
-        values.senderName +
-        "\nDeskripsi barang: " +
-        values.description +
-        "\n--->\nAlamat pengiriman: " +
-        values.recvAddress +
-        "\nNama penerima: " +
-        values.recvName +
-        "\nNomor telp penerima: " +
-        values.recvPhonenumber;
-
-      setSubmitting(false);
-
-      const KURIR_MANAGER_PHONENUMBER = "628561155222";
-      window.open(whatsappUrl(KURIR_MANAGER_PHONENUMBER, message));
-      event("order_courier", "ecommerce");
-
-      Router.push("/");
-    } catch (err) {
-      setSubmitting(false);
-      setFormError(err.message);
-    }
-  }
+  const [, setShop] = useState(null);
+  const [, setFormError] = useState(null);
 
   async function _getStore() {
     try {
@@ -93,9 +31,7 @@ export default function PesanKurir({ props }) {
 
   return (
     <>
-      <Head>
-        <title>{"Form Pesan Kurir | Karsagi Market"}</title>
-      </Head>
+      <NextSeo title="Pesan Kurir" />
       <Message info>
         <Message.Header>Pesan Kurir di KarsagiMarket</Message.Header>
         <Message.Content>
@@ -226,7 +162,7 @@ export default function PesanKurir({ props }) {
   );
 }
 
-const connect = (props) =>
+const connect = () =>
   useConnect(() => ({
     user: authStore.getUser(),
   }));

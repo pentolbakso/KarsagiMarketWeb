@@ -1,11 +1,9 @@
 import {
-  Container,
   Header,
   Segment,
-  Button,
   Accordion,
 } from "semantic-ui-react";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 const panels = [
   {
@@ -51,9 +49,7 @@ const panels = [
 export default function Help() {
   return (
     <>
-      <Head>
-        <title>{"Bantuan | Karsagi Market"}</title>
-      </Head>
+      <NextSeo title="Bantuan" />
 
       <Segment>
         <Header as="h2">Bantuan</Header>

@@ -1,37 +1,28 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Container,
   Header,
   Segment,
-  Button,
   Icon,
-  Item,
-  Image,
   Grid,
   List,
   Message,
-  Label,
   Card,
   Visibility,
   Placeholder,
 } from "semantic-ui-react";
-import PageContainer from "../../components/PageContainer";
-import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { API_URL } from "../../services/api";
-import { getStore, getStoreProducts } from "../../stores/userActions";
+import { getStore, getStoreProducts } from "../../../stores/userActions";
 import {
-  currencyFormat,
-  getCategoryName,
   instagramUrl,
   whatsappUrl,
-  callUrl,
-} from "../../utils/format";
-import { image200 } from "../../utils/images";
-import { useMediaQuery } from "react-responsive";
-import SearchBox from "../../components/SearchBox";
-import CardProduct from "../../components/CardProduct";
+  productUrl,
+  storeUrl,
+  seoDescription,
+} from "../../../utils/format";
+import SearchBox from "../../../components/SearchBox";
+import CardProduct from "../../../components/CardProduct";
+import { NextSeo } from "next-seo";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
@@ -78,8 +69,7 @@ const StoreInfo = ({ store }) => (
                   <>
                     <a href={whatsappUrl(store.phonenumber)}>
                       {store.phonenumber}
-                    </a>{" "}
-                    (khusus akhwat)
+                    </a>
                   </>
                 ) : (
                   <DummyLine />
@@ -129,21 +119,17 @@ const StoreInfo = ({ store }) => (
   </Segment>
 );
 
-export default function DetailToko() {
+export default function DetailToko({ store: storeProps, error: errorProps }) {
   const router = useRouter();
   const { id } = router.query;
-  const [error, setError] = useState(null);
-  const [store, setStore] = useState(null);
+  const [error, setError] = useState(errorProps || null);
+  const [store, setStore] = useState(storeProps || null);
   const [products, setProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   //const isMobile = useMediaQuery({ maxWidth: 767 });
-
-  function openProductDetail(product) {
-    router.push(`/p/${product._id}/${product.slug || "-"}`);
-  }
 
   function handleLoadMore() {
     _moreProducts();
@@ -197,9 +183,11 @@ export default function DetailToko() {
 
   return (
     <>
-      <Head>
-        <title>{(store && store.title) || "Karsagi Market"}</title>
-      </Head>
+      <NextSeo
+        title={store ? store.title : undefined}
+        description={store ? seoDescription(store.description) : undefined}
+        canonical={storeUrl(store, true)}
+      />
       {error && (
         <Message error>
           <Message.Header>
@@ -225,7 +213,7 @@ export default function DetailToko() {
         {!loadingProduct ? (
           <Card.Group itemsPerRow={2}>
             {products.map((p, idx) => (
-              <Link key={idx} href={`/p/${p._id}/${p.slug || "-"}`}>
+              <Link key={idx} href={productUrl(p)}>
                 <CardProduct product={p} />
               </Link>
             ))}
@@ -250,26 +238,27 @@ export default function DetailToko() {
   );
 }
 
-/*
-// IF YOU WANT TO ENABLE SSG
 export async function getStaticPaths() {
-  // TODO: get all products
-  const res = await fetch("https://.../posts");
-  const products = await res.json();
-
-  const paths = products.map((p) => ({
-    params: { id: p._id },
-  }));
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
+  // const resp = await fetchStoreIds();
+  // const paths = resp.data.data.map((p) => {
+  //   return {
+  //     params: { id: p._id, slug: p.slug || "-" },
+  //   };
+  // });
+  const paths = [];
+  return {
+    paths,
+    fallback: true,
+  };
 }
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(`${API_URL}/products?_id=${params.id}`);
-  const post = await res.json();
-  // Pass post data to the page via props
-  return { props: { post } };
+  const id = params.id;
+  try {
+    const resp = await getStore(id);
+    // Pass post data to the page via props
+    return { props: { store: resp, error: null } };
+  } catch (error) {
+    return { props: { store: null, error: error.response.data } };
+  }
 }
-*/

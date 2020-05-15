@@ -1,4 +1,4 @@
-import { STATIC_URL } from "../services/api";
+import { STATIC_URL } from "../config/site";
 
 const UPLOAD_PATH = "/uploads/images";
 export function imageOri(filename) {

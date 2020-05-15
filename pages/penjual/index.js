@@ -1,21 +1,11 @@
-import {
-  Container,
-  Header,
-  Segment,
-  Button,
-  Icon,
-  Menu,
-  Divider,
-} from "semantic-ui-react";
-import Head from "next/head";
+import { Header, Segment, Button, Divider } from "semantic-ui-react";
 import Link from "next/link";
+import { NextSeo } from "next-seo";
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Buka Toko Online di Karsagi Market</title>
-      </Head>
+      <NextSeo title="Buka Toko Online" />
       <Segment placeholder style={{ padding: "3em" }}>
         <Header as="h2" style={{ textAlign: "center" }}>
           Mulai Berjualan!

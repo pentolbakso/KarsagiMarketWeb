@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container,
   Header,
   Segment,
   Button,
@@ -8,15 +7,14 @@ import {
   Form,
   Message,
 } from "semantic-ui-react";
-import Head from "next/head";
-import Link from "next/link";
 import { useConnect } from "remx";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Router from "next/router";
 import GoogleMapReact from "google-map-react";
 import * as sellerActions from "../../stores/sellerActions";
-import sellerStore, { getShop } from "../../stores/sellerStore";
+import sellerStore from "../../stores/sellerStore";
+import { NextSeo } from "next-seo";
 
 export default function EditToko(props) {
   const { shop } = connect(props);
@@ -64,7 +62,7 @@ export default function EditToko(props) {
     }
   }
 
-  const handleApiLoaded = (map, maps) => {};
+  const handleApiLoaded = () => {};
 
   useEffect(() => {
     // TODO: check if HTTPS is installed, otherwise it wont work
@@ -87,9 +85,7 @@ export default function EditToko(props) {
 
   return (
     <>
-      <Head>
-        <title>Edit Toko Saya | Karsagi Market</title>
-      </Head>
+      <NextSeo title="Edit Toko Saya" noindex={true} />
       {shop && (
         <Segment>
           <Header as="h3">Edit Toko</Header>
@@ -246,7 +242,7 @@ export default function EditToko(props) {
   );
 }
 
-const connect = (props) =>
+const connect = () =>
   useConnect(() => ({
     shop: sellerStore.getShop(),
   }));

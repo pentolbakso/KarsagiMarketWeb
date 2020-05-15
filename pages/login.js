@@ -10,11 +10,11 @@ import {
   Icon,
 } from "semantic-ui-react";
 import Link from "next/link";
-import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { login } from "../stores/authActions";
+import { NextSeo } from "next-seo";
 
 export default function About() {
   const [formError, setFormError] = useState(null);
@@ -45,9 +45,7 @@ export default function About() {
 
   return (
     <>
-      <Head>
-        <title>{"Login Penjual | Karsagi Market"}</title>
-      </Head>
+      <NextSeo title="Login" />
 
       <Segment>
         <Header as="h2">Login sebagai penjual</Header>

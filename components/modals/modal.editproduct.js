@@ -1,21 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
   Modal,
-  Header,
-  Segment,
   Button,
   Icon,
-  Menu,
-  Item,
   Label,
   Form,
   Message,
-  Grid,
-  Placeholder,
   Image,
 } from "semantic-ui-react";
-import Head from "next/head";
-import Link from "next/link";
 import { useConnect } from "remx";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -316,8 +308,4 @@ export default function ModalProduct({ product, ...props }) {
   );
 }
 
-const connect = (props) =>
-  useConnect(() => ({
-    // shop: sellerStore.getShop(),
-    // products: sellerStore.getProducts(),
-  }));
+

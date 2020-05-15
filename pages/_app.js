@@ -2,6 +2,7 @@ import React from "react";
 import Router from "next/router";
 import NProgress from "nprogress";
 import App from "next/app";
+import { DefaultSeo } from "next-seo";
 
 import "../.semantic/dist/semantic.min.css";
 import "../static/css/nprogress.css";
@@ -27,6 +28,15 @@ class MyApp extends App {
 
     return (
       <SiteLayout>
+        <DefaultSeo
+          openGraph={{
+            type: "website",
+            locale: "id_ID",
+            url: "https://karsagi.com/",
+            site_name: "Karsagi Pasar Halal",
+          }}
+          titleTemplate="%s | Karsagi"
+        />
         <Component {...pageProps} />
       </SiteLayout>
     );

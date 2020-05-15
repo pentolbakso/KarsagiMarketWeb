@@ -4,15 +4,14 @@ import {
   Header,
   Segment,
   Button,
-  Checkbox,
   Message,
   Divider,
 } from "semantic-ui-react";
-import Head from "next/head";
 import Router from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { register } from "../../stores/authActions";
+import { NextSeo } from "next-seo";
 
 export default function About() {
   const [formError, setFormError] = useState(null);
@@ -53,10 +52,7 @@ export default function About() {
 
   return (
     <>
-      <Head>
-        <title>{"Form Pendaftaran Penjual Karsagi Market"}</title>
-      </Head>
-
+      <NextSeo title="Daftar Sebagai Penjual" />
       <Segment attached="top" tertiary>
         <Header as="h3">Buka Toko Online</Header>
       </Segment>

@@ -1,14 +1,5 @@
 import http from "../utils/http";
-
-export const API_URL =
-  process.env.NODE_ENV == "production"
-    ? "https://api.karsagi.com"
-    : "http://192.168.1.101:8080";
-
-export const STATIC_URL =
-  process.env.NODE_ENV == "production"
-    ? "https://static.karsagi.com"
-    : "http://192.168.1.101:8080";
+import { API_URL } from "../config/site";
 
 // ------- Auth ------------------
 export const me = () => {

@@ -5,14 +5,11 @@ import {
   Segment,
   Button,
   Icon,
-  Menu,
   Item,
   Label,
   Message,
   Divider,
 } from "semantic-ui-react";
-import Head from "next/head";
-import Link from "next/link";
 import Router from "next/router";
 import { useConnect } from "remx";
 import dayjs from "dayjs";
@@ -22,6 +19,7 @@ import ProductModal from "../../components/modals/modal.editproduct";
 import { image200 } from "../../utils/images";
 import { currencyFormat } from "../../utils/format";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { NextSeo } from "next-seo";
 
 dayjs.extend(relativeTime);
 
@@ -144,9 +142,7 @@ export default function TokoSaya(props) {
 
   return (
     <>
-      <Head>
-        <title>Toko Saya | Karsagi Market</title>
-      </Head>
+      <NextSeo title="Toko Saya" noindex={true} />
       <Segment attached>
         {loadingShop && (
           <Placeholder>
@@ -285,7 +281,7 @@ export default function TokoSaya(props) {
   );
 }
 
-const connect = (props) =>
+const connect = () =>
   useConnect(() => ({
     shop: sellerStore.getShop(),
     products: sellerStore.getProducts(),

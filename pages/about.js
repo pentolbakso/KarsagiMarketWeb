@@ -1,12 +1,10 @@
 import { Container, Header, Segment, Button, Icon } from "semantic-ui-react";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 export default function About() {
   return (
     <>
-      <Head>
-        <title>{"Tentang Karsagi Market"}</title>
-      </Head>
+      <NextSeo title="Tentang Kami" />
       <Segment>
         <Header as="h2">Tentang Karsagi Market</Header>
         <p>

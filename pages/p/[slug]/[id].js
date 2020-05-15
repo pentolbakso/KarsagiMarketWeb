@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Container,
   Header,
   Segment,
   Button,
   Icon,
-  Item,
   Image,
   Grid,
   Table,
@@ -13,17 +11,17 @@ import {
   Label,
   Placeholder,
 } from "semantic-ui-react";
-import Head from "next/head";
 import Link from "next/link";
-import { useRouter, Router } from "next/router";
+import { useRouter } from "next/router";
 import { getProduct } from "../../../stores/userActions";
 import { image600, image200 } from "../../../utils/images";
 import {
   currencyFormat,
   getCategoryName,
   whatsappUrl,
-  seoTitle,
   seoDescription,
+  productUrl,
+  storeUrl,
 } from "../../../utils/format";
 import ModalBuy from "../../../components/modals/modal.beli";
 import SearchBox from "../../../components/SearchBox";
@@ -31,6 +29,7 @@ import ModalChooseNumber from "../../../components/modals/modal.choosenumber";
 import { event } from "../../../lib/gtag";
 import ModalShare from "../../../components/modals/modal.share";
 import { fetchProductIds, fetchProduct } from "../../../services/api";
+import { NextSeo } from "next-seo";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
@@ -58,6 +57,7 @@ const ProductTitle = ({ product }) => {
 
 const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
   const [primaryPhoto, setPrimaryPhoto] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (product != null) {
@@ -209,9 +209,7 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
                           basic
                           color="teal"
                           size="small"
-                          onClick={() =>
-                            router.push(`/toko/${product.store._id}`)
-                          }
+                          onClick={() => router.push(storeUrl(product.store))}
                         >
                           <Icon name="store" />
                           Cek Toko
@@ -275,7 +273,7 @@ const ProductStoreInfo = ({ product }) => (
           <p>
             <Icon name="user" /> Pemilik Toko: {product.store.user.fullname}
             {" - "}
-            <Link href={`/toko/${product.store._id}`}>
+            <Link href={storeUrl(product.store)}>
               <a>
                 <Icon name="store" /> Cek jualan lainnya
               </a>
@@ -302,7 +300,7 @@ export default function DetailProduct({
   const { id } = router.query;
   const [error, setError] = useState(errorProps || null);
   const [product, setProduct] = useState(productProps || null);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [chooseModalVisible, setChooseModalVisible] = useState(false);
   const [shareModalVisible, setShareModalVisible] = useState(false);
@@ -363,31 +361,19 @@ export default function DetailProduct({
 
   return (
     <>
-      <Head>
-        {product ? (
-          <>
-            <title key="title">{seoTitle(`Jual ${product.name}`)}</title>
-            <meta
-              name="description"
-              content={seoDescription(
+      <NextSeo
+        title={product ? `Jual ${product.name}` : undefined}
+        description={
+          product
+            ? seoDescription(
                 `Dijual ${product.name} ${currencyFormat(
                   product.promoPrice || product.price
                 )} ${product.description}`
-              )}
-            />
-            {/* <link rel="canonical" href="http://example.com/" /> */}
-          </>
-        ) : (
-          <>
-            <title key="title">{seoTitle(`Jual produk halal anda`)}</title>
-            <meta
-              name="description"
-              content="Pasar Halal Karsagi menjual barang syariah"
-            />
-            {/* <link rel="canonical" href="http://example.com/" /> */}
-          </>
-        )}
-      </Head>
+              )
+            : undefined
+        }
+        canonical={productUrl(product, true)}
+      />
       <SearchBox />
       {error && (
         <Message error>
