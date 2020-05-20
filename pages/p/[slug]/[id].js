@@ -35,7 +35,7 @@ const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
 const ProductTitle = ({ product }) => {
   return (
-    <Segment attached="top" style={{ backgroundColor: "#f7fff8" }}>
+    <Segment style={{ backgroundColor: "#f7fff8", margin: "0.5em 0em" }}>
       {product ? (
         <Header as="h2">
           {product.name}
@@ -67,7 +67,8 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
   }, [product]);
 
   return (
-    <Segment attached>
+    <>
+      {/* <Segment attached> */}
       <Grid stackable>
         <Grid.Row>
           <Grid.Column width={8}>
@@ -114,7 +115,7 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
                   Harga Promo
                 </Label>
               )}
-              <Table compact basic="very" celled unstackable>
+              <Table compact celled unstackable>
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell collapsing>Harga</Table.Cell>
@@ -195,19 +196,19 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
                   </Message>
                 ) : (
                   <>
-                    <Button fluid color="green" size="big" onClick={onBuy}>
+                    <Button fluid color="green" size="huge" onClick={onBuy}>
                       <Icon name="whatsapp" />
                       BELI
                     </Button>
                     <div style={{ marginTop: "0.5em" }}>
-                      <Button.Group widths="2" size="small">
+                      <Button.Group widths="2">
                         <Button basic color="red" onClick={onChat}>
                           <Icon name="whatsapp" />
                           Chat Dulu
                         </Button>
                         <Button
                           basic
-                          color="teal"
+                          color="blue"
                           size="small"
                           onClick={() => router.push(storeUrl(product.store))}
                         >
@@ -217,7 +218,7 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
                       </Button.Group>
                     </div>
                     <div style={{ marginTop: "0.5em" }}>
-                      <Button basic size="small" onClick={onShare}>
+                      <Button size="small" onClick={onShare}>
                         <Icon name="share alternate" />
                         Share
                       </Button>
@@ -257,21 +258,24 @@ const ProductInfoDescription = ({ product, onBuy, onChat, onShare }) => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    </Segment>
+      {/* </Segment> */}
+    </>
   );
 };
 
 const ProductStoreInfo = ({ product }) => (
-  <Segment attached="bottom" style={{ backgroundColor: "#fbfbfb" }}>
+  <Segment color="green">
     {product ? (
       product.store ? (
         <>
           <Header as="h3" dividing>
             {product.store.title}
-            <Header.Subheader>{product.store.description}</Header.Subheader>
+            <Header.Subheader style={{ marginTop: 5, marginBottom: 5 }}>
+              {product.store.description}
+            </Header.Subheader>
           </Header>
           <p>
-            <Icon name="user" /> Pemilik Toko: {product.store.user.fullname}
+            <Icon name="user" /> Penjual: {product.store.user.fullname}
             {" - "}
             <Link href={storeUrl(product.store)}>
               <a>

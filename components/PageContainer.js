@@ -6,7 +6,7 @@ import { Container } from "semantic-ui-react";
 // `;
 
 const PageContainer = (props) => (
-  <Container text style={{ marginTop: "1em", marginBottom: "1em" }}>
+  <Container text _style={{ marginTop: "1em", marginBottom: "1em" }}>
     {props.children}
   </Container>
 );

@@ -143,7 +143,7 @@ export default function TokoSaya(props) {
   return (
     <>
       <NextSeo title="Toko Saya" noindex={true} />
-      <Segment attached>
+      <Segment color="green">
         {loadingShop && (
           <Placeholder>
             <Placeholder.Paragraph>
@@ -210,61 +210,45 @@ export default function TokoSaya(props) {
           </div>
         )}
       </Segment>
-      {/* <Segment attached>
-        <Link href="/pesankurir">
-          <Button size="big" color="orange">
-            <Icon name="bicycle" />
-            Pesan Kurir
-          </Button>
-        </Link>
-      </Segment> */}
       {shop && (
         <>
-          {/* <Header as="h4" attached block>
-        Order masuk
-      </Header>
-      <Segment attached>Sedang dikembangkan, mohon bersabar</Segment> */}
-          <Header as="h4" block attached>
-            Barang yg sedang dijual
-          </Header>
-          <Segment attached>
-            <Button
-              primary
-              compact
-              icon
-              labelPosition="left"
-              onClick={() => showProductModal({})}
-            >
-              <Icon name="plus" />
-              Tambah
-            </Button>
-            <Divider />
-            <Item.Group divided unstackable>
-              {products.length == 0 && (
-                <Segment placeholder basic>
-                  <Header icon color="grey">
-                    <Icon name="store" />
-                    Anda belum punya barang yg dijual
-                  </Header>
-                </Segment>
-              )}
-              {loadingProducts ? (
-                <>
-                  <MyProduct placeholder />
-                  <MyProduct placeholder />
-                </>
-              ) : (
-                products.map((p) => (
-                  <MyProduct
-                    product={p}
-                    key={p._id}
-                    onEdit={() => showProductModal(p)}
-                    onDelete={() => showConfirmDeleteModal(p)}
-                  />
-                ))
-              )}
-            </Item.Group>
-          </Segment>
+          <Header as="h3">Barang yg sedang dijual</Header>
+          <Button
+            primary
+            compact
+            icon
+            labelPosition="left"
+            onClick={() => showProductModal({})}
+          >
+            <Icon name="plus" />
+            Tambah
+          </Button>
+          <Divider />
+          <Item.Group divided unstackable>
+            {products.length == 0 && (
+              <Segment placeholder basic>
+                <Header icon color="grey">
+                  <Icon name="store" />
+                  Anda belum punya barang yg dijual
+                </Header>
+              </Segment>
+            )}
+            {loadingProducts ? (
+              <>
+                <MyProduct placeholder />
+                <MyProduct placeholder />
+              </>
+            ) : (
+              products.map((p) => (
+                <MyProduct
+                  product={p}
+                  key={p._id}
+                  onEdit={() => showProductModal(p)}
+                  onDelete={() => showConfirmDeleteModal(p)}
+                />
+              ))
+            )}
+          </Item.Group>
         </>
       )}
       <ProductModal

@@ -33,7 +33,7 @@ const DummyLine = () => (
 );
 
 const StoreInfo = ({ store }) => (
-  <Segment attached="top">
+  <Segment color="green">
     {store ? (
       <>
         <Header as="h2">
@@ -196,43 +196,39 @@ export default function DetailToko({ store: storeProps, error: errorProps }) {
         </Message>
       )}
       <SearchBox />
-      <StoreInfo store={store} />
       {store && store.status == "close" && (
-        <Segment attached>
-          <Message color="yellow">
-            <Message.Header>Tidak Menerima Order</Message.Header>
-            <Message.Content>
-              Penjual sedang meliburkan tokonya untuk sementara waktu.
-            </Message.Content>
-          </Message>
-        </Segment>
+        <Message color="yellow">
+          <Message.Header>Tidak Menerima Order</Message.Header>
+          <Message.Content>
+            Penjual sedang meliburkan tokonya untuk sementara waktu.
+          </Message.Content>
+        </Message>
       )}
-      <Segment attached>
-        <Header as="h3">Semua Produk</Header>
-        {!loadingProduct ? (
-          <Card.Group itemsPerRow={2}>
-            {products.map((p, idx) => (
-              <Link key={idx} href={productUrl(p)}>
-                <CardProduct product={p} />
-              </Link>
-            ))}
-          </Card.Group>
-        ) : (
-          <Card.Group itemsPerRow={2}>
-            <CardProduct placeholder />
-            <CardProduct placeholder />
-          </Card.Group>
-        )}
-        {hasMore && (
-          <Visibility
-            offset={[10, 10]}
-            onOnScreen={handleLoadMore}
-            continuous={true}
-          >
-            <Icon name="caret down" />
-          </Visibility>
-        )}
-      </Segment>
+      <StoreInfo store={store} />
+      <Header as="h3">Produk yg dijual:</Header>
+      {!loadingProduct ? (
+        <Card.Group itemsPerRow={2}>
+          {products.map((p, idx) => (
+            <Link key={idx} href={productUrl(p)}>
+              <CardProduct product={p} />
+            </Link>
+          ))}
+        </Card.Group>
+      ) : (
+        <Card.Group itemsPerRow={2}>
+          <CardProduct placeholder />
+          <CardProduct placeholder />
+        </Card.Group>
+      )}
+      {hasMore && (
+        <Visibility
+          offset={[10, 10]}
+          onOnScreen={handleLoadMore}
+          continuous={true}
+        >
+          <Icon name="caret down" />
+        </Visibility>
+      )}
     </>
   );
 }

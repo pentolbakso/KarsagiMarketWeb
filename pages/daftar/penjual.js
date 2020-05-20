@@ -53,105 +53,103 @@ export default function About() {
   return (
     <>
       <NextSeo title="Daftar Sebagai Penjual" />
-      <Segment attached="top" tertiary>
-        <Header as="h3">Buka Toko Online</Header>
-      </Segment>
-      <Segment attached>
-        <Formik
-          initialValues={{
-            storeTitle: "",
-            fullname: "",
-            phonenumber: "",
-            email: "",
-            password: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={submitForm}
-        >
-          {(props) => (
-            <Form
-              size="big"
-              warning={formError == null}
-              error={formError != null}
-            >
-              <Form.Field>
-                <Form.Input
-                  label="Nama Toko"
-                  name="storeTitle"
-                  placeholder="misal: Toko Berkah Jaya"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.storeTitle}
-                  error={props.errors.storeTitle}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Nama Penjual"
-                  name="fullname"
-                  placeholder="Nama lengkap penjual"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.fullname}
-                  error={props.errors.fullname}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Nomor handphone / Whatsapp"
-                  name="phonenumber"
-                  placeholder="misal: 628xxx"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.phonenumber}
-                  error={props.errors.phonenumber}
-                />
-              </Form.Field>
-              <Divider horizontal>Untuk Login</Divider>
-              <Form.Field>
-                <Form.Input
-                  label="Email"
-                  name="email"
-                  placeholder="Alamat email untuk Login"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.email}
-                  error={props.errors.email}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  label="Password"
-                  name="password"
-                  placeholder="Password (minimal 6 karakter)"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.password}
-                  error={props.errors.password}
-                />
-              </Form.Field>
-              <Message size="tiny" error header="Gagal" content={formError} />
-              <Message
-                size="tiny"
-                warning
-                header="Perhatian"
-                content={
-                  "Saat ini KarsagiMarket hanya tersedia untuk area kota BANDUNG dan sekitarnya."
-                }
+      <Header as="h3" block>
+        Buka Toko Online
+      </Header>
+      <Formik
+        initialValues={{
+          storeTitle: "",
+          fullname: "",
+          phonenumber: "",
+          email: "",
+          password: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={submitForm}
+      >
+        {(props) => (
+          <Form
+            size="big"
+            warning={formError == null}
+            error={formError != null}
+          >
+            <Form.Field>
+              <Form.Input
+                label="Nama Toko"
+                name="storeTitle"
+                placeholder="misal: Toko Berkah Jaya"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.storeTitle}
+                error={props.errors.storeTitle}
               />
-              <Button
-                primary
-                type="submit"
-                size="big"
-                onClick={props.handleSubmit}
-                loading={props.isSubmitting}
-              >
-                Buka Toko
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Segment>
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                label="Nama Penjual"
+                name="fullname"
+                placeholder="Nama lengkap penjual"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.fullname}
+                error={props.errors.fullname}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                label="Nomor handphone / Whatsapp"
+                name="phonenumber"
+                placeholder="misal: 628xxx"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.phonenumber}
+                error={props.errors.phonenumber}
+              />
+            </Form.Field>
+            <Divider horizontal>Untuk Login</Divider>
+            <Form.Field>
+              <Form.Input
+                label="Email"
+                name="email"
+                placeholder="Alamat email untuk Login"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.email}
+                error={props.errors.email}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Form.Input
+                label="Password"
+                name="password"
+                placeholder="Password (minimal 6 karakter)"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.password}
+                error={props.errors.password}
+              />
+            </Form.Field>
+            <Message size="tiny" error header="Gagal" content={formError} />
+            <Message
+              size="tiny"
+              warning
+              header="Perhatian"
+              content={
+                "Saat ini KarsagiMarket hanya tersedia untuk area kota BANDUNG dan sekitarnya."
+              }
+            />
+            <Button
+              primary
+              type="submit"
+              size="big"
+              onClick={props.handleSubmit}
+              loading={props.isSubmitting}
+            >
+              Buka Toko
+            </Button>
+          </Form>
+        )}
+      </Formik>
     </>
   );
 }

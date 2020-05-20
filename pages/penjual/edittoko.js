@@ -87,7 +87,7 @@ export default function EditToko(props) {
     <>
       <NextSeo title="Edit Toko Saya" noindex={true} />
       {shop && (
-        <Segment>
+        <>
           <Header as="h3">Edit Toko</Header>
           <Formik
             initialValues={{
@@ -236,7 +236,7 @@ export default function EditToko(props) {
               </Form>
             )}
           </Formik>
-        </Segment>
+        </>
       )}
     </>
   );

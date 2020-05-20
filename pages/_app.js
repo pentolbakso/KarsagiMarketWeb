@@ -27,7 +27,7 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <SiteLayout>
+      <>
         <DefaultSeo
           openGraph={{
             type: "website",
@@ -37,8 +37,10 @@ class MyApp extends App {
           }}
           titleTemplate="%s | Karsagi"
         />
-        <Component {...pageProps} />
-      </SiteLayout>
+        <SiteLayout>
+          <Component {...pageProps} />
+        </SiteLayout>
+      </>
     );
   }
 }
