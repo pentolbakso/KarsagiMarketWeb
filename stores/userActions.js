@@ -1,10 +1,16 @@
 import * as api from "../services/api";
 import userStore from "./userStore";
 
+export async function recentProducts() {
+  const response = await api.fetchProducts(null, "", null, 20);
+  userStore.setRecentProducts(response.data.data);
+  return response.data.data;
+}
+
 export async function browseProducts(category, keyword) {
   const response = await api.fetchProducts(
     category == "all" ? null : category,
-    keyword
+    keyword || ""
   );
   userStore.setMoreProducts(true);
 
@@ -15,13 +21,14 @@ export async function browseProducts(category, keyword) {
     userStore.setMoreProducts(false);
   }
   userStore.setProducts(response.data.data);
+  userStore.setProductTotal(response.data.total);
   return response.data.data;
 }
 
 export async function moreProducts(category, keyword) {
   const skip = userStore.getProducts().length;
   const response = await api.fetchProducts(
-    category == "all" ? null : category,
+    category ? (category == "all" ? null : category) : null,
     keyword,
     skip > 0 ? skip : null
   );

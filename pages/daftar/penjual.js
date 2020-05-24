@@ -43,7 +43,7 @@ export default function About() {
       await register(storeTitle, fullname, phonenumber, email, password);
       setSubmitting(false);
 
-      Router.push("/penjual/tokosaya");
+      Router.push("/tokosaya/dashboard");
     } catch (err) {
       setSubmitting(false);
       setFormError(err.message);
@@ -130,14 +130,6 @@ export default function About() {
               />
             </Form.Field>
             <Message size="tiny" error header="Gagal" content={formError} />
-            <Message
-              size="tiny"
-              warning
-              header="Perhatian"
-              content={
-                "Saat ini KarsagiMarket hanya tersedia untuk area kota BANDUNG dan sekitarnya."
-              }
-            />
             <Button
               primary
               type="submit"

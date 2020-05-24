@@ -23,6 +23,7 @@ import {
 import SearchBox from "../../../components/SearchBox";
 import CardProduct from "../../../components/CardProduct";
 import { NextSeo } from "next-seo";
+import useResponsive from "../../../hooks/useResponsive";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
@@ -84,7 +85,7 @@ const StoreInfo = ({ store }) => (
                     <a href={whatsappUrl(store.phonenumberAkhwat)}>
                       {store.phonenumberAkhwat}
                     </a>{" "}
-                    (khusus akhwat)
+                    (khusus wanita)
                   </>
                 }
               />
@@ -129,7 +130,7 @@ export default function DetailToko({ store: storeProps, error: errorProps }) {
   const [loading, setLoading] = useState(false);
   const [loadingProduct, setLoadingProduct] = useState(true); //set true for placeholder
   const [loadingMore, setLoadingMore] = useState(false);
-  //const isMobile = useMediaQuery({ maxWidth: 767 });
+  const { isMobile, isClient } = useResponsive();
 
   function handleLoadMore() {
     _moreProducts();
@@ -195,7 +196,7 @@ export default function DetailToko({ store: storeProps, error: errorProps }) {
           {error.message}
         </Message>
       )}
-      <SearchBox />
+      {!isMobile && <SearchBox />}
       {store && store.status == "close" && (
         <Message color="yellow">
           <Message.Header>Tidak Menerima Order</Message.Header>

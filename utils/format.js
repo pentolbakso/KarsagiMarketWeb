@@ -54,7 +54,7 @@ export function storeUrl(store, withDomain) {
 }
 
 export function seoTitle(title) {
-  if (title.length < 46) return `${title} | Karsagi Market`;
+  if (title.length < 46) return `${title} | Pasar Karsagi`;
   else return `${title}`;
 }
 

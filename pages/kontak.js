@@ -5,7 +5,7 @@ export default function Help() {
   return (
     <>
       <NextSeo title="Kontak Kami" />
-      <Segment>
+      <>
         <Header as="h2">Kontak Kami</Header>
         <p>Silahkan menghubungi tim kami jika:</p>
         <ul>
@@ -21,7 +21,7 @@ export default function Help() {
           <Icon name="mail" />
           Kirim Email
         </Button>
-      </Segment>
+      </>
     </>
   );
 }

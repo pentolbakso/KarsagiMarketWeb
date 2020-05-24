@@ -55,7 +55,7 @@ export default function EditToko(props) {
       await sellerActions.updateStore(values);
       setSubmitting(false);
 
-      Router.replace("/penjual/tokosaya");
+      Router.replace("/tokosaya/dashboard");
     } catch (err) {
       setSubmitting(false);
       setFormError(err.message);
@@ -64,24 +64,24 @@ export default function EditToko(props) {
 
   const handleApiLoaded = () => {};
 
-  useEffect(() => {
-    // TODO: check if HTTPS is installed, otherwise it wont work
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          console.log("Latitude is :", position.coords.latitude);
-          console.log("Longitude is :", position.coords.longitude);
-          setCenter({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        function (error) {
-          console.error("Error Code = " + error.code + " - " + error.message);
-        }
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   // TODO: check if HTTPS is installed, otherwise it wont work
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       function (position) {
+  //         console.log("Latitude is :", position.coords.latitude);
+  //         console.log("Longitude is :", position.coords.longitude);
+  //         setCenter({
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         });
+  //       },
+  //       function (error) {
+  //         console.error("Error Code = " + error.code + " - " + error.message);
+  //       }
+  //     );
+  //   }
+  // }, []);
 
   return (
     <>
@@ -139,7 +139,7 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Nomor Telpon/WA khusus akhwat (jika ada)"
+                    label="Nomor Telpon/WA khusus wanita (jika ada)"
                     name="phonenumberAkhwat"
                     placeholder="628xx"
                     onChange={props.handleChange}
@@ -150,7 +150,7 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Alamat Toko (untuk pengambilan barang oleh Kurir)"
+                    label="Alamat Toko"
                     name="address"
                     placeholder="misal: Komplek Griya Caraka Blok A-2, Arcamanik"
                     onChange={props.handleChange}
@@ -159,7 +159,7 @@ export default function EditToko(props) {
                     error={props.errors.address}
                   />
                 </Form.Field>
-                <Message>
+                {/* <Message>
                   <Message.Header>
                     Pilih lokasi alamat toko anda pada peta:
                   </Message.Header>
@@ -200,7 +200,7 @@ export default function EditToko(props) {
                     />
                   </GoogleMapReact>
                 </div>
-                <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p>
+                <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p> */}
                 <Form.Field>
                   <Form.Input
                     label="Nama Instagram (jika ada)"

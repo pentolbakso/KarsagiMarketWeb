@@ -1,8 +1,4 @@
-import {
-  Header,
-  Segment,
-  Accordion,
-} from "semantic-ui-react";
+import { Header, Segment, Accordion } from "semantic-ui-react";
 import { NextSeo } from "next-seo";
 
 const panels = [
@@ -51,11 +47,11 @@ export default function Help() {
     <>
       <NextSeo title="Bantuan" />
 
-      <Segment>
+      <>
         <Header as="h2">Bantuan</Header>
         <Header as="h4">Pertanyaan yg sering ditanyakan</Header>
         <Accordion defaultActiveIndex={0} panels={panels} />
-      </Segment>
+      </>
     </>
   );
 }

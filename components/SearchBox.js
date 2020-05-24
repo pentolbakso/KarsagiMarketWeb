@@ -3,7 +3,7 @@ import { Input, Icon, Segment, Message, Button, Form } from "semantic-ui-react";
 import Router from "next/router";
 import { event } from "../lib/gtag";
 
-const SearchBox = ({ value, onSubmit, style, size }) => {
+const SearchBox = ({ defaultValue, onSubmit, style, size }) => {
   const inputRef = useRef(null);
   const [error, setError] = useState(null);
 
@@ -35,7 +35,7 @@ const SearchBox = ({ value, onSubmit, style, size }) => {
           placeholder="misal: Ayam kampung"
           action
         >
-          <input ref={inputRef} defaultValue={value || ""} />
+          <input ref={inputRef} defaultValue={defaultValue || ""} />
           <Button type="submit" color="blue" onClick={handleSearch}>
             Cari
           </Button>

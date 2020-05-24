@@ -20,6 +20,7 @@ import { image200 } from "../../utils/images";
 import { currencyFormat } from "../../utils/format";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { NextSeo } from "next-seo";
+import authStore from "../../stores/authStore";
 
 dayjs.extend(relativeTime);
 
@@ -78,14 +79,14 @@ const MyProduct = ({ product: p, onEdit, onDelete, placeholder }) => {
   );
 };
 
-export default function TokoSaya(props) {
-  const { shop, products } = connect(props);
+export default function Dashboard(props) {
+  const { shop, products, user } = connect(props);
   const [loadingShop, setLoadingShop] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [productModalVisible, setProductModalVisible] = useState(false);
   const [productEdit, setProductEdit] = useState(false);
 
-  async function getStore() {
+  async function _loadStore() {
     try {
       setLoadingShop(true);
       await sellerActions.getStore();
@@ -95,7 +96,7 @@ export default function TokoSaya(props) {
     }
   }
 
-  async function getProducts() {
+  async function _loadProducts() {
     try {
       setLoadingProducts(true);
       await sellerActions.getProducts();
@@ -131,14 +132,17 @@ export default function TokoSaya(props) {
   }
 
   useEffect(() => {
-    getStore();
-  }, []);
-
-  useEffect(() => {
     if (shop) {
-      getProducts();
+      _loadProducts();
     }
   }, [shop]);
+
+  useEffect(() => {
+    console.log("user", user);
+    if (user) _loadStore();
+  }, [user]);
+
+  if (!user) return <p>Loading...</p>;
 
   return (
     <>
@@ -187,7 +191,7 @@ export default function TokoSaya(props) {
             <Button
               //color="teal"
               basic
-              onClick={() => Router.push("/penjual/edittoko")}
+              onClick={() => Router.push("/tokosaya/edittoko")}
             >
               <span style={{ textDecoration: "underline", color: "#2185D1" }}>
                 Edit Toko
@@ -254,7 +258,7 @@ export default function TokoSaya(props) {
       <ProductModal
         open={productModalVisible}
         onClose={() => {
-          console.log("onClose");
+          //console.log("onClose");
           setProductModalVisible(false);
         }}
         size="small"
@@ -269,4 +273,5 @@ const connect = () =>
   useConnect(() => ({
     shop: sellerStore.getShop(),
     products: sellerStore.getProducts(),
+    user: authStore.getUser(),
   }));

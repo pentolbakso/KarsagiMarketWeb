@@ -36,7 +36,7 @@ export default function About() {
       await login(email, password);
       setSubmitting(false);
 
-      Router.push("/penjual/tokosaya");
+      Router.push("/tokosaya/dashboard");
     } catch (err) {
       setSubmitting(false);
       setFormError(err.message);
@@ -47,7 +47,7 @@ export default function About() {
     <>
       <NextSeo title="Login" />
 
-      <Segment>
+      <>
         <Header as="h2">Login sebagai penjual</Header>
         {router.query && router.query.message && (
           <Message error>{router.query.message}</Message>
@@ -98,16 +98,22 @@ export default function About() {
             </Form>
           )}
         </Formik>
-        <Divider horizontal>Belum punya toko online?</Divider>
+        <Divider horizontal style={{ marginTop: 40 }}>
+          Belum punya toko online?
+        </Divider>
         <Container textAlign="center">
+          <p>
+            Buka toko untuk memasarkan produk anda secara online sekarang.
+            Gratis!
+          </p>
           <Link href="/daftar/penjual">
-            <Button size="large">
+            <Button size="huge" color="green">
               <Icon name="store" />
               Buka Toko Online
             </Button>
           </Link>
         </Container>
-      </Segment>
+      </>
     </>
   );
 }

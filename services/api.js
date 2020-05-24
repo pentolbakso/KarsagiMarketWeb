@@ -72,12 +72,13 @@ export const fetchProductIds = () => {
   });
 };
 
-export const fetchProducts = (category, keyword, skip) => {
+export const fetchProducts = (category, keyword, skip, limit) => {
   return http.get(`${API_URL}/products`, {
     params: {
       category,
+      "name[$search]": keyword && keyword.length > 0 ? keyword : null,
       $skip: skip,
-      "name[$search]": keyword.length > 0 ? keyword : null,
+      $limit: limit,
     },
   });
 };

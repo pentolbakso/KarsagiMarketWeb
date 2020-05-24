@@ -6,19 +6,19 @@ export default function Help() {
     <>
       <NextSeo title="Cara Kerja" />
 
-      <Segment>
+      <>
         <Header as="h2">Cara Kerja</Header>
         <Header as="h3">Cara Memesan Produk</Header>
         <p>
-          Cara kerja transaksi di Karsagi Market (KM) cukup sederhana, dan masih
+          Cara kerja transaksi di Pasar Karsagi cukup sederhana, dan masih
           manual. Artinya, masih diperlukan interaksi langsung antara Penjual
           dan Pembeli dalam akad. Interaksi bisa lewat WhatsApp, Telpon, dsb. KM
-          hanya menfasilitasi website untuk menampung produk/jasa yg antum
+          hanya menfasilitasi website untuk menampung produk/jasa yg anda
           tawarkan.
         </p>
         <p>Secara garis besarnya, tahapan jual beli adalah sebagai berikut</p>
         <ul>
-          <li>Pembeli mencari produk di Market</li>
+          <li>Pembeli mencari produk</li>
           <li>
             Jika ada yg cocok, Pembeli bisa menghubungi Penjual (via WA, call)
           </li>
@@ -28,7 +28,7 @@ export default function Help() {
           </li>
           <li>Barang diterima, uang diterima. Alhamdulillah.</li>
         </ul>
-        <Header as="h3">Cara Memesan Kurir</Header>
+        {/* <Header as="h3">Cara Memesan Kurir</Header>
         <ul>
           <li>Gunakan tombol Pesan Kurir untuk mulai proses pemesanan</li>
           <li>
@@ -41,8 +41,8 @@ export default function Help() {
             Jika deal, maka Kurir akan memulai proses penjemputan/pengiriman
             barang
           </li>
-        </ul>
-      </Segment>
+        </ul> */}
+      </>
     </>
   );
 }

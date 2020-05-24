@@ -30,6 +30,7 @@ import { event } from "../../../lib/gtag";
 import ModalShare from "../../../components/modals/modal.share";
 import { fetchProductIds, fetchProduct } from "../../../services/api";
 import { NextSeo } from "next-seo";
+import useResponsive from "../../../hooks/useResponsive";
 
 const NA = ({ children }) => <em style={{ color: "#aaa" }}>{children}</em>;
 
@@ -308,6 +309,7 @@ export default function DetailProduct({
   const [modalVisible, setModalVisible] = useState(false);
   const [chooseModalVisible, setChooseModalVisible] = useState(false);
   const [shareModalVisible, setShareModalVisible] = useState(false);
+  const { isMobile, isClient } = useResponsive();
 
   async function _getDetail() {
     try {
@@ -378,7 +380,7 @@ export default function DetailProduct({
         }
         canonical={productUrl(product, true)}
       />
-      <SearchBox />
+      {!isMobile && <SearchBox />}
       {error && (
         <Message error>
           {error.raw && error.raw.name == "NotFound" ? (

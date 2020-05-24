@@ -2,15 +2,12 @@ import React, { useEffect } from "react";
 import { Icon, Menu } from "semantic-ui-react";
 import Router, { useRouter } from "next/router";
 import { useConnect } from "remx";
-import { loadSession } from "../stores/authActions";
 import authStore from "../stores/authStore";
 
 const MenuItem = ({ to, icon, text, active }) => {
   function handleOpenPage(page) {
     Router.push(page);
   }
-
-  console.log(to, active);
 
   return (
     <Menu.Item link onClick={() => handleOpenPage(to)}>
@@ -31,10 +28,7 @@ const MenuItem = ({ to, icon, text, active }) => {
 const BottomTabs = (props) => {
   const router = useRouter();
   const path = router.pathname;
-
-  useEffect(() => {
-    loadSession();
-  }, []);
+  const { user } = connect(props);
 
   return (
     <>
@@ -54,9 +48,9 @@ const BottomTabs = (props) => {
         />
         <MenuItem
           text="Toko Saya"
-          to="/penjual/tokosaya"
+          to={user ? "/tokosaya/dashboard" : "/login"}
           icon="store"
-          active={path == "/penjual/tokosaya"}
+          active={path == "/tokosaya/dashboard"}
         />
         <MenuItem
           text="Lain-Lain"

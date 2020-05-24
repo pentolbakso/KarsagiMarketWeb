@@ -1,9 +1,25 @@
-import { List, Icon, Button } from "semantic-ui-react";
+import { List, Icon, Button, Divider } from "semantic-ui-react";
 import Link from "next/link";
+import Router from "next/router";
+import { useConnect } from "remx";
+import authStore from "../../stores/authStore";
+import { logout } from "../../stores/authActions";
 
 export default function LainLain({ props }) {
+  const { user } = connect(props);
+
+  async function handleLogout() {
+    await logout();
+    Router.replace("/");
+  }
+
   return (
     <List relaxed>
+      <List.Item>
+        <Link href="/about">
+          <Button fluid>Tentang Kami</Button>
+        </Link>
+      </List.Item>
       <List.Item>
         <Link href="/bantuan">
           <Button fluid>Bantuan</Button>
@@ -15,15 +31,30 @@ export default function LainLain({ props }) {
         </Link>
       </List.Item>
       <List.Item>
-        <Link href="/about">
-          <Button fluid>Tentang Kami</Button>
+        <Link href="/ketentuan">
+          <Button fluid>Syarat & Ketentuan</Button>
         </Link>
       </List.Item>
       <List.Item>
         <Link href="/kontak">
-          <Button fluid>Kontak Kami</Button>
+          <Button fluid>Kontak / Lapor</Button>
         </Link>
       </List.Item>
+      {user && (
+        <>
+          <Divider />
+          <List.Item>
+            <Button basic fluid color="red" onClick={handleLogout}>
+              LOGOUT ({user.fullname})
+            </Button>
+          </List.Item>
+        </>
+      )}
     </List>
   );
 }
+
+const connect = (props) =>
+  useConnect(() => ({
+    user: authStore.getUser(),
+  }));

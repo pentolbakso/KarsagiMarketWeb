@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   Header,
   Segment,
@@ -22,9 +22,8 @@ import { NextSeo } from "next-seo";
 
 export default function Cari({ props }) {
   const router = useRouter();
-  const [category, setCategory] = useState(router.query.category || "all");
-  const { products, hasMore } = connect(props);
-  //const isMobile = useMediaQuery({ maxWidth: 767 });
+  const { products, hasMore, search, total } = connect(props);
+  const { category, keyword } = search;
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
 
@@ -32,16 +31,16 @@ export default function Cari({ props }) {
     _loadMore();
   }
 
-  function handleSearch(keyword) {
-    //
+  function handleSearch(key) {
+    userStore.setSearch(category, key);
   }
 
-  async function _browse() {
+  async function _doSearch(cat, key) {
     try {
       if (loading) return;
-      //console.log("loading product " + category + "?" + router.query.keyword);
+      console.log("search product '" + cat + "'?" + key);
       setLoading(true);
-      await userActions.browseProducts(category, router.query.keyword || "");
+      await userActions.browseProducts(cat, key);
     } catch (err) {
     } finally {
       setLoading(false);
@@ -60,9 +59,8 @@ export default function Cari({ props }) {
   }
 
   useEffect(() => {
-    //console.log("keyword", router.query.keyword);
-    _browse();
-  }, [category, router.query.keyword]);
+    _doSearch(search.category, search.keyword);
+  }, [search]);
 
   return (
     <>
@@ -74,16 +72,21 @@ export default function Cari({ props }) {
           options={productCategoriesWithAll}
           value={category}
           onChange={(e, data) => {
-            setCategory(data.value);
+            userStore.setSearch(data.value, keyword);
           }}
           fluid
         />
       </div>
       <SearchBox
-        value={router.query.keyword || ""}
+        defaultValue={keyword || ""}
         style={{ marginBottom: 10 }}
         onSubmit={handleSearch}
       />
+      {total > 0 && (
+        <div style={{ marginBottom: 5 }}>
+          <strong>Menemukan {total} produk:</strong>
+        </div>
+      )}
       {loading ? (
         <Card.Group itemsPerRow={2}>
           <CardProduct placeholder />
@@ -121,5 +124,7 @@ export default function Cari({ props }) {
 const connect = () =>
   useConnect(() => ({
     products: userStore.getProducts(),
+    total: userStore.getProductTotal(),
     hasMore: userStore.hasMoreProducts(),
+    search: userStore.getSearch(),
   }));

@@ -18,7 +18,7 @@ export default function ModalChooseNumber({ store, onSelected, ...props }) {
           onClick={() => handleSelect(store.phonenumber)}
         >
           <Icon name="whatsapp" />
-          Nomor khusus ikhwan
+          Nomor khusus pria
         </Button>
         <br />
         <Button
@@ -27,7 +27,7 @@ export default function ModalChooseNumber({ store, onSelected, ...props }) {
           onClick={() => handleSelect(store.phonenumberAkhwat)}
         >
           <Icon name="whatsapp" />
-          Nomor khusus akhwat
+          Nomor khusus wanita
         </Button>
       </Modal.Content>
       {/* <Modal.Actions>
