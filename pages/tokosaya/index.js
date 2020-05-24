@@ -1,10 +1,7 @@
-import { Header, Segment, Button, Divider } from "semantic-ui-react";
-import Link from "next/link";
+import React, { useEffect } from "react";
 import Router from "next/router";
-import { NextSeo } from "next-seo";
 import { useConnect } from "remx";
 import authStore from "../../stores/authStore";
-import { useEffect } from "react/cjs/react.development";
 import { logout } from "../../stores/authActions";
 
 export default function Home(props) {
