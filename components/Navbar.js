@@ -48,7 +48,7 @@ const Navbar = (props) => {
         <a>
           <Header as="h3" color="green">
             <Icon name="store" />
-            KarsagiMarket
+            Pasar Karsagi
           </Header>
         </a>
       </Link> */}

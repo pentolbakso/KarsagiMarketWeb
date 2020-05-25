@@ -6,7 +6,7 @@ const panels = [
     key: "1",
     title: "Apa itu Karsagi?",
     content: [
-      "Karsagi adalah singkatan dari Kajian Rutin Sabtu Pagi. Kajian sunnah rutin yg diadakan setiap Sabtu, di masjid At-Taqwa Parakan Mas, Bandung",
+      "Karsagi adalah singkatan dari Kajian Rutin Sabtu Pagi. Kajian sunnah ilimiah yg rutin diadakan setiap Sabtu, di masjid At-Taqwa Parakan Mas, Bandung. Pemilihan nama tersebut hanya u/ kemudahan saja.",
     ].join(" "),
   },
   {
@@ -14,16 +14,16 @@ const panels = [
     title: "Adakah biaya untuk membuka toko?",
     content: ["Tidak ada."].join(" "),
   },
-  {
-    key: "3",
-    title: "Kapan dibuka untuk kota / daerah lain?",
-    content: {
-      content: ["InsyaAllah jika ada peluang dan kesempatan."].join(" "),
-    },
-  },
+  // {
+  //   key: "3",
+  //   title: "Kapan dibuka untuk kota / daerah lain?",
+  //   content: {
+  //     content: ["InsyaAllah jika ada peluang dan kesempatan."].join(" "),
+  //   },
+  // },
   {
     key: "4",
-    title: "Apakah semua barang boleh dijual di KarsagiMarket?",
+    title: "Apakah semua barang boleh dijual di Pasar Karsagi?",
     content: {
       content: [
         "Tidak mengandung riba dan hanya menjual barang-barang yg secara syariat Islam dibolehkan.",
@@ -33,7 +33,7 @@ const panels = [
   {
     key: "5",
     title:
-      "Apakah KarsagiMarket ikut mengatur/urus masalah pembayaran/transfer/sejenisnya ?",
+      "Apakah Pasar Karsagi ikut mengatur/urus masalah pembayaran/transfer/sejenisnya ?",
     content: {
       content: [
         "Tidak. Itu sepenuhnya diatur sesuai kesepakatan Penjual dan Pembeli",

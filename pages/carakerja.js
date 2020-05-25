@@ -11,8 +11,8 @@ export default function Help() {
         <Header as="h3">Cara Memesan Produk</Header>
         <p>
           Cara kerja transaksi di Pasar Karsagi cukup sederhana, dan masih
-          manual. Artinya, masih diperlukan interaksi langsung antara Penjual
-          dan Pembeli dalam akad. Interaksi bisa lewat WhatsApp, Telpon, dsb. KM
+          manual. Artinya, masih diperlukan komunikasi secara langsung antara
+          Penjual dan Pembeli. Interaksi bisa lewat WhatsApp, Telpon, dsb. Kami
           hanya menfasilitasi website untuk menampung produk/jasa yg anda
           tawarkan.
         </p>
@@ -24,7 +24,7 @@ export default function Help() {
           </li>
           <li>
             Jika deal, silahkan lakukan pembayaran sesuai kesepakatan dgn
-            Penjual
+            Penjual (tunai, COD, transfer)
           </li>
           <li>Barang diterima, uang diterima. Alhamdulillah.</li>
         </ul>

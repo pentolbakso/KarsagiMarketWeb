@@ -35,7 +35,7 @@ class MyApp extends App {
             url: "https://karsagi.com/",
             site_name: "Karsagi Pasar Halal",
           }}
-          titleTemplate="%s | Karsagi"
+          titleTemplate="%s | Pasar Karsagi"
         />
         <SiteLayout>
           <Component {...pageProps} />

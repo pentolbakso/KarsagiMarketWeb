@@ -165,7 +165,7 @@ export default function ModalBuy({ product, ...props }) {
       setSubmitting(true);
       let message =
         "Bismillah," +
-        "\nAna berminat untuk membeli barang berikut:" +
+        "Saya berminat untuk membeli barang berikut:" +
         "\n" +
         items +
         "\nTotal:" +

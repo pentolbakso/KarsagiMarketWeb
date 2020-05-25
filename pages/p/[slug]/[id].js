@@ -345,7 +345,7 @@ export default function DetailProduct({
   function sendChat(number) {
     let message =
       "Assalamu'alaikum," +
-      "\nAna mau bertanya ttg produk yg sedang dijual di KarsagiMarket: " +
+      "Saya mau bertanya ttg produk yg sedang dijual di Pasar karsagi: " +
       "\n" +
       product.name;
     window.open(whatsappUrl(number, message));

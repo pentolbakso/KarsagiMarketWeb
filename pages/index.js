@@ -70,6 +70,7 @@ export default function HomePage(props) {
           </Link>
         </div>
       </Message> */}
+      <p>Selamat datang di Pasar Karsagi</p>
       <SearchBox
         defaultValue=""
         size="huge"
