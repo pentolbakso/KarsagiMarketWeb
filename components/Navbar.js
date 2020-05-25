@@ -75,16 +75,17 @@ const Navbar = (props) => {
               position: "absolute",
               margin: "auto",
               top: 15,
-              left: 0,
-              right: 0,
+              left: 50,
+              right: 50,
               textAlign: "center",
-              zIndex: -1000,
-              //backgroundColor: "#00cc00",
+              //zIndex: -1000,
             }}
           >
-            <Header as="h3" color="green">
-              Pasar Karsagi
-            </Header>
+            <Link href="/">
+              <Header as="h3" color="green">
+                Pasar Karsagi
+              </Header>
+            </Link>
           </div>
           {!isMobile && (
             <Menu.Menu position="right">
