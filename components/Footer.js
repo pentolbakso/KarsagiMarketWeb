@@ -17,6 +17,11 @@ const Footer = (props) => {
 
       <List horizontal>
         <List.Item>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+        </List.Item>
+        <List.Item>
           <Link href="/about">
             <a>Tentang</a>
           </Link>
@@ -29,6 +34,11 @@ const Footer = (props) => {
         <List.Item>
           <Link href="/bantuan">
             <a>Bantuan</a>
+          </Link>
+        </List.Item>
+        <List.Item>
+          <Link href="/ketentuan">
+            <a>Syarat Ketentuan</a>
           </Link>
         </List.Item>
       </List>

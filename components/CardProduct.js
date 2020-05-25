@@ -1,9 +1,32 @@
 import React, { useEffect } from "react";
-import { Card, Image } from "semantic-ui-react";
+import { Card, Image, Placeholder } from "semantic-ui-react";
 import { currencyFormat } from "../utils/format";
 import { image200, image600 } from "../utils/images";
 
-const Product = ({ product: p, ...props }) => {
+const Product = ({ product: p, placeholder, ...props }) => {
+  if (placeholder)
+    return (
+      <Card>
+        <Image>
+          <Placeholder>
+            <Placeholder.Image />
+          </Placeholder>
+        </Image>
+        <Card.Content>
+          <Card.Header>
+            <Placeholder>
+              <Placeholder.Line />
+            </Placeholder>
+          </Card.Header>
+          <Card.Meta>
+            <Placeholder>
+              <Placeholder.Line />
+            </Placeholder>
+          </Card.Meta>
+        </Card.Content>
+      </Card>
+    );
+
   return (
     <Card link {...props}>
       <Image
@@ -12,7 +35,7 @@ const Product = ({ product: p, ...props }) => {
         src={
           p.photos && p.photos.length > 0
             ? image200(p.photos[0].filename)
-            : "http://placehold.jp/150x150.png"
+            : "https://placehold.jp/150x150.png"
         }
         label={
           !p.isReadyStock

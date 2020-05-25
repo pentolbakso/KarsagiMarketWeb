@@ -10,11 +10,6 @@ export const productCategories = [
   { key: "other", value: "other", text: "Lain-Lain" },
 ];
 
-export const productCategoriesWithAllX = [
-  ...productCategories,
-  { key: "all", value: "all", text: "Semua Kategori" },
-];
-
 export const productCategoriesWithAll = [
   {
     key: "all",

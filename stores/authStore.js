@@ -1,4 +1,5 @@
 import * as remx from "remx";
+const jwt_decode = require("jwt-decode");
 
 const initialState = {
   user: null,
@@ -38,6 +39,16 @@ const getters = remx.getters({
   },
   getAccessToken() {
     return state.accessToken;
+  },
+  isTokenExpired() {
+    if (!state.accessToken) return true;
+    const decoded = jwt_decode(state.accessToken);
+    let dateNow = new Date();
+    if (decoded.exp < dateNow.getTime() / 1000) {
+      console.log("TOKEN EXPIRED!");
+      return true;
+    }
+    return false;
   },
   isSeller() {
     return state.role == "user";

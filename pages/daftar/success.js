@@ -1,6 +1,5 @@
 import { Container, Header, Segment, Button, Icon } from "semantic-ui-react";
 import PageContainer from "../../components/PageContainer";
-import Head from "next/head";
 
 export default function About() {
   return (

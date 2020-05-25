@@ -1,14 +1,11 @@
-import { Container, Header, Segment, Button, Icon } from "semantic-ui-react";
-import Head from "next/head";
-import Link from "next/link";
+import { Header, Segment, Button, Icon } from "semantic-ui-react";
+import { NextSeo } from "next-seo";
 
 export default function Help() {
   return (
     <>
-      <Head>
-        <title>{"Kontak Kami | Karsagi Market"}</title>
-      </Head>
-      <Segment>
+      <NextSeo title="Kontak Kami" />
+      <>
         <Header as="h2">Kontak Kami</Header>
         <p>Silahkan menghubungi tim kami jika:</p>
         <ul>
@@ -24,7 +21,7 @@ export default function Help() {
           <Icon name="mail" />
           Kirim Email
         </Button>
-      </Segment>
+      </>
     </>
   );
 }

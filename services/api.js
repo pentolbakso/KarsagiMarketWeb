@@ -1,14 +1,5 @@
 import http from "../utils/http";
-
-export const API_URL =
-  process.env.NODE_ENV == "production"
-    ? "https://api.karsagi.com"
-    : "http://192.168.1.101:8080";
-
-export const STATIC_URL =
-  process.env.NODE_ENV == "production"
-    ? "https://static.karsagi.com"
-    : "http://192.168.1.101:8080";
+import { API_URL } from "../config/site";
 
 // ------- Auth ------------------
 export const me = () => {
@@ -73,12 +64,21 @@ export const uploadImage = (file) => {
 };
 
 // ------ Public ----------------
-export const fetchProducts = (category, keyword, skip) => {
+export const fetchProductIds = () => {
+  return http.get(`${API_URL}/products`, {
+    params: {
+      $select: ["_id", "slug"],
+    },
+  });
+};
+
+export const fetchProducts = (category, keyword, skip, limit) => {
   return http.get(`${API_URL}/products`, {
     params: {
       category,
+      "name[$search]": keyword && keyword.length > 0 ? keyword : null,
       $skip: skip,
-      "name[$search]": keyword.length > 0 ? keyword : null,
+      $limit: limit,
     },
   });
 };

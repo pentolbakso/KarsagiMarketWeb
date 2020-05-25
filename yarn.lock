@@ -5887,6 +5887,11 @@ just-debounce@^1.0.0:
   resolved "https://registry.yarnpkg.com/just-debounce/-/just-debounce-1.0.0.tgz#87fccfaeffc0b68cd19d55f6722943f929ea35ea"
   integrity sha1-h/zPrv/AtozRnVX2cilD+SnqNeo=
 
+jwt-decode@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
+  integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
+
 keyboard-key@^1.0.4:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/keyboard-key/-/keyboard-key-1.1.0.tgz#6f2e8e37fa11475bb1f1d65d5174f1b35653f5b7"
@@ -6826,6 +6831,11 @@ next-compose-plugins@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.0.tgz#95cd8eb40ab0652070d76572fb648354191628b0"
   integrity sha512-ChUlpT9tWfJ7YxqGw/WQ2T1gf8EeX93n1XqeQw0lkvGa7seszahvF4eOZUJoq7Hetsbzg4UHVnPoCXfXTyQR3g==
+
+next-seo@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-4.4.0.tgz#490f1064e89af55043559459c9cd04220e4d651d"
+  integrity sha512-8ySgeXpntn4mdcyuDQo9A2ESes8hLZ/G+YwzIg5fLrK8CxqrAVCUoCxAO/BJZf1QgMddSDUDlKtlLJspJ89Jtg==
 
 next-tick@~1.0.0:
   version "1.0.0"

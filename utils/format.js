@@ -1,4 +1,5 @@
 import { productCategories } from "../config/arrays";
+import { SITE_URL } from "../config/site";
 
 export function currencyFormat(num, withCurrencySymbol = true) {
   if (!num) return "0";
@@ -36,4 +37,28 @@ export function whatsappUrl(number, text) {
   return `https://api.whatsapp.com/send?phone=${number}&text=${
     text ? encodeURIComponent(text) : ""
   }`;
+}
+
+export function productUrl(product, withDomain) {
+  if (!product) return undefined;
+  return `${withDomain ? SITE_URL : ""}/p/${product ? product.slug : "-"}/${
+    product._id
+  }`;
+}
+
+export function storeUrl(store, withDomain) {
+  if (!store) return undefined;
+  return `${withDomain ? SITE_URL : ""}/toko/${store ? store.slug : "-"}/${
+    store._id
+  }`;
+}
+
+export function seoTitle(title) {
+  if (title.length < 46) return `${title} | Pasar Karsagi`;
+  else return `${title}`;
+}
+
+export function seoDescription(desc) {
+  if (!desc) return undefined;
+  return desc.substr(0, 150);
 }

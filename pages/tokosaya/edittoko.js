@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container,
   Header,
   Segment,
   Button,
@@ -8,15 +7,14 @@ import {
   Form,
   Message,
 } from "semantic-ui-react";
-import Head from "next/head";
-import Link from "next/link";
 import { useConnect } from "remx";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Router from "next/router";
 import GoogleMapReact from "google-map-react";
 import * as sellerActions from "../../stores/sellerActions";
-import sellerStore, { getShop } from "../../stores/sellerStore";
+import sellerStore from "../../stores/sellerStore";
+import { NextSeo } from "next-seo";
 
 export default function EditToko(props) {
   const { shop } = connect(props);
@@ -57,41 +55,39 @@ export default function EditToko(props) {
       await sellerActions.updateStore(values);
       setSubmitting(false);
 
-      Router.replace("/penjual/tokosaya");
+      Router.replace("/tokosaya/dashboard");
     } catch (err) {
       setSubmitting(false);
       setFormError(err.message);
     }
   }
 
-  const handleApiLoaded = (map, maps) => {};
+  const handleApiLoaded = () => {};
 
-  useEffect(() => {
-    // TODO: check if HTTPS is installed, otherwise it wont work
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          console.log("Latitude is :", position.coords.latitude);
-          console.log("Longitude is :", position.coords.longitude);
-          setCenter({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        function (error) {
-          console.error("Error Code = " + error.code + " - " + error.message);
-        }
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   // TODO: check if HTTPS is installed, otherwise it wont work
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       function (position) {
+  //         console.log("Latitude is :", position.coords.latitude);
+  //         console.log("Longitude is :", position.coords.longitude);
+  //         setCenter({
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         });
+  //       },
+  //       function (error) {
+  //         console.error("Error Code = " + error.code + " - " + error.message);
+  //       }
+  //     );
+  //   }
+  // }, []);
 
   return (
     <>
-      <Head>
-        <title>Edit Toko Saya | Karsagi Market</title>
-      </Head>
+      <NextSeo title="Edit Toko Saya" noindex={true} />
       {shop && (
-        <Segment>
+        <>
           <Header as="h3">Edit Toko</Header>
           <Formik
             initialValues={{
@@ -143,7 +139,7 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Nomor Telpon/WA khusus akhwat (jika ada)"
+                    label="Nomor Telpon/WA khusus wanita (jika ada)"
                     name="phonenumberAkhwat"
                     placeholder="628xx"
                     onChange={props.handleChange}
@@ -154,7 +150,7 @@ export default function EditToko(props) {
                 </Form.Field>
                 <Form.Field>
                   <Form.Input
-                    label="Alamat Toko (untuk pengambilan barang oleh Kurir)"
+                    label="Alamat Toko"
                     name="address"
                     placeholder="misal: Komplek Griya Caraka Blok A-2, Arcamanik"
                     onChange={props.handleChange}
@@ -163,7 +159,7 @@ export default function EditToko(props) {
                     error={props.errors.address}
                   />
                 </Form.Field>
-                <Message>
+                {/* <Message>
                   <Message.Header>
                     Pilih lokasi alamat toko anda pada peta:
                   </Message.Header>
@@ -204,7 +200,7 @@ export default function EditToko(props) {
                     />
                   </GoogleMapReact>
                 </div>
-                <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p>
+                <p>Koordinat terpilih: {`${center.lat},${center.lng}`}</p> */}
                 <Form.Field>
                   <Form.Input
                     label="Nama Instagram (jika ada)"
@@ -240,13 +236,13 @@ export default function EditToko(props) {
               </Form>
             )}
           </Formik>
-        </Segment>
+        </>
       )}
     </>
   );
 }
 
-const connect = (props) =>
+const connect = () =>
   useConnect(() => ({
     shop: sellerStore.getShop(),
   }));

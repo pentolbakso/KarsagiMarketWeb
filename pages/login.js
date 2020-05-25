@@ -10,11 +10,11 @@ import {
   Icon,
 } from "semantic-ui-react";
 import Link from "next/link";
-import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { login } from "../stores/authActions";
+import { NextSeo } from "next-seo";
 
 export default function About() {
   const [formError, setFormError] = useState(null);
@@ -36,7 +36,7 @@ export default function About() {
       await login(email, password);
       setSubmitting(false);
 
-      Router.push("/penjual/tokosaya");
+      Router.push("/tokosaya/dashboard");
     } catch (err) {
       setSubmitting(false);
       setFormError(err.message);
@@ -45,11 +45,9 @@ export default function About() {
 
   return (
     <>
-      <Head>
-        <title>{"Login Penjual | Karsagi Market"}</title>
-      </Head>
+      <NextSeo title="Login" />
 
-      <Segment>
+      <>
         <Header as="h2">Login sebagai penjual</Header>
         {router.query && router.query.message && (
           <Message error>{router.query.message}</Message>
@@ -100,16 +98,22 @@ export default function About() {
             </Form>
           )}
         </Formik>
-        <Divider horizontal>Belum punya toko online?</Divider>
+        <Divider horizontal style={{ marginTop: 40 }}>
+          Belum punya toko online?
+        </Divider>
         <Container textAlign="center">
+          <p>
+            Buka toko untuk memasarkan produk anda secara online sekarang.
+            Gratis!
+          </p>
           <Link href="/daftar/penjual">
-            <Button size="large">
+            <Button size="huge" color="green">
               <Icon name="store" />
               Buka Toko Online
             </Button>
           </Link>
         </Container>
-      </Segment>
+      </>
     </>
   );
 }

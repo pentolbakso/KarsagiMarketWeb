@@ -1,3 +1,16 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@relativeBorderRadius: 0px;
+@absoluteBorderRadius: 0px;
+
+@rowSpacing: 0.6em;
+
+@wideCardSpacing: 0.3em;
+@cardSpacing: 0.2em;
+@smallCardSpacing: 0.15em;
+
+@shadowDistance: 0px;
+@contentPadding: 0.5em 0.25em;
+

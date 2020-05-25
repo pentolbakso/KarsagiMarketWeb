@@ -3,7 +3,7 @@ import { Input, Icon, Segment, Message, Button, Form } from "semantic-ui-react";
 import Router from "next/router";
 import { event } from "../lib/gtag";
 
-const SearchBox = ({ value }) => {
+const SearchBox = ({ defaultValue, onSubmit, style, size }) => {
   const inputRef = useRef(null);
   const [error, setError] = useState(null);
 
@@ -18,24 +18,31 @@ const SearchBox = ({ value }) => {
     setError(null);
     event("search", "engagement", "search_term", keyword);
 
-    Router.push({
-      pathname: "/",
-      query: { keyword },
-    });
+    if (onSubmit) onSubmit(keyword);
+
+    // Router.push({
+    //   pathname: "/",
+    //   query: { keyword },
+    // });
   }
 
   return (
-    <>
+    <div style={style}>
       <Form>
-        <Input fluid placeholder="misal: Ayam kampung" action>
-          <input ref={inputRef} defaultValue={value || ""} />
+        <Input
+          size={size || "large"}
+          fluid
+          placeholder="misal: Ayam kampung"
+          action
+        >
+          <input ref={inputRef} defaultValue={defaultValue || ""} />
           <Button type="submit" color="blue" onClick={handleSearch}>
             Cari
           </Button>
         </Input>
       </Form>
       {error && <p style={{ color: "#cc0000", fontSize: 14 }}>{error}</p>}
-    </>
+    </div>
   );
 };
 
